@@ -1,7 +1,8 @@
+var http = require('http');
 var options = {
-  host: 'http://www.reddit.com',
+  host: 'www.reddit.com',
   port: 80,
-  path: '/r/pics/hot/.json?sort=new',
+  path: '/r/pics/hot/.json?',
   method: 'GET'
 };
 
