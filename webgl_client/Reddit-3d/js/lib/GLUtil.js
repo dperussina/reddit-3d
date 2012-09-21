@@ -83,7 +83,7 @@ function loadTexture(gl, src, callback)
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
         gl.generateMipmap(gl.TEXTURE_2D);
             
-     	if(callback) { callback(texture); }
+     	if(callback) { callback(); }
   	});
    	image.src = src;
    	if(texture)
@@ -166,7 +166,7 @@ function initShader(gl, shaderVS, shaderFS, attribs, uniforms)
   	return shaderProgram;
 };
 
-function initBufferObject(gl, typeClass, type, texture) 
+function initBufferObject(gl, typeClass, type, texture, callback) 
 {
 	var newBufferObject = {};
 	if(typeClass == "primitive") {
@@ -183,9 +183,17 @@ function initBufferObject(gl, typeClass, type, texture)
 		
 	}		
 	
-    if(texture)
-   		newBufferObject.texture = loadTexture(gl, texture);  
+    if(texture) {
+    	if(callback)
+    		newBufferObject.texture = loadTexture(gl, texture, callback);  
+    	else 
+    		newBufferObject.texture = loadTexture(gl, texture);  	
+    }
    		
+   		
+   	newBufferObject.instances = [];
+   	newBufferObject.instanceCount = 0;
+   	
     return newBufferObject;
 };
 
@@ -193,10 +201,9 @@ function initCubeBuffer(gl)
 {
 	
 	var bufferObject = {};
-	bufferObject.data ={};
 	bufferObject.vertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject.vertexPositionBuffer);
-    bufferObject.data.vertices = [
+    var vertices = [
 	    //x,y,z
 	   	// Front face
 	   -1.0, -1.0,  1.0,
@@ -229,13 +236,13 @@ function initCubeBuffer(gl)
 	   -1.0,  1.0,  1.0,
 	   -1.0,  1.0, -1.0,
     ];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferObject.data.vertices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
     bufferObject.vertexPositionBuffer.itemSize = 3;
     bufferObject.vertexPositionBuffer.numItems = 24;
 
     bufferObject.aUV = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject.aUV);
-    bufferObject.data.textureCoords = [
+    var textureCoords = [
     	// Front face
         0.0, 0.0,
         1.0, 0.0,
@@ -267,13 +274,13 @@ function initCubeBuffer(gl)
         1.0, 1.0,
         0.0, 1.0,
   	];
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bufferObject.data.textureCoords), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
     bufferObject.aUV.itemSize = 2;
     bufferObject.aUV.numItems = 24;
 
     bufferObject.vertexIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufferObject.vertexIndexBuffer);
-    bufferObject.data.vertexIndices = [
+    var vertexIndices = [
     	0, 1, 2,      0, 2, 3,    // Front face
         4, 5, 6,      4, 6, 7,    // Back face
         8, 9, 10,     8, 10, 11,  // Top face
@@ -281,17 +288,49 @@ function initCubeBuffer(gl)
         16, 17, 18,   16, 18, 19, // Right face
         20, 21, 22,   20, 22, 23  // Left face
    	];
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(bufferObject.data.vertexIndices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(vertexIndices), gl.STATIC_DRAW);
     bufferObject.vertexIndexBuffer.itemSize = 1;
     bufferObject.vertexIndexBuffer.numItems = 36;
     
-    bufferObject.rotation = vec3.create();
-    bufferObject.position = vec3.create();
-    
+    bufferObject.name = "Cube"
 	return bufferObject;
 };
 
-function setObjectPosition(object, pos) 
+function addObjectInstance(object, count) 
 {
-	object.position = vec3.create(pos)
+	
+	if(count) {
+		for(var i = 0; i < count; i++) {
+			object.instances[i] = new instance();
+			object.instances[i].create();
+    		object.instanceCount++;
+		}	
+	}
+	else {
+		object.instances[object.instanceCount] = new instance();	
+		object.instances[object.instanceCount].create();	
+    	object.instanceCount++;
+	}
+	
+	redditGL_LOG(object.name + " Instance created x " + object.instanceCount);
 };
+
+function setObjectInstancePosition(objectInstance, pos) 
+{
+	objectInstance.position = vec3.create(pos)
+};
+
+/*
+ * Object Instance
+ */
+var instance = function() 
+{	
+}; 
+
+instance.prototype.create = function() 
+{
+	this.mvMatrix = mat4.create();
+	this.rotation = vec3.create();
+	this.position = vec3.create();
+};
+

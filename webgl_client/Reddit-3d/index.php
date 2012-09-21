@@ -5,32 +5,33 @@
 		<title>Reddit-3D</title>
 		
 		<?php 
-		
 		static $stylescss = array(
-			"./css/base.css",
+			"css/base.css",
 		);
 		
 		foreach ($stylescss as $css) {
-			echo "<link href=\"$css\" media=\"all\"  rel=\"stylesheet\"  type=\"text/css\" />\n";
+			echo ("<link href=\"$css\" media=\"all\"  rel=\"stylesheet\"  type=\"text/css\" />\n");
 		}
 		
 		static $javascrips = array(
-			"./js/lib/GLUtil.js",
-			"./js/lib/MathGL.js",
-			"./js/lib/jquery-1.8.1.min.js",
-			"./js/RedditGLMain.js",
-			"./js/RedditGL-Render.js",
+			"js/RedditGLMain.js",
+			"js/RedditGL-Render.js",
+			"js/lib/camera.js",
+			"js/lib/GLUtil.js",
+			"js/lib/MathGL.js",
+			"js/lib/jquery-1.8.1.min.js",
 		);
 		
 		foreach ($javascrips as $javascrip) {
-			echo "<script src=\"$javascrip\" type=\"text/javascript\"></script>\n";
-		}
+			echo ("<script src=\"$javascrip\" type=\"text/javascript\"></script>\n");
+		}		 
 		?>
 		
 		<script id="shader-vs" type="x-shader/x-vertex">
 		    attribute vec3 aVertexPosition;
 		    attribute vec2 aTextureCoord;
 		
+			uniform mat4 uViewMatrix;
 		    uniform mat4 uMVMatrix;
 		    uniform mat4 uPMatrix;
 		
@@ -38,7 +39,10 @@
 		
 		
 		    void main(void) {
-		        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		    	mat4 modelViewMat = uViewMatrix * uMVMatrix;    
+
+        		vec4 vPosition = modelViewMat * vec4(aVertexPosition, 1.0);
+        		gl_Position = uPMatrix * vPosition;
 		        vTextureCoord = aTextureCoord;
 		    }
 		</script>
