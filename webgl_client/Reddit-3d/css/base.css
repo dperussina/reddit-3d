@@ -1,0 +1,12 @@
+body {
+    font: 0.8em Verdana,sans-serif;
+    color: black;
+    background-color: gray;
+}
+#frameGL {
+	margin: auto;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+    background-color: yellow; 
+}
