@@ -16,7 +16,9 @@
 		static $javascrips = array(
 			"js/RedditGLMain.js",
 			"js/RedditGL-Render.js",
-			"js/lib/camera.js",
+			"js/lib/CameraGL.js",
+			"js/lib/TextGL.js",
+			"js/lib/ModelGL.js",
 			"js/lib/GLUtil.js",
 			"js/lib/MathGL.js",
 			"js/lib/jquery-1.8.1.min.js",
@@ -58,13 +60,42 @@
         		gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
     		}
 		</script>
+		
+		<script id="shaderColor-vs" type="x-shader/x-vertex">
+		    attribute vec3 aVertexPosition;
+		    attribute vec4 aColor;
+		
+			uniform mat4 uViewMatrix;
+		    uniform mat4 uMVMatrix;
+		    uniform mat4 uPMatrix;
+		
+		    varying vec4 vColor;
+		
+		    void main(void) {
+		    	mat4 modelViewMat = uViewMatrix * uMVMatrix;    
+
+        		vec4 vPosition = modelViewMat * vec4(aVertexPosition, 1.0);
+        		gl_Position = uPMatrix * vPosition;
+		        vColor = aColor;
+		    }
+		</script>
+		
+		<script id="shaderColor-fs" type="x-shader/x-fragment">
+    		precision mediump float;
+
+    		varying vec4 vColor;
+
+    		void main(void) {
+        		gl_FragColor = vColor;
+    		}
+		</script>
 
 		<script type="text/javascript">
-		var redditMain;
+		var RedditMain;
 		
 		function init() {
-			redditMain = new RedditGL();
-			redditMain.init();
+			RedditMain = new RedditGL();
+			RedditMain.init();
 		};
 		
 		</script>
@@ -72,13 +103,13 @@
 	
 	<body onload="init()">
 		
-		<div class="frameGL">
+		<div class="FrameGL">
 			
 			<canvas id="webglCanvas"  width ="900" height ="555"></canvas>
 			
 		</div>
 		
-		<p style="text-align: center;">Reddit-3D Render</p>
+		<p style="text-align: center;"><h1>Reddit-3D Render</h1></p>
 	</body>
 	
 </html>
