@@ -54,6 +54,9 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 					gl.useProgram(scene.shaders.texture);
 					shader = scene.shaders.texture;
 				break;
+				
+				default:
+				break;
 			}
 			
 			var instances = object.instances;
@@ -99,9 +102,11 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			    		mat4.translate(mv, objectInstance.position);	
 			    		
 			    		// Rotate about object axis
-			    		mat4.rotate(mv, degToRad(objectInstance.rotation[0]), [1, 0, 0]);	    	
-			    		mat4.rotate(mv, degToRad(-objectInstance.rotation[1]), [0, 1, 0]);	
-			    		mat4.rotate(mv, degToRad(objectInstance.rotation[2]), [0, 0, 1]);
+			    		if(object.name == 'Sphere' || object.name == 'Cube') {
+			    			mat4.rotate(mv, degToRad(objectInstance.rotation[0]), [1, 0, 0]);	    	
+			    			mat4.rotate(mv, degToRad(-objectInstance.rotation[1]), [0, 1, 0]);	
+			    			mat4.rotate(mv, degToRad(objectInstance.rotation[2]), [0, 0, 1]);	
+			    		}	
 					}
 					
 			        gl.uniformMatrix4fv(shader.uniform.uMVMatrix, false, mv);

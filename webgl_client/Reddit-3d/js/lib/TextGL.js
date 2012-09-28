@@ -17,7 +17,7 @@ var AlphabetGL = [
 ];
 
 function getCharIndex (aChar) {
-	for(var i in AlphabetGL) {
+	for(var i in RedditMain.scene.sceneObjects) {
 		var object = RedditMain.scene.sceneObjects[i];
 		if(object.name == aChar) {
 			return object;
@@ -27,15 +27,10 @@ function getCharIndex (aChar) {
 	return null;
 };
 
-var TextGL = function() 
-{
-	this.wordCount = 0;
-};
-
 // Load up at least one instance of every character
-TextGL.prototype.initAlphabet = function(callback) 
+function initAlphabet (callback) 
 {
-	if(!callback) {callback = this.CharacterCallback;}
+	if(!callback) {callback = CharacterCallback;}
 	var path = "root/models/FontHappyMonkey/FontHappyMonkey_0";
 	
 	redditGL_LOG("Initiating TextGL Alphabet");
@@ -43,51 +38,73 @@ TextGL.prototype.initAlphabet = function(callback)
 	
 	for(var i in AlphabetGL) {
 		var aChar = AlphabetGL[i];
-		initBufferObject(gl, "model", path + aChar.charCodeAt() + ".json", null, callback, this);
+		var completePath = path + aChar.charCodeAt() + ".json";
+		initBufferObject(gl, "model", completePath, null, callback);
 	}
 };
 
 // Default callback
-TextGL.prototype.CharacterCallback = function(model, ref) 
+function CharacterCallback (model) 
 {	
+	
 	addObjectInstance(model, 1);
-	setObjectInstanceScale(model.instances[0], 1.0);
 	var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
   	position = [Math.random() * 10 * plusOrMinus, Math.random() * 2 * plusOrMinus, Math.random() * 10 * plusOrMinus];
   	setObjectInstancePosition(model.instances[0], position);
+  	setObjectInstanceScale(model.instances[0], 1.0);
   	setObjectInstanceSpeed(model.instances[0], 0.1);
   	model.loaded = true;
-	
   	RedditMain.addObject(model);
 };	
 
-TextGL.prototype.addWord = function(txt) 
+function addWord (txt, objectType, index) 
 {
-	for(var i in txt) {
-		var aChar = txt[i];
-		aChar = aChar.toUpperCase();
-		
+	var sceneObjects = RedditMain.scene.sceneObjects;
+	for(var i in sceneObjects) {
+		var object = sceneObjects[i];
+		if(object.name == objectType) {
+			var objectInstance = object.instances[index];
+			var space = 0.5;
+			var vPos = vec3.create(objectInstance.position);
+			vPos[1] += 2.0;
+			// Adjust for object to attach to
+			vPos[0]	*= 	objectInstance.scale;
+			vPos[1]	*= 	objectInstance.scale;
+			vPos[2]	*= 	objectInstance.scale;
+			
+			var vRot = vec3.create(objectInstance.rotation);
+			var fSpeed = objectInstance.speed;
+			
+			for(var j in txt) {
+				var aChar = txt[j];
+				aChar = aChar.toUpperCase();
+				console.log(aChar);
+				createCharInstance(aChar, vPos, vRot, fSpeed);
+				vPos[0] += space;
+			}		
+		}
 	}
 };
 
-TextGL.prototype.createCharInstance = function(aChar, count) 
+function createCharInstance (aChar, vPos, vRot, fSpeed, count) 
 {	
 	var object = getCharIndex(aChar);
+	console.log(object);
+	var u = object.instanceCount;
 	if(count) {
 		addObjectInstance(object, count);
-		var u = object.instanceCount;
 		for(var i = 0; i < count; i++) {
-			setObjectInstanceScale(object.instances[i + u], 1.0);
-  			setObjectInstancePosition(object.instances[i + u], vec3.create());
+			setObjectInstanceRotation(object.instances[i + u], vRot);
+			setObjectInstancePosition(object.instances[i + u], vPos);
+			setObjectInstanceScale(object.instances[i + u], 2.0);			
   			setObjectInstanceSpeed(object.instances[i + u], 0.1);	
   		}	
 	}
 	else {
-		addObjectInstance(object, count);
-		var u = object.instanceCount;
 		addObjectInstance(object, 1);
-		setObjectInstanceScale(object.instances[i + u], 1.0);
-  		setObjectInstancePosition(object.instances[i + u], vec3.create());
-  		setObjectInstanceSpeed(object.instances[i + u], 0.1);
+		setObjectInstanceRotation(object.instances[0 + u], vRot);
+		setObjectInstancePosition(object.instances[0 + u], vPos);
+		setObjectInstanceScale(object.instances[0 + u], 2.0);
+  		setObjectInstanceSpeed(object.instances[0 + u], 0.1);
 	}	
 };

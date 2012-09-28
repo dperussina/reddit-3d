@@ -2,6 +2,10 @@
  * William Miller 2012
  */
 
+function redditGL_LOG(msg) {
+	console.log("RedditGL INFO: " + msg);
+};
+
 // Polyfill to ensure we can always call requestAnimaionFrame
 if(!window.requestAnimationFrame) {
 	window.requestAnimationFrame = (function(){
@@ -17,6 +21,20 @@ if(!window.requestAnimationFrame) {
 	})();
 }
 
+function initGL(canvas) 
+{
+	var glRef;
+	try {
+    	glRef = canvas.getContext("experimental-webgl");
+        glRef.viewportWidth = canvas.width;
+        glRef.viewportHeight = canvas.height;
+  	} catch (e) {
+  	}
+  	if (!glRef) {
+  		alert("Could not initialise WebGL!");
+  	}
+  	return glRef;
+};
 function startRenderLoop(canvas, callback) {
 	var startTime = window.webkitAnimationStartTime || 
      				window.mozAnimationStartTime ||
@@ -53,26 +71,8 @@ function startRenderLoop(canvas, callback) {
 
   	window.requestAnimationFrame(nextFrame, canvas);
 };
-       
-function redditGL_LOG(msg) {
-	console.log("RedditGL INFO: " + msg);
-};
-function initGL(canvas) 
-{
-	var glRef;
-	try {
-    	glRef = canvas.getContext("experimental-webgl");
-        glRef.viewportWidth = canvas.width;
-        glRef.viewportHeight = canvas.height;
-  	} catch (e) {
-  	}
-  	if (!glRef) {
-  		alert("Could not initialise WebGL!");
-  	}
-  	return glRef;
-};
 
-function loadTexture(gl, src, callback, object, ref) 
+function loadTexture(gl, src, callback, object) 
 {
 	var texture = gl.createTexture();
     var image = new Image();
@@ -85,10 +85,9 @@ function loadTexture(gl, src, callback, object, ref)
          
        	if(texture)
    			redditGL_LOG("Texture loaded: " + src);  
-   		object.texture = texture;
-   		object.hasTexture = true;
    		
-     	callback(object, ref);
+     	if(callback) {object.texture = texture; object.hasTexture = true; callback(object);}
+     	else {return texture;}
   	});
    	image.src = src;
 

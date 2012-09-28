@@ -53,53 +53,21 @@ RedditGL.prototype.initScene = function(canvas)
   	camera.init(canvas);
   	camera.setDistance(20.0);
   	this.scene.camera = camera;
-  	this.scene.sceneObjects = [];
-  	this.scene.textObjects = new TextGL();
-  	this.scene.textObjects.initAlphabet()
+  	this.scene.sceneObjects = new Array();
   	/*
   	 * BufferObject: low-level webgl wrapper
-  	 * TODO: Build TextGL
   	 * TextGL: High-level text wrapper
-  	 */
+  	*/
+  	// Init TextGL
+  	initAlphabet()
+  	// Create Primitive[skybox]
+  	initBufferObject(gl, "environment", "skybox", "root/textures/space.jpg"); 		
   	// Create Primitive[cube]
-  	initBufferObject(gl, "environment", "skybox", "root/textures/space.jpg", this.ModelCallback, this); 		
-  	// Create Primitive[cube]
-  	initBufferObject(gl, "primitive", "cube", "root/textures/reddit-icon.png", this.ModelCallback, this); 
+  	initBufferObject(gl, "primitive", "cube", "root/textures/reddit-icon.png"); 
   	// Create Primitive[sphere]
-  	initBufferObject(gl, "primitive", "sphere", "root/textures/grim-icon.png", this.ModelCallback, this); 
+  	initBufferObject(gl, "primitive", "sphere", "root/textures/grim-icon.png"); 
   	// Create a Model[!Text]
-  	//initBufferObject(gl, "model", "root/models/FontHappyMonkey/FontHappyMonkey_072.json", null, this.ModelCallback, this);
-  	//initBufferObject(gl, "model", "root/models/FontHappyMonkey/FontHappyMonkey_076.json", null, this.ModelCallback, this);
   	//initBufferObject(gl, "model", "root/models/Teapot.json", "root/textures/grim-icon.png", this.ModelCallback, this); 
-};
-
-RedditGL.prototype.ModelCallback = function(model, self) 
-{
-	var scale = 1.0, count = 300, speed = 1, isRandom = true;
-	switch(model.name) {
-		case "Skybox":
-			scale = 1000.0, count = 1, isRandom = false;
-		break;
-		
-		default:
-		break;
-	}
-	// Create an instance or many 2nd arg optional, 1 instance required to render
-  	addObjectInstance(model, count);	  	
-  	for(var i = 0; i < model.instanceCount; i++) {
-  		var position = [0.0,0.0,0.0];
-  		if(isRandom) {
-  			var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-  			position = [Math.random() * 100 * plusOrMinus, Math.random() * 2 * plusOrMinus, Math.random() * 100 * plusOrMinus];
-  			scale = Math.random() * 5;
-  			speed = Math.random() * 0.1;
-  		}
-  		setObjectInstanceScale(model.instances[i], scale);
-  		setObjectInstancePosition(model.instances[i], position);
-  		setObjectInstanceSpeed(model.instances[i], speed);
-  	}
-  	model.loaded = true;
-	self.scene.sceneObjects.push(model);	
 };
 
 RedditGL.prototype.addObject = function(model) 

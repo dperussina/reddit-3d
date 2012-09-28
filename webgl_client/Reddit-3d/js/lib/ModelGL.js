@@ -2,27 +2,63 @@
  * William Miller
  */
 
-function initBufferObject(gl, typeClass, type, texture, callback, ref) 
+function SkyboxCallback (model)
+{
+	// Create an instance or many 2nd arg optional, 1 instance required to render
+  	addObjectInstance(model);	
+  	setObjectInstancePosition(model.instances[0], vec3.create());  	
+  	setObjectInstanceScale(model.instances[0], 1000);
+  	setObjectInstanceSpeed(model.instances[0], 0.0);
+  	model.loaded = true;
+  	RedditMain.addObject(model);
+};
+
+function ModelCallback (model) 
+{
+	var scale = 1.0, count = 500, speed = 0.08, range = 200, isRandom = true;
+
+	// Create an instance or many 2nd arg optional, 1 instance required to render
+  	addObjectInstance(model, count);	  	
+  	for(var i = 0; i < model.instanceCount; i++) {
+  		var position = [0.0,0.0,0.0];
+  		if(isRandom) {
+  			var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+  			position = [Math.random() * range * plusOrMinus, Math.random() * 2 * plusOrMinus, Math.random() * range * plusOrMinus];
+  			scale = Math.random() * 2.0;
+  			speed = Math.random() * 0.08;
+  		}
+  		setObjectInstancePosition(model.instances[i], position);
+  		setObjectInstanceScale(model.instances[i], scale);
+  		setObjectInstanceSpeed(model.instances[i], speed);
+  	}
+  	model.loaded = true;
+	RedditMain.addObject(model);	
+};
+
+function initBufferObject(gl, typeClass, type, texture, callback) 
 {
 	if(typeClass == "environment") {
 		if(type == "skybox") {
-			initCubeBuffer(gl, texture, callback, ref, true);
+			if(!callback) {callback = SkyboxCallback;}
+			initCubeBuffer(gl, texture, callback, true);
 		}
 	}
 	else if(typeClass == "primitive") {
+		if(!callback) {callback = ModelCallback;}
 		if(type == "cube") {
-			initCubeBuffer(gl, texture, callback, ref);
+			initCubeBuffer(gl, texture, callback);
 		}
 		else if(type == "sphere") {
-			initSphereBuffer(gl, texture, callback, ref);
+			initSphereBuffer(gl, texture, callback);
 		}
 	}
 	else if(typeClass == "model"){
-		initJSONModel(gl, type, texture, callback, ref);
+		if(!callback) {callback = ModelCallback;}
+		initJSONModel(gl, type, texture, callback);
 	}		
 };
 
-function initCubeBuffer(gl, texture, callback, ref, isSkybox) 
+function initCubeBuffer(gl, texture, callback, isSkybox) 
 {
 	
 	var bufferObject = {};
@@ -148,14 +184,14 @@ function initCubeBuffer(gl, texture, callback, ref, isSkybox)
    		bufferObject.name = "Skybox";	
    	}
    	
-   	redditGL_LOG("Primitive: " + bufferObject.name + "Buffer Object created");
+   	redditGL_LOG("Primitive: " + "'" + bufferObject.name + "' " + "Buffer Object created");
    	if(texture  != null)
-    	loadTexture(gl, texture, callback, bufferObject, ref);  
+    	loadTexture(gl, texture, callback, bufferObject);  
     else	
-    	callback(bufferObject, ref);
+    	callback(bufferObject);
 };
 
-function initSphereBuffer(gl, texture, callback, ref) 
+function initSphereBuffer(gl, texture, callback) 
 {		
 	var bufferObject = {};
    	var vertices = [];
@@ -243,26 +279,26 @@ function initSphereBuffer(gl, texture, callback, ref)
     bufferObject.instances = [];
    	bufferObject.instanceCount = 0;
    	   	
-   	redditGL_LOG("Primitive: " + bufferObject.name + "Buffer Object created");
+   	redditGL_LOG("Primitive: " + "'" + bufferObject.name + "' " + "Buffer Object created");
 	if(texture != null)
-    	loadTexture(gl, texture, callback, bufferObject, ref);  
+    	loadTexture(gl, texture, callback, bufferObject);  
     else	
-    	callback(bufferObject, ref);
+    	callback(bufferObject);
 };
 
-function initJSONModel(gl, path, texture, callback, ref) 
+function initJSONModel(gl, path, texture, callback) 
 {	
 	var request = new XMLHttpRequest();
     request.open("GET", path);
     request.onreadystatechange = function () {
     	if (request.readyState == 4) {
-        	loadJSONModel(gl, JSON.parse(request.responseText), texture, callback, ref);	
+        	loadJSONModel(gl, JSON.parse(request.responseText), texture, callback);	
         }
    	}
   	request.send();	
 };
 
-function loadJSONModel(gl, model, texture, callback, ref) 
+function loadJSONModel(gl, model, texture, callback) 
 {
 	var bufferObject = {};
 
@@ -311,42 +347,45 @@ function loadJSONModel(gl, model, texture, callback, ref)
     bufferObject.instances = [];
    	bufferObject.instanceCount = 0;  
    	
-   	redditGL_LOG("Model: " + bufferObject.name + " Buffer Object created");
+   	redditGL_LOG("Model: " + "'" + bufferObject.name + "' " + "Buffer Object created");
    	if(texture != null)
-    	loadTexture(gl, texture, callback, bufferObject, ref);  
+    	loadTexture(gl, texture, callback, bufferObject);  
     else	
-    	callback(bufferObject, ref);
+    	callback(bufferObject);
 };
 
 function addObjectInstance(object, count) 
 {
-	
+	var u = object.instanceCount;
 	if(count) {
-		var u = object.instanceCount;
 		for(var i = 0; i < count; i++) {
-			object.instances[i + u] = new instance();
-			object.instances[i + u].create();
+			object.instances[u + i] = new instance();
+			object.instances[u + i].create();
     		object.instanceCount++;
 		}	
 	}
 	else {
-		var u = object.instanceCount;
-		object.instances[object.instanceCount + u] = new instance();	
-		object.instances[object.instanceCount + u].create();	
+		object.instances[u] = new instance();	
+		object.instances[u].create();	
     	object.instanceCount++;
 	}
 	
-	redditGL_LOG(object.name + " Instance created x " + object.instanceCount);
+	redditGL_LOG("'" + object.name + "' " + " Instance(s) created - Count: " + object.instanceCount);
 };
 
-function setObjectInstanceScale(objectInstance, value) 
+function setObjectInstanceRotation(objectInstance, rot) 
 {
-	objectInstance.scale = value;
+	objectInstance.rotation = vec3.create(rot);
 };
 
 function setObjectInstancePosition(objectInstance, pos) 
 {
 	objectInstance.position = vec3.create(pos);
+};
+
+function setObjectInstanceScale(objectInstance, value) 
+{
+	objectInstance.scale = value;
 };
 
 function setObjectInstanceSpeed(objectInstance, speed) 
