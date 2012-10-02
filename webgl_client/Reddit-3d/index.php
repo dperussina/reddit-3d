@@ -14,18 +14,19 @@
 		}
 		
 		static $javascrips = array(
-			"js/RedditGLMain.js",
+			"js/RedditGL-Main.js",
 			"js/RedditGL-Render.js",
-			"js/lib/CameraGL.js",
-			"js/lib/TextGL.js",
-			"js/lib/ModelGL.js",
+			"js/RedditGL-Service.js",
 			"js/lib/GLUtil.js",
+			"js/lib/CameraGL.js",
+			"js/lib/ModelGL.js",
+			"js/lib/TextGL.js",		
 			"js/lib/MathGL.js",
 			"js/lib/jquery-1.8.1.min.js",
 		);
 		
 		foreach ($javascrips as $javascrip) {
-			echo ("<script src=\"$javascrip\" type=\"text/javascript\"></script>\n");
+			echo ("\n<script src=\"$javascrip\" type=\"text/javascript\"></script>\n");
 		}		 
 		?>
 		
@@ -40,12 +41,13 @@
 		    varying vec2 vTextureCoord;
 		
 		
-		    void main(void) {
-		    	mat4 modelViewMat = uViewMatrix * uMVMatrix;    
+		    void main(void) 
+		    {
+		    	mat4 modelViewMat=uViewMatrix*uMVMatrix;    
 
-        		vec4 vPosition = modelViewMat * vec4(aVertexPosition, 1.0);
-        		gl_Position = uPMatrix * vPosition;
-		        vTextureCoord = aTextureCoord;
+        		vec4 vPosition=modelViewMat*vec4(aVertexPosition,1.0);
+        		gl_Position=uPMatrix*vPosition;
+		        vTextureCoord=aTextureCoord;
 		    }
 		</script>
 		
@@ -56,8 +58,9 @@
 
     		uniform sampler2D uSampler;
 
-    		void main(void) {
-        		gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+    		void main(void) 
+    		{
+        		gl_FragColor=texture2D(uSampler,vec2(vTextureCoord.s,vTextureCoord.t));
     		}
 		</script>
 		
@@ -71,12 +74,13 @@
 		
 		    varying vec4 vColor;
 		
-		    void main(void) {
-		    	mat4 modelViewMat = uViewMatrix * uMVMatrix;    
+		    void main(void) 
+		    {
+		    	mat4 modelViewMat=uViewMatrix*uMVMatrix;    
 
-        		vec4 vPosition = modelViewMat * vec4(aVertexPosition, 1.0);
-        		gl_Position = uPMatrix * vPosition;
-		        vColor = aColor;
+        		vec4 vPosition = modelViewMat*vec4(aVertexPosition,1.0);
+        		gl_Position = uPMatrix*vPosition;
+		        vColor=aColor;
 		    }
 		</script>
 		
@@ -86,7 +90,7 @@
     		varying vec4 vColor;
 
     		void main(void) {
-        		gl_FragColor = vColor;
+        		gl_FragColor=vColor;
     		}
 		</script>
 
@@ -94,7 +98,7 @@
 		var RedditMain;
 		
 		function init() {
-			RedditMain = new RedditGL();
+			RedditMain=new RedditGL();
 			RedditMain.init();
 		};
 		

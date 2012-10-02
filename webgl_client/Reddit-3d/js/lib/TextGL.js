@@ -1,7 +1,8 @@
 /*
  * William Miller 2012
  */
-var AlphabetGL = [
+var AlphabetGL = 
+[
 	'!','#','$','&',
 	'(',')','+','.',
 	'0','1','2','3',
@@ -16,13 +17,18 @@ var AlphabetGL = [
 	'W','X','Y','Z',
 ];
 
-function getCharIndex (aChar) {
-	for(var i in RedditMain.scene.sceneObjects) {
-		var object = RedditMain.scene.sceneObjects[i];
-		if(object.name == aChar) {
-			return object;
-		}
+function getCharIndex (aChar) 
+{
+	var sceneObjects=RedditMain.scene.sceneObjects
+	var n=sceneObjects.length;
+	var k=n;
+	do
+	{
+		var i=k-n;
+		var object=sceneObjects[i];
+		if(object.name == aChar) {return object;}
 	}
+	while(--n);
 	
 	return null;
 };
@@ -30,81 +36,90 @@ function getCharIndex (aChar) {
 // Load up at least one instance of every character
 function initAlphabet (callback) 
 {
-	if(!callback) {callback = CharacterCallback;}
-	var path = "root/models/FontHappyMonkey/FontHappyMonkey_0";
+	if(!callback) {callback=CharacterCallback;}
+	var path="root/models/FontHappyMonkey/FontHappyMonkey_0";
 	
-	redditGL_LOG("Initiating TextGL Alphabet");
-	redditGL_LOG("Initiating TextGL Alphabet Count: " + AlphabetGL.length);
+	RedditGL_LOG("Initiating TextGL Alphabet");
+	RedditGL_LOG("Initiating TextGL Alphabet Count: "+AlphabetGL.length);
 	
-	for(var i in AlphabetGL) {
-		var aChar = AlphabetGL[i];
-		var completePath = path + aChar.charCodeAt() + ".json";
-		initBufferObject(gl, "model", completePath, null, callback);
+	for(var i in AlphabetGL) 
+	{
+		var aChar=AlphabetGL[i];
+		var completePath=path+aChar.charCodeAt()+".json";
+		initBufferObject(gl,"model",completePath,null,callback);
 	}
 };
 
 // Default callback
 function CharacterCallback (model) 
 {	
-	
-	addObjectInstance(model, 1);
-	var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-  	position = [Math.random() * 10 * plusOrMinus, Math.random() * 2 * plusOrMinus, Math.random() * 10 * plusOrMinus];
-  	setObjectInstancePosition(model.instances[0], position);
-  	setObjectInstanceScale(model.instances[0], 1.0);
-  	setObjectInstanceSpeed(model.instances[0], 0.1);
   	model.loaded = true;
   	RedditMain.addObject(model);
 };	
 
-function addWord (txt, objectType, index) 
+function addWord (txt, objectName, index) 
 {
-	var sceneObjects = RedditMain.scene.sceneObjects;
-	for(var i in sceneObjects) {
-		var object = sceneObjects[i];
-		if(object.name == objectType) {
-			var objectInstance = object.instances[index];
-			var space = 0.5;
-			var vPos = vec3.create(objectInstance.position);
-			vPos[1] += 2.0;
+	var sceneObjects=RedditMain.scene.sceneObjects;
+	var n=sceneObjects.length;
+	var k=n;
+	do 
+	{
+		var i=k-n
+		var object=sceneObjects[i];
+		if(objectName==object.name)
+		{
+			var objectInstance=object.instances[index];
+			var txtSize=2.0;
+			var space=0.5;
+			var vPos=vec3.create(objectInstance.position);
+			vPos[0]-=(space*1.9*txt.length)/2;
+				
+			vPos[1]+=2.5;
 			// Adjust for object to attach to
-			vPos[0]	*= 	objectInstance.scale;
-			vPos[1]	*= 	objectInstance.scale;
-			vPos[2]	*= 	objectInstance.scale;
-			
-			var vRot = vec3.create(objectInstance.rotation);
-			var fSpeed = objectInstance.speed;
-			
-			for(var j in txt) {
-				var aChar = txt[j];
-				aChar = aChar.toUpperCase();
-				console.log(aChar);
-				createCharInstance(aChar, vPos, vRot, fSpeed);
-				vPos[0] += space;
-			}		
+			vPos[0]*=objectInstance.scale/txtSize;
+			vPos[1]*=objectInstance.scale/txtSize;
+			vPos[2]*=objectInstance.scale/txtSize;
+				
+			var vRot=vec3.create(objectInstance.rotation);
+			var fSpeed=objectInstance.speed;
+				
+			var nn=txt.length;
+			var kk=nn;
+			do
+			{
+				var ii=kk-nn;	
+				var aChar=txt[ii];
+				aChar=aChar.toUpperCase();
+				createCharInstance(aChar,vPos,vRot,fSpeed,txtSize);
+				vPos[0]=vPos[0]+space;
+			}
+			while(--nn);	
 		}
 	}
+	while(--n);
 };
 
-function createCharInstance (aChar, vPos, vRot, fSpeed, count) 
+function createCharInstance (aChar, vPos, vRot, fSpeed, fSize, count) 
 {	
-	var object = getCharIndex(aChar);
-	console.log(object);
-	var u = object.instanceCount;
-	if(count) {
-		addObjectInstance(object, count);
-		for(var i = 0; i < count; i++) {
-			setObjectInstanceRotation(object.instances[i + u], vRot);
-			setObjectInstancePosition(object.instances[i + u], vPos);
-			setObjectInstanceScale(object.instances[i + u], 2.0);			
-  			setObjectInstanceSpeed(object.instances[i + u], 0.1);	
+	var object=getCharIndex(aChar);
+	var u=object.instanceCount;
+	if(count)
+	{
+		addObjectInstance(object,count);
+		for(var i=0;i<count;i++) 
+		{
+			setObjectInstanceRotation(object.instances[i+u],vRot);
+			setObjectInstancePosition(object.instances[i+u],vPos);
+			setObjectInstanceScale(object.instances[i+u],fSize);			
+  			setObjectInstanceSpeed(object.instances[i+u],fSpeed);	
   		}	
 	}
-	else {
-		addObjectInstance(object, 1);
-		setObjectInstanceRotation(object.instances[0 + u], vRot);
-		setObjectInstancePosition(object.instances[0 + u], vPos);
-		setObjectInstanceScale(object.instances[0 + u], 2.0);
-  		setObjectInstanceSpeed(object.instances[0 + u], 0.1);
+	else 
+	{
+		addObjectInstance(object);
+		setObjectInstanceRotation(object.instances[0+u],vRot);
+		setObjectInstancePosition(object.instances[0+u],vPos);
+		setObjectInstanceScale(object.instances[0+u],fSize);
+  		setObjectInstanceSpeed(object.instances[0+u],fSpeed);
 	}	
 };

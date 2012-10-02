@@ -2,124 +2,141 @@
  * William Miller 2012
  */
 
-var CameraWebGL = function(max) 
+var CameraWebGLOrbit = function(max) 
 {
-	this.moving = false;
-    this.orbitX = 0;
-    this.orbitY = 0;
-    this.distance = 10;
-    this.maxDistance = max;
-    this.center = vec3.create();
-    this.viewMatrix = mat4.create();
-    this.pMatrix = mat4.create();
-    this.dirty = true;
+	this.moving=false;
+    this.orbitX=0;
+    this.orbitY=0;
+    this.distance=10;
+    this.zoomSpeed=100;
+    this.maxDistance=max;
+    this.center=vec3.create();
+    this.viewMatrix=mat4.create();
+    this.pMatrix=mat4.create();
+    this.dirty=true;
     
 
     
 };
 
-CameraWebGL.prototype.init = function (canvas) 
+CameraWebGLOrbit.prototype.init = function(canvas) 
 {
-	var self = this,
-    lastX, lastY;
-    
+	var self=this,
+    lastX,lastY;  
 	// Set up the appropriate event hooks
-    canvas.addEventListener('mousedown', function (event) {
-   		if (event.which === 1) {
-         	self.moving = true;
+    canvas.addEventListener('mousedown',function(event) 
+    {
+   		if(event.which===1) 
+   		{
+         	self.moving=true;
         }
-        lastX = event.pageX;
-        lastY = event.pageY;
+        lastX=event.pageX;
+        lastY=event.pageY;
     }, false);
 
-    canvas.addEventListener('mousemove', function (event) {
-   		if (self.moving) {
-       		var xDelta = event.pageX  - lastX,
-            yDelta = event.pageY  - lastY;
+    canvas.addEventListener('mousemove',function(event) 
+    {
+   		if(self.moving)
+   		{
+       		var xDelta=event.pageX-lastX,
+            yDelta=event.pageY-lastY;
 
-         	lastX = event.pageX;
-          	lastY = event.pageY;
+         	lastX=event.pageX;
+          	lastY=event.pageY;
+          	
+          	var movement=Math.PI*2;
 
-        	self.orbitY += xDelta * 0.025;
-            while (self.orbitY < 0) {
-                    self.orbitY += Math.PI * 2;
+        	self.orbitY+=xDelta*0.015;
+            while(self.orbitY<0) 
+            {
+            	self.orbitY += movement;
             }
-            while (self.orbitY >= Math.PI * 2) {
-                    self.orbitY -= Math.PI * 2;
+            while(self.orbitY>=movement) 
+            {
+              	self.orbitY-=movement;
             }
             
-            self.orbitX += yDelta * 0.025;
-            while (self.orbitX < 0) {
-                    self.orbitX += Math.PI * 2;
+            self.orbitX+=yDelta*0.015;
+            while(self.orbitX<0) 
+            {
+             	self.orbitX+=movement;
             }
-            while (self.orbitX >= Math.PI * 2) {
-                    self.orbitX -= Math.PI * 2;
+            while (self.orbitX>=movement) 
+            {
+             	self.orbitX-=movement;
             }
 
-            self.dirty = true;
+            self.dirty=true;
             }
-        }, false);
+        },false);
 
-  	canvas.addEventListener('mouseup', function () {
-     	self.moving = false;
-  	}, false);
+  	canvas.addEventListener('mouseup',function() 
+  	{
+     	self.moving=false;
+  	},false);
   	
-  	canvas.addEventListener('mousewheel', function (e) {
-  		self.distance += -e.wheelDelta/10;
-     	self.dirty = true;
-  	}, false);
+  	canvas.addEventListener('mousewheel',function(e) 
+  	{
+  		var speed=-e.wheelDelta;
+  		self.distance+=speed/self.zoomSpeed;
+     	self.dirty=true;
+  	},false);
   	
-  	canvas.addEventListener('DOMMouseScroll', function (e) {
-  		self.distance += -(e.wheelDelta/10 || -e.detail);
-     	self.dirty = true;
-  	}, false);
+  	canvas.addEventListener('DOMMouseScroll',function(e) 
+  	{	
+  		var speed=e.detail*30;
+  		self.distance+=speed/self.zoomSpeed;
+     	self.dirty=true;
+  	},false);
 };
-CameraWebGL.prototype.getCenter = function () 
+CameraWebGLOrbit.prototype.getCenter = function() 
 {
 	return this.center;
 };
 
-CameraWebGL.prototype.setCenter = function (value) 
+CameraWebGLOrbit.prototype.setCenter = function(value) 
 {
- 	this.center = value;
-   	this.dirty = true;
+ 	this.center=value;
+   	this.dirty=true;
 };
 
-CameraWebGL.prototype.getDistance = function () 
+CameraWebGLOrbit.prototype.getDistance = function() 
 {
     return this.distance;
 };
 
-CameraWebGL.prototype.setDistance = function (value) 
+CameraWebGLOrbit.prototype.setDistance = function(value) 
 {
-   	this.distance = value;
-    this.dirty = true;
+   	this.distance=value;
+    this.dirty=true;
 };
 
-CameraWebGL.prototype.getViewMatrix = function () 
+CameraWebGLOrbit.prototype.getViewMatrix = function() 
 {
-	if (this.dirty) {
-     	var mv = this.viewMatrix;
+	if(this.dirty) 
+	{
+     	var mv=this.viewMatrix;
         mat4.identity(mv);
-        mat4.translate(mv, [0, 0, -this.distance]);
-       	mat4.rotateX(mv, this.orbitX + (Math.PI / 2));
-        mat4.translate(mv, this.center);
-        mat4.rotateX(mv, -Math.PI / 2);
-        mat4.rotateY(mv, this.orbitY);
-
-        this.dirty = false;
+        mat4.translate(mv,[0, 0, -this.distance]);
+       	mat4.rotateX(mv,this.orbitX+(Math.PI/2));
+        mat4.translate(mv,this.center);
+        mat4.rotateX(mv,-Math.PI/2);
+        mat4.rotateY(mv,this.orbitY);
+        this.dirty=false;
   	}
 
    	return this.viewMatrix;
 };
 
-CameraWebGL.prototype.update = function () 
+CameraWebGLOrbit.prototype.update = function() 
 {
-	if(this.distance < 0) {
-		this.distance = 0;
+	if(this.distance<0) 
+	{
+		this.distance=0;
 	}
-	if(this.distance > this.maxDistance) {
-		this.distance = this.maxDistance;
+	if(this.distance>this.maxDistance) 
+	{
+		this.distance=this.maxDistance;
 	}
 };
 
