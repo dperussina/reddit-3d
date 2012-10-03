@@ -1,0 +1,49 @@
+{
+  "name": "reddit-3d",
+  "description": "Reddit in 3D!",
+  "version": "1.0.0",
+  "author": {
+    "name": "Daniel Perussina",
+    "email": "danp@agentgrid.net"
+  },
+  "contributors": [
+    {
+      "name": "Daniel Perussina",
+      "email": "danp@agentgrid.net"
+    },
+    {
+      "name": "William Miller",
+      "email": ""
+    }
+  ],
+  "dependencies": {
+    "express": "3.0.x",
+    "redis":"0.8.1",
+    "hiredis":"0.1.14"
+  },
+  "devDependencies": {
+  },
+  "keywords": [
+    "reddit",
+    "3d",
+    "webgl"
+  ],
+  "publishConfig": {
+    "tag": "1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dperussina/Reddit-3d"
+  },
+  "main": "index",
+  "bin": {
+  },
+  "scripts": {
+  },
+  "engines": {
+    "node": "*"
+  },
+  "readme": "Nothing here yet!.\n",
+  "_id": "reddit-3d@1.0.0",
+  "_from": "reddit-3d"
+}
