@@ -14,15 +14,15 @@
 		}
 		
 		static $javascrips = array(
+			"js/lib/jquery-1.8.1.min.js",
+			"js/lib/MathGL.js",
+			"js/lib/GLUtil.js",
+			"js/lib/ModelGL.js",
+			"js/lib/TextGL.js",	
+			"js/lib/CameraGL.js",
 			"js/RedditGL-Main.js",
 			"js/RedditGL-Render.js",
-			"js/RedditGL-Service.js",
-			"js/lib/GLUtil.js",
-			"js/lib/CameraGL.js",
-			"js/lib/ModelGL.js",
-			"js/lib/TextGL.js",		
-			"js/lib/MathGL.js",
-			"js/lib/jquery-1.8.1.min.js",
+			"js/RedditGL-Service.js",			
 		);
 		
 		foreach ($javascrips as $javascrip) {
@@ -106,14 +106,14 @@
 	</head>
 	
 	<body onload="init()">
-		
-		<div class="FrameGL">
-			
-			<canvas id="webglCanvas"  width ="900" height ="555"></canvas>
-			
+		<p style="text-align: center;"><h1><b>Reddit-3D Render</b></h1></p>
+		<div id="reddit-frame">
+			<div><canvas id="webglCanvas"></canvas></div>
+			<div id="fps-counter">
+	        	FPS: <span id="fps">--</span>
+	   		</div>
 		</div>
-		
-		<p style="text-align: center;"><h1>Reddit-3D Render</h1></p>
+		<div id="fullScreenFrame"><button id="fullscreen">Fullscreen</button</div>
 	</body>
 	
 </html>

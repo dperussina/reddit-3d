@@ -14,9 +14,6 @@ var CameraWebGLOrbit = function(max)
     this.viewMatrix=mat4.create();
     this.pMatrix=mat4.create();
     this.dirty=true;
-    
-
-    
 };
 
 CameraWebGLOrbit.prototype.init = function(canvas) 
@@ -73,6 +70,7 @@ CameraWebGLOrbit.prototype.init = function(canvas)
   	canvas.addEventListener('mouseup',function() 
   	{
      	self.moving=false;
+     	self.dirty=true;
   	},false);
   	
   	canvas.addEventListener('mousewheel',function(e) 

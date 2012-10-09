@@ -15,7 +15,7 @@ function SkyboxCallback (model)
 
 function ModelCallback (model) 
 {
-	loadInstances(model,200);
+	loadInstances(model,300);
   	model.loaded=true;
 	RedditMain.addObject(model);	
 };
@@ -435,6 +435,7 @@ function setObjectInstancePosition(objectInstance, pos)
 function setObjectInstanceScale(objectInstance, value) 
 {
 	objectInstance.scale=value;
+	objectInstance.BBox=value*1.5;
 };
 
 function setObjectInstanceSpeed(objectInstance, speed) 
@@ -461,8 +462,9 @@ instance.prototype.create = function()
 	this.position=vec3.create();
 	this.scale=1.0;
 	this.speed=1.0;
-	this.hidden=false;
+	this.BBox=this.scale*1.5;
 	
+	this.hidden=false;	
 	this.hasTexture=false;
 	this.texture=0;
 };

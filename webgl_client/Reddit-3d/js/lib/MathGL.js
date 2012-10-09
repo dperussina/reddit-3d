@@ -35,8 +35,10 @@
 var MatrixArray = (typeof Float32Array !== 'undefined') ? Float32Array : Array, // Fallback for systems that don't support TypedArrays
     glMatrixArrayType = MatrixArray, // For Backwards compatibility
     vec3 = {},
+    vec4 = {},
     mat3 = {},
     mat4 = {},
+    mat6x4 = {},
     quat4 = {};
     
 function degToRad(degrees) {
@@ -66,6 +68,27 @@ vec3.create = function (vec) {
         dest[1] = vec[1];
         dest[2] = vec[2];
     }
+
+    return dest;
+};
+
+/*
+ * vec3.fromVec4
+ * Creates a new instance of a vec3 using the default array type
+ * Any javascript array containing at least 3 numeric elements can serve as a vec3
+ *
+ * Params:
+ * vec - vec4 containing values to initialize with
+ *
+ * Returns:
+ * New vec3
+ */
+vec3.fromVec4 = function (vec) {
+    var dest = new MatrixArray(3);
+
+  	dest[0] = vec[0]/vec[3];
+    dest[1] = vec[1]/vec[3];
+    dest[2] = vec[2]/vec[3];
 
     return dest;
 };
@@ -350,6 +373,57 @@ vec3.str = function (vec) {
 };
 
 /*
+ * vec4 - 4 Dimensional Vector
+ */
+
+/*
+ * vec4.create
+ * Creates a new instance of a vec4 using the default array type
+ * Any javascript array containing at least 4 numeric elements can serve as a vec4
+ *
+ * Params:
+ * vec - Optional, vec4 containing values to initialize with
+ *
+ * Returns:
+ * New vec4
+ */
+vec4.create = function (vec) {
+    var dest = new MatrixArray(4);
+    dest[3] = 1;
+
+    if (vec) {
+        dest[0] = vec[0];
+        dest[1] = vec[1];
+        dest[2] = vec[2];
+        dest[3] = vec[3];
+    }
+
+    return dest;
+};
+
+/*
+ * vec4.fromVec3
+ * Creates a new instance of a vec4 using the default array type
+ * Any javascript array containing at least 4 numeric elements can serve as a vec4
+ *
+ * Params:
+ * vec - vec3 containing values to initialize with
+ *
+ * Returns:
+ * New vec4
+ */
+vec4.fromVec3 = function (vec) {
+    var dest = new MatrixArray(4);
+
+  	dest[0] = vec[0];
+    dest[1] = vec[1];
+    dest[2] = vec[2];
+    dest[3] = 1;
+
+    return dest;
+};
+
+/*
  * mat3 - 3x3 Matrix
  */
 
@@ -430,7 +504,7 @@ mat3.identity = function (dest) {
 };
 
 /*
- * mat4.transpose
+ * mat3.transpose
  * Transposes a mat3 (flips the values over the diagonal)
  *
  * Params:
@@ -1310,6 +1384,7 @@ mat4.frustum = function (left, right, bottom, top, near, far, dest) {
     return dest;
 };
 
+
 /*
  * mat4.perspective
  * Generates a perspective projection matrix with the given bounds
@@ -1365,7 +1440,6 @@ mat4.ortho = function (left, right, bottom, top, near, far, dest) {
     dest[15] = 1;
     return dest;
 };
-
 /*
  * mat4.lookAt
  * Generates a look-at matrix with the given eye position, focal point, and up axis
@@ -1534,6 +1608,214 @@ mat4.str = function (mat) {
         ', ' + mat[4] + ', ' + mat[5] + ', ' + mat[6] + ', ' + mat[7] +
         ', ' + mat[8] + ', ' + mat[9] + ', ' + mat[10] + ', ' + mat[11] +
         ', ' + mat[12] + ', ' + mat[13] + ', ' + mat[14] + ', ' + mat[15] + ']';
+};
+
+/*
+ * mat6x4
+ * 6 x 4 matrix
+ */
+
+/*
+ * mat6x4.create
+ * Creates a new instance of a mat6x4 using the default array type
+ * Any javascript array containing at least 6x4 numeric elements can serve as a mat6x4
+ *
+ * Params:
+ * mat - Optional, mat6x4 containing values to initialize with
+ *
+ * Returns:
+ * New mat6x4
+ */
+mat6x4.create = function (mat) {
+    var dest = new Array(6);
+	var n = 6;
+	var k = n;
+	do{
+		var i = k - n;
+		var nn = 4;
+		var kk = nn;
+		dest[i] = new MatrixArray(4);
+		do{
+			var ii = kk - nn;
+			dest[i][ii] = 0.0;
+		}
+		while(--nn);
+	}
+	while(--n);
+	
+    if (mat) {
+    	do{
+			var i = k - n;
+			var nn = 4;
+			var kk = nn;
+			do
+			{
+				var ii = kk - nn;
+				dest[i][ii] = mat[i][ii];
+			}
+			while(--nn);
+		}
+		while(--n);
+    }
+
+    return dest;
+};
+
+/*
+ * mat6x4.frustum
+ * Generates a frustum matrix with given view and projecting matrix
+ *
+ * Params:
+ * proj, proj mat4 matrix to build bounds from
+ * modl, modl mat4 matrix to build bounds from
+ * dest - Optional, mat6x4 frustum matrix will be written into
+ *
+ * Returns:
+ * dest if specified, a new mat6x4 otherwise
+ */
+mat6x4.frustum = function (proj, modl, dest) {
+    if (!dest) { dest = mat6x4.create(); }
+    
+	var clip = mat4.create();
+	var t;
+	var m = Math;
+	/* Combine the two matrices (multiply projection by modelview) */
+	clip[ 0] = modl[ 0] * proj[ 0] + modl[ 1] * proj[ 4] + modl[ 2] * proj[ 8] + modl[ 3] * proj[12];
+	clip[ 1] = modl[ 0] * proj[ 1] + modl[ 1] * proj[ 5] + modl[ 2] * proj[ 9] + modl[ 3] * proj[13];
+	clip[ 2] = modl[ 0] * proj[ 2] + modl[ 1] * proj[ 6] + modl[ 2] * proj[10] + modl[ 3] * proj[14];
+	clip[ 3] = modl[ 0] * proj[ 3] + modl[ 1] * proj[ 7] + modl[ 2] * proj[11] + modl[ 3] * proj[15];
+		
+	clip[ 4] = modl[ 4] * proj[ 0] + modl[ 5] * proj[ 4] + modl[ 6] * proj[ 8] + modl[ 7] * proj[12];
+	clip[ 5] = modl[ 4] * proj[ 1] + modl[ 5] * proj[ 5] + modl[ 6] * proj[ 9] + modl[ 7] * proj[13];
+	clip[ 6] = modl[ 4] * proj[ 2] + modl[ 5] * proj[ 6] + modl[ 6] * proj[10] + modl[ 7] * proj[14];
+	clip[ 7] = modl[ 4] * proj[ 3] + modl[ 5] * proj[ 7] + modl[ 6] * proj[11] + modl[ 7] * proj[15];
+		
+	clip[ 8] = modl[ 8] * proj[ 0] + modl[ 9] * proj[ 4] + modl[10] * proj[ 8] + modl[11] * proj[12];
+	clip[ 9] = modl[ 8] * proj[ 1] + modl[ 9] * proj[ 5] + modl[10] * proj[ 9] + modl[11] * proj[13];
+	clip[10] = modl[ 8] * proj[ 2] + modl[ 9] * proj[ 6] + modl[10] * proj[10] + modl[11] * proj[14];
+	clip[11] = modl[ 8] * proj[ 3] + modl[ 9] * proj[ 7] + modl[10] * proj[11] + modl[11] * proj[15];
+		
+	clip[12] = modl[12] * proj[ 0] + modl[13] * proj[ 4] + modl[14] * proj[ 8] + modl[15] * proj[12];
+	clip[13] = modl[12] * proj[ 1] + modl[13] * proj[ 5] + modl[14] * proj[ 9] + modl[15] * proj[13];
+	clip[14] = modl[12] * proj[ 2] + modl[13] * proj[ 6] + modl[14] * proj[10] + modl[15] * proj[14];
+	clip[15] = modl[12] * proj[ 3] + modl[13] * proj[ 7] + modl[14] * proj[11] + modl[15] * proj[15];
+		
+	/* Extract the numbers for the RIGHT plane */
+	dest[0][0] = clip[ 3] - clip[ 0];
+	dest[0][1] = clip[ 7] - clip[ 4];
+	dest[0][2] = clip[11] - clip[ 8];
+	dest[0][3] = clip[15] - clip[12];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[0][0] * dest[0][0] + dest[0][1] * dest[0][1] + dest[0][2] * dest[0][2] );
+	dest[0][0] /= t;
+	dest[0][1] /= t;
+	dest[0][2] /= t;
+	dest[0][3] /= t;
+		
+	/* Extract the numbers for the LEFT plane */
+	dest[1][0] = clip[ 3] + clip[ 0];
+	dest[1][1] = clip[ 7] + clip[ 4];
+	dest[1][2] = clip[11] + clip[ 8];
+	dest[1][3] = clip[15] + clip[12];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[1][0] * dest[1][0] + dest[1][1] * dest[1][1] + dest[1][2] * dest[1][2] );
+	dest[1][0] /= t;
+	dest[1][1] /= t;
+	dest[1][2] /= t;
+	dest[1][3] /= t;
+		
+	/* Extract the BOTTOM plane */
+	dest[2][0] = clip[ 3] + clip[ 1];
+	dest[2][1] = clip[ 7] + clip[ 5];
+	dest[2][2] = clip[11] + clip[ 9];
+	dest[2][3] = clip[15] + clip[13];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[2][0] * dest[2][0] + dest[2][1] * dest[2][1] + dest[2][2] * dest[2][2] );
+	dest[2][0] /= t;
+	dest[2][1] /= t;
+	dest[2][2] /= t;
+	dest[2][3] /= t;
+		
+	/* Extract the TOP plane */
+	dest[3][0] = clip[ 3] - clip[ 1];
+	dest[3][1] = clip[ 7] - clip[ 5];
+	dest[3][2] = clip[11] - clip[ 9];
+	dest[3][3] = clip[15] - clip[13];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[3][0] * dest[3][0] + dest[3][1] * dest[3][1] + dest[3][2] * dest[3][2] );
+	dest[3][0] /= t;
+	dest[3][1] /= t;
+	dest[3][2] /= t;
+	dest[3][3] /= t;
+		
+	/* Extract the FAR plane */
+	dest[4][0] = clip[ 3] - clip[ 2];
+	dest[4][1] = clip[ 7] - clip[ 6];
+	dest[4][2] = clip[11] - clip[10];
+	dest[4][3] = clip[15] - clip[14];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[4][0] * dest[4][0] + dest[4][1] * dest[4][1] + dest[4][2] * dest[4][2] );
+	dest[4][0] /= t;
+	dest[4][1] /= t;
+	dest[4][2] /= t;
+	dest[4][3] /= t;
+		
+	/* Extract the NEAR plane */
+	dest[5][0] = clip[ 3] + clip[ 2];
+	dest[5][1] = clip[ 7] + clip[ 6];
+	dest[5][2] = clip[11] + clip[10];
+	dest[5][3] = clip[15] + clip[14];
+		
+	/* Normalize the result */
+	t = m.sqrt( dest[5][0] * dest[5][0] + dest[5][1] * dest[5][1] + dest[5][2] * dest[5][2] );
+	dest[5][0] /= t;
+	dest[5][1] /= t;
+	dest[5][2] /= t;
+	dest[5][3] /= t;
+	
+    return dest;
+};
+
+mat6x4.pointInFrustum = function(frustum, pos) {
+	var p;
+	var x,y,z;
+	var a = 0, u = 0;
+	for(var i = 0; i < 9; i++) {	
+		x = pos[a+0];
+		y = pos[a+1];
+		z = pos[a+2];	
+	  	for(p = 0; p < 6; p++) {
+			if(frustum[p][0] * x + frustum[p][1] * y + frustum[p][2] * z + frustum[p][3] < 0 ) {
+			u++
+			}
+		}
+	a += 3;
+	}
+	if(u == 9) {
+		return false;
+	}
+	return true;
+};
+	
+mat6x4.sphereInFrustum = function(frustum, pos, radius) {
+	var x = pos[0];
+   	var y = pos[1];
+   	var z = pos[2];
+   		
+   	var p;
+   	var d;
+
+   	for(p = 0; p < 6; p++ ){
+      	d = frustum[p][0] * x + frustum[p][1] * y + frustum[p][2] * z + frustum[p][3];
+      	if( d <= -radius )
+         	return 0;
+   	}
+   	return d + radius;
 };
 
 /*
@@ -1967,4 +2249,3 @@ quat4.slerp = function (quat, quat2, slerp, dest) {
 quat4.str = function (quat) {
     return '[' + quat[0] + ', ' + quat[1] + ', ' + quat[2] + ', ' + quat[3] + ']';
 };
-
