@@ -75,10 +75,21 @@ RedditClientService.prototype.addListener = function() {
 		});
 	});
 };
+RedditClientService.prototype.webSocket = function() {
+	var self = this;
+	var socket = io.connect('http://svn.agentgrid.net:3101');
+	socket.on('hello', function(data) {
+		console.log(data);
+		socket.emit('aloha', {
+			my : 'data'
+		});
+	});
+
+};
 RedditClientService.prototype.getStatus = function() {
 	return this.connectionStatus;
 };
 
 RedditClientService.prototype.getCurrentData = function() {
 	return this.serviceData;
-}; 
+};

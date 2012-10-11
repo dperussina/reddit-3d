@@ -1,38 +1,32 @@
-var express = require('express');
-var fs = require('fs');
-var app = express();
+function http() {
 
-// settings
-var FILE_ENCODING = 'utf-8', EOL = '\n';
-
-// setup
-var _fs = require('fs');
-
-function concat(opts) {
-	var fileList = opts.src;
-	var distPath = opts.dest;
-	var out = fileList.map(function(filePath) {
-		return _fs.readFileSync(filePath, FILE_ENCODING);
+	var domain = require('domain');
+	var serverDomain = domain.create();
+	serverDomain.on('error', function(er) {
+		console.error('Caught error!', er);
 	});
-	_fs.writeFileSync(distPath, out.join(EOL), FILE_ENCODING);
-	console.log(' ' + distPath + ' built.');
+	serverDomain.run(function() {
+		var express = require('express');
+		var fs = require('fs');
+		var app = express();
+
+		app.get('/', function(req, res) {
+			fs.readFile(__dirname + '/htdocs/index.html', 'utf8', function(err, text) {
+				res.send(text);
+			});
+		});
+		app.get('/subs', function(req, res) {
+			var subs = require('./lib/subReddits');
+			res.send(JSON.stringify(subs));
+		});
+		app.use(express.directory(__dirname + '/htdocs'));
+		app.use(express.static(__dirname + '/htdocs'));
+
+		app.listen(3100);
+	});
+
+	
+
 }
 
-concat({
-	src : [__dirname + "/htdocs/js/lib/jquery-1.8.2.js", __dirname + "/htdocs/js/lib/jquery-ui.js", __dirname + "/htdocs/js/main.js", __dirname + "/htdocs/js/lib/MathGL.js", __dirname + "/htdocs/js/lib/GLUtil.js", __dirname + "/htdocs/js/lib/ModelGL.js", __dirname + "/htdocs/js/lib/TextGL.js", __dirname + "/htdocs/js/lib/CameraGL.js", __dirname + "/htdocs/js/RedditGL-Main.js", __dirname + "/htdocs/js/RedditGL-Render.js", __dirname + "/htdocs/js/RedditGL-Service.js"],
-	dest : __dirname + "/htdocs/js/super.js"
-});
-
-app.get('/', function(req, res) {
-	fs.readFile(__dirname + '/htdocs/index.html', 'utf8', function(err, text) {
-		res.send(text);
-	});
-});
-app.get('/subs',function(req, res){
-	var subs = require('./lib/subReddits');
-	res.send(JSON.stringify(subs));
-});
-app.use(express.directory(__dirname + '/htdocs'));
-app.use(express.static(__dirname + '/htdocs'));
-
-app.listen(3000); 
+module.exports = http; 

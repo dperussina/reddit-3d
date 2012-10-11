@@ -149,6 +149,7 @@ RedditGL.prototype.loadComplete = function()
    	this.loaded=true;  	  	
    	this.serviceManager.connectToService();
    	this.serviceManager.addListener();
+   	this.serviceManager.webSocket();
 };
 /*
  * Loads scene with object data, each object has instances attached to it
