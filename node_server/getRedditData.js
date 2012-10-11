@@ -10,7 +10,7 @@ client.on("error", function(err) {
 
 function getRedditData(subReddit, cb) {
 	var _cb = cb;
-	var _sub = subReddit;
+	var _sub = subReddit.toUpperCase();
 	var http = require('http');
 	var options = {
 		host : 'www.reddit.com',
@@ -29,12 +29,20 @@ function getRedditData(subReddit, cb) {
 			//console.log('BODY: ' + chunk);
 		});
 		res.on('end', function() {
-			_cb(_sub, body);
+			body = body.replace("undefined", "");
+			console.log(body);			
+			var json = JSON.parse(body);
+			var passThis = JSON.stringify(json.data.children);
+			_cb(_sub, passThis);
 			console.log('End data')
+			
 			i++;
+			if(i == subReddits.length){
+			i = 0;
+			}
 			setTimeout(function() {
 				getRedditData(subReddits[i], passToRedis);
-			}, 10000);
+			}, 500);
 
 		})
 	});
