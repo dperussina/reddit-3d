@@ -27958,7 +27958,7 @@ RedditClientService.prototype.addListener = function() {
 };
 RedditClientService.prototype.webSocket = function() {
 	var self = this;
-	var socket = io.connect('http://localhost:3001');
+	var socket = io.connect('http://svn.agentgrid.net:3101');
 	socket.on('hello', function(data) {
 		console.log(data);
 		socket.emit('aloha', {
