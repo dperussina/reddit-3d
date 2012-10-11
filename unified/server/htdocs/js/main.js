@@ -3,3 +3,8 @@
  * 2012 - Reddit3d, bitch
  */
 
+document.subreddit = 'frontpage';
+$(document).ready(function() {
+	
+
+});
