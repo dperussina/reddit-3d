@@ -17,7 +17,11 @@ var RedditGL = function()
 RedditGL.prototype.init = function() 
 {
 	RedditGL_LOG("Starting RedditGL...");
+	// Web service
 	this.serviceManager = new RedditClientService();
+	// UI
+	this.UIManager = new RedditUI();
+	this.UIManager.init("infoDiv");
 	/*
 	 * Define some constants
 	 */

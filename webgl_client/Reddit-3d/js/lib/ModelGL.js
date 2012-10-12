@@ -16,6 +16,7 @@ function SkyboxCallback (model)
 function ModelCallback (model) 
 {
 	loadInstances(model,100);
+	RedditGL_LOG("'"+model.name+"' "+" Instance(s) created - Count: "+model.instanceCount);
   	model.loaded=true;
 	RedditMain.addObject(model);	
 };
@@ -419,7 +420,7 @@ function addObjectInstance(object, count)
 	}
 	object.instanceCount=u+count;
 	
-	RedditGL_LOG("'"+object.name+"' "+" Instance(s) created - Count: "+object.instanceCount);
+	//RedditGL_LOG("'"+object.name+"' "+" Instance(s) created - Count: "+object.instanceCount);
 };
 
 function setObjectInstanceRotation(objectInstance, rot) 

@@ -7,8 +7,24 @@
 		<link rel="stylesheet" href="css/redditcss.css" type="text/css" media="screen">
 		<link href="css/jquery-ui.css" media="all"  rel="stylesheet"  type="text/css" />
 		
-        <script type="text/javascript" src="dom-drag.js"></script>
-		<script src="js/super.js" type="text/javascript"></script>
+		
+		<script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
+		
+		<script type="text/javascript" src="js/lib/MathGL.js"></script>
+		<script type="text/javascript" src="js/lib/GLUtil.js"></script>
+		<script type="text/javascript" src="js/lib/ModelGL.js"></script>
+		<script type="text/javascript" src="js/lib/TextGL.js"></script>
+		<script type="text/javascript" src="js/lib/CameraGL.js"></script>
+		
+		<script type="text/javascript" src="js/lib/RedditUI.js"></script>
+		
+		<script type="text/javascript" src="js/lib/socket.io.min.js"></script>
+		
+		<script type="text/javascript" src="js/RedditGL-Service.js"></script>
+		<script type="text/javascript" src="js/RedditGL-Render.js"></script>
+		<script type="text/javascript" src="js/RedditGL-Main.js"></script>
+		       
+		<!--<script src="js/super.js" type="text/javascript"></script>-->
 
 		<script id="shader-vs" type="x-shader/x-vertex">
 			attribute vec3 aVertexPosition;
@@ -75,17 +91,16 @@
 
 		<script type="text/javascript">
 			var RedditMain;
-			//Drag.init(document.getElementById("movingDiv5"));
-			//window.top.location.href = window.top.location + "#movingDiv5";
-			function init() {
+			
+			$(document).ready(function () {
 				RedditMain = new RedditGL();
 				RedditMain.init();
-			};
+			});
 
 		</script>
 	</head>
 
-	<body onload="init()">
+	<body>
 
 		<p style="text-align: center;">
 			<h1><b>Reddit-3D Render</b></h1>
@@ -101,10 +116,10 @@
 		</div>
 		<div id="reddit-frame">
 			
-			<div id="movingDiv5" class="movingDiv" style="position: absolute;">
+			<div id="infoDiv" class="infoDiv" style="position: absolute;">
 		        <div>
 		            <h1>Reddit Title Goes Here!!</h1>
-		            <img src="http://i.imgur.com/mTjO4.png" alt="" title="Hosted by imgur.com" />
+		            <img src="root/textures/reddit-icon.png" alt="" title="Reddit-3d" />
 		            <ul>
 		                <li><a href="#">CLOSE</a></li>                      <!--CLOSE SYMBOL-->
 		                <li><a href="#">YES</a></li>  <!--EXTERNAL LINK-->
@@ -112,10 +127,6 @@
 		          
 		        </div>
 		    </div>
-		     <script type="text/javascript">
-            	Drag.init(document.getElementById("movingDiv5"));
-    		</script>
-    		
 			<div>
 				<canvas id="webglCanvas"></canvas>
 			</div>
@@ -132,7 +143,7 @@
 			
 			 <div id="test" style="position: relative;">
 		    	<ul>
-		        	<li><a id="example" href="#movingDiv5">planet</a></li>
+		        	<li><a id="example" href="#infoDiv">planet</a></li>
 		  		</ul>
 		</div>
 	</body>

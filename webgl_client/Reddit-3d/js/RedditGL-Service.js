@@ -10,17 +10,13 @@ var RedditClientService = function() {
 	RedditGL_LOG("Starting Reddit Service");
 	this.connectionStatus = K_ConnectionStatus_NONE;
 	this.host = {
-		hostIP : "",
-		hostNameSpace : "",
-		hostUserSpace : "",
-		hostPassword : ""
+		hostURL : 'http://svn.agentgrid.net:3000/r/',
+		hostSocket: 'http://svn.agentgrid.net:3101',
+		hostNameSpace : 'Dan',
+		hostUserSpace : 'someUniqueID',
+		hostPassword : ''
 	};
-	this.serviceData = {
-		// Fill Data
-	};
-	// TODO: Connect to service
-	//var callback = this.connectionEstablished;
-	//this.connectToService(callback);
+	this.serviceData = {};
 };
 
 RedditClientService.prototype.connectToService = function() {
@@ -32,7 +28,7 @@ RedditClientService.prototype.connectToService = function() {
 	var self = this;
 	var sub = 'frontpage';
 	$.ajax({
-		url : "http://svn.agentgrid.net:3000/r/" + sub,
+		url : self.host.hostURL + sub,
 		data : "",
 		success : self.connectionEstablished,
 		dataType : "json"
@@ -40,20 +36,22 @@ RedditClientService.prototype.connectToService = function() {
 };
 
 RedditClientService.prototype.connectionEstablished = function(request) {
-	console.log(request.something.length);
-	for (var i = 0; i < request.something.length; i++) {
-		var aString = request.something[i].data.title;
-		//var data = request;
-		// Finish loading
-		/*
-		 this.connectionStatus =;
-		 if(this.connectionStatus==K_ConnectionStatus_CONECTED)
-		 RedditGL_LOG("Reddit Service: Connection established!");
-		 else
-		 RedditGL_LOG("Reddit Service: Connection failed!");
-		 */
-		console.log(aString);
-		addWord(aString, "Cube", i);
+	
+	if(request)
+	{
+		RedditGL_LOG("Reddit Service: Connection established!");	
+		this.serviceData = request;
+			
+		for (var i = 0; i < this.serviceData.something.length; i++) {
+			var aString = this.serviceData.something[i].data.title;
+			//RedditGL_LOG(aString);
+			addWord(aString, "Cube", i);
+		}
+		
+	}
+	else 
+	{
+		RedditGL_LOG("Reddit Service: Connection failed!");
 	}
 };
 RedditClientService.prototype.addListener = function() {
@@ -64,7 +62,7 @@ RedditClientService.prototype.addListener = function() {
 		console.log(e + ' Event clicked!');
 		console.log($(users_choice).val() + ' input value');
 		$.ajax({
-			url : "http://svn.agentgrid.net:3000/r/" + sub,
+			url : self.host.hostURL + sub,
 			data : "",
 			success : self.connectionEstablished,
 			error : function(data) {
@@ -77,9 +75,9 @@ RedditClientService.prototype.addListener = function() {
 };
 RedditClientService.prototype.webSocket = function() {
 	var self = this;
-	var socket = io.connect('http://svn.agentgrid.net:3101');
+	var socket = io.connect(self.host.hostSocket);
 	socket.on('hello', function(data) {
-		console.log(data);
+		//RedditGL_LOG.log("Socket Data: ",data);
 		socket.emit('aloha', {
 			my : 'data'
 		});

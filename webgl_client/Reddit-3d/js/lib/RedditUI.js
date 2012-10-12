@@ -1,3 +1,49 @@
+/*
+ * Rob Weaver && William Miller && Dan Perussina
+ *  2012
+ */
+
+
+var UIStyle = function(color, font, background)
+{
+	// Color
+	if(color) {this.color = color;}
+	// Set default Color
+	else {color = null;}
+	
+	// Font
+	if(font) {this.font = font;}
+	// Set default font
+	else {this.font = null;}
+	
+	// Background Image
+	if(background) {this.background = background;}
+	// Set default Image
+	else {this.background = null;}
+};
+
+var RedditUI = function()
+{
+	this.width = 0;
+	this.height = 0;
+	
+	this.style = new UIStyle();
+	
+	this.UIDrag = null;
+};
+
+RedditUI.prototype.init = function(divId, width, height, style)
+{
+	// Set sytle objects
+	if(style) {this.style = style;}
+	
+	this.width = width;
+	this.height = height;
+	
+	this.UIDrag = Drag;
+	this.UIDrag.init(document.getElementById(divId));
+};
+
 /**************************************************
  * dom-drag.js
  * 09.25.2001
@@ -10,7 +56,7 @@
 
 var Drag = {
 
-        obj : null,
+  	obj : null,
 
 	init : function(o, oRoot, minX, maxX, minY, maxY, bSwapHorzRef, bSwapVertRef, fXMapper, fYMapper)
 	{
@@ -119,4 +165,4 @@ var Drag = {
 		if (typeof e.layerY == 'undefined') e.layerY = e.offsetY;
 		return e;
 	}
-};
+};	
