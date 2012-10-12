@@ -4,7 +4,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<title>Reddit-3D</title>
 		<link href="css/base.css" media="all"  rel="stylesheet"  type="text/css" />
+		<link rel="stylesheet" href="css/redditcss.css" type="text/css" media="screen">
 		<link href="css/jquery-ui.css" media="all"  rel="stylesheet"  type="text/css" />
+		
+        <script type="text/javascript" src="dom-drag.js"></script>
 		<script src="js/super.js" type="text/javascript"></script>
 
 		<script id="shader-vs" type="x-shader/x-vertex">
@@ -72,7 +75,8 @@
 
 		<script type="text/javascript">
 			var RedditMain;
-
+			//Drag.init(document.getElementById("movingDiv5"));
+			//window.top.location.href = window.top.location + "#movingDiv5";
 			function init() {
 				RedditMain = new RedditGL();
 				RedditMain.init();
@@ -96,6 +100,22 @@
 			</p>
 		</div>
 		<div id="reddit-frame">
+			
+			<div id="movingDiv5" class="movingDiv" style="position: absolute;">
+		        <div>
+		            <h1>Reddit Title Goes Here!!</h1>
+		            <img src="http://i.imgur.com/mTjO4.png" alt="" title="Hosted by imgur.com" />
+		            <ul>
+		                <li><a href="#">CLOSE</a></li>                      <!--CLOSE SYMBOL-->
+		                <li><a href="#">YES</a></li>  <!--EXTERNAL LINK-->
+		            </ul>
+		          
+		        </div>
+		    </div>
+		     <script type="text/javascript">
+            	Drag.init(document.getElementById("movingDiv5"));
+    		</script>
+    		
 			<div>
 				<canvas id="webglCanvas"></canvas>
 			</div>
@@ -104,10 +124,16 @@
 			</div>
 
 		</div>
-		<div id="fullScreenFrame">
+		<div id="">
+    
 			<button id="fullscreen">
 				Fullscreen
 			</button
+			
+			 <div id="test" style="position: relative;">
+		    	<ul>
+		        	<li><a id="example" href="#movingDiv5">planet</a></li>
+		  		</ul>
 		</div>
 	</body>
 
