@@ -15,7 +15,7 @@ function SkyboxCallback (model)
 
 function ModelCallback (model) 
 {
-	loadInstances(model,300);
+	loadInstances(model,100);
   	model.loaded=true;
 	RedditMain.addObject(model);	
 };

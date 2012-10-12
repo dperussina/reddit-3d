@@ -90,7 +90,18 @@ function addWord (txt, objectName, index)
 				var ii=kk-nn;	
 				var aChar=txt[ii];
 				aChar=aChar.toUpperCase();
-				createCharInstance(aChar,vPos,vRot,fSpeed,txtSize);
+				var isChar = false;
+				for(var tt = 0; tt < AlphabetGL.length; tt++) 
+				{
+					if(aChar == AlphabetGL[tt])
+					{
+						isChar = true;
+					}
+				}
+				if(aChar != " " && isChar == true)
+				{
+					createCharInstance(aChar,vPos,vRot,fSpeed,txtSize);	
+				}
 				vPos[0]=vPos[0]+space;
 			}
 			while(--nn);	
