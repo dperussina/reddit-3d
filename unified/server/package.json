@@ -16,18 +16,17 @@
       "email": "William@williammillerdesigns.com"
     },
     {
-      "name" : "Rob Weaver",
-      "email" : "dubleyateaeff@gmail.com"
+      "name": "Rob Weaver",
+      "email": "dubleyateaeff@gmail.com"
     }
   ],
   "dependencies": {
     "express": "3.0.x",
-    "redis":"0.8.1",
-    "hiredis":"0.1.14",
-    "socket.io":"0.9.10"
+    "redis": "0.8.1",
+    "hiredis": "0.1.14",
+    "socket.io": "0.9.10"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "keywords": [
     "reddit",
     "3d",
@@ -44,14 +43,15 @@
     "url": "git://github.com/dperussina/Reddit-3d"
   },
   "main": "index",
-  "bin": {
-  },
+  "bin": {},
   "scripts": {
+    "start": "index.js"
   },
   "engines": {
     "node": "*"
   },
   "readme": "Nothing here yet!.\n",
   "_id": "reddit-3d@1.0.0",
-  "_from": "reddit-3d"
+  "_from": "reddit-3d",
+  "subdomain": "reddit3d"
 }
