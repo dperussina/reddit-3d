@@ -13,8 +13,8 @@ var CameraWebGLOrbit = function(max)
     this.maxDistance = max;
     this.center = vec3.create();
     
-    this.angles = vec3.create();
     this.rotMatrix = mat4.create(); 
+    mat4.identity(this.rotMatrix);
      
     this.viewMatrix = mat4.create();
     this.pMatrix = mat4.create();
@@ -69,18 +69,7 @@ CameraWebGLOrbit.prototype.init = function(canvas)
           	
           	if(self.shift)
           	{
-          		var movement = Math.PI*2;
-				
-				var rot = self.rotMatrix;
-				self.angles[1] += xDelta;
-				self.angles[0] += yDelta;
-				
-				  // Update the directional matrix
-	            mat4.identity(rot);
-	            
-	            //mat4.rotateZ(rot, -self.angles[1]);
-	            //mat4.rotateX(rot, -self.angles[0]);
-				
+          		var movement = Math.PI*2;           
 	        	self.orbitY += xDelta*0.015;
 	            while(self.orbitY < 0) 
 	            {
@@ -100,15 +89,20 @@ CameraWebGLOrbit.prototype.init = function(canvas)
 	            {
 	             	self.orbitX -= movement;
 	            }	
+	            
+	            // Update the directional matrix
+				var rot = self.rotMatrix;
+	            mat4.identity(rot);
+	            mat4.rotateY(rot, -self.orbitY);
           	}
           	else 
           	{
           		var angle = Math.atan2(yDelta, xDelta);
 				var movX = Math.cos(-angle);
-				var movZ = Math.sin(-angle);
-				var mov = vec3.create([movX,movZ,0.0]);
-				//var mov = vec3.create([movX,0.0,movZ]);
-				//mat4.multiplyVec3(self.rotMatrix, mov);
+				var movZ = Math.sin(angle);
+				var mov = vec3.create([movX,0.0,movZ]);
+				var rot = self.rotMatrix;
+				mat4.multiplyVec3(rot, mov);
 				vec3.add(self.center, mov);
           	}
             self.dirty = true;
@@ -161,24 +155,14 @@ CameraWebGLOrbit.prototype.getViewMatrix = function()
 {
 	if(this.dirty) 
 	{
-		/*
-     	var mv = this.viewMatrix;
-        mat4.identity(mv);
-        mat4.translate(mv,[0, 0, -this.distance]);
-       	mat4.rotateX(mv,this.orbitX+(Math.PI/2));
-        mat4.translate(mv,this.center);
-        mat4.rotateX(mv,-Math.PI/2);
-        mat4.rotateY(mv,this.orbitY);
-        */
-       	var mv = this.viewMatrix;
-      	mat4.identity(mv);
-      	mat4.translate(mv, [0.0, 0.0, -this.distance]);
-      	mat4.rotateX(mv, this.orbitX);
-       	mat4.rotateY(mv, this.orbitY);
-       	mat4.rotateX(mv, -Math.PI * 0.5);
-       	mat4.translate(mv, this.center);
-       	mat4.rotateX(mv, Math.PI * 0.5);
-        this.dirty=false;
+		
+     	var view = this.viewMatrix;
+     	mat4.identity(view);
+     	mat4.translate(view,[0, 0, -this.distance]);
+     	mat4.rotateX(view,this.orbitX);
+     	mat4.rotateY(view,this.orbitY);
+     	mat4.translate(view, this.center);
+        this.dirty = false;
   	}
 
    	return this.viewMatrix;
