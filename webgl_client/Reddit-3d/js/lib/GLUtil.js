@@ -35,9 +35,9 @@ function initGL(canvas)
 {
 	var glRef;
 	try {
-    	glRef=canvas.getContext("experimental-webgl");
-        glRef.viewportWidth=canvas.width;
-        glRef.viewportHeight=canvas.height;
+    	glRef = canvas.getContext("experimental-webgl");
+        glRef.viewportWidth = canvas.width;
+        glRef.viewportHeight = canvas.height;
   	} 
   	catch (e) {
   	}
@@ -91,27 +91,27 @@ function startRenderLoop(canvas, callback)
 
 var GLTextureManger = function() 
 {
-	this.textureArray=new Array();
-	this.srcArray=new Array();
-	this.texCount=0;
+	this.textureArray = new Array();
+	this.srcArray = new Array();
+	this.texCount = 0;
 };
 
 GLTextureManger.prototype.init = function(gl) 
 {
 	// Load default texture
-	var callback=this.addTexture;
-	var defaultSrc="root/textures/reddit-icon.png";
-	var defaultTex=gl.textureManager.preloadTexture(gl, defaultSrc, null, null);	
+	var callback = this.addTexture;
+	var defaultSrc = "root/textures/reddit-icon.png";
+	var defaultTex = gl.textureManager.preloadTexture(gl, defaultSrc, null, null);	
 };
 
 GLTextureManger.prototype.addTexture = function(gl, texture, src) 
 {
-	var promise=gl.textureManager.texCount;
-	texture.index=promise;
-	texture.src=src;
+	var promise = gl.textureManager.texCount;
+	texture.index = promise;
+	texture.src = src;
 	
-	gl.textureManager.textureArray[promise]=texture;
-	gl.textureManager.srcArray[promise]=src;
+	gl.textureManager.textureArray[promise] = texture;
+	gl.textureManager.srcArray[promise] = src;
 	gl.textureManager.texCount++;
 	
 	RedditGL_LOG("Texture added: " + texture.src); 
@@ -122,11 +122,9 @@ GLTextureManger.prototype.addTexture = function(gl, texture, src)
 
 GLTextureManger.prototype.getTexture = function(gl, promise) 
 {
-	var texture=gl.textureManager.textureArray[promise];
-	if(!texture)
-		return gl.textureManager.textureArray[0];
-	else
-		return texture;
+	var texture = gl.textureManager.textureArray[promise];
+	if(!texture) {return gl.textureManager.textureArray[0];}
+	else {return texture;}
 };
 
 GLTextureManger.prototype.getCurrentIndex = function(gl) 
@@ -136,43 +134,41 @@ GLTextureManger.prototype.getCurrentIndex = function(gl)
 
 GLTextureManger.prototype.preloadTexture = function(gl, src, callback, object) 
 {
-	var c=gl.textureManager.texCount;
+	var c = gl.textureManager.texCount;
 	for(var i=0;i<c;i++) 
 	{
-		if(gl.textureManager.srcArray[i]==src) 
+		if(gl.textureManager.srcArray[i] == src) 
 		{
 			RedditGL_LOG("Texture "+src+" already loaded");
-			var promise=i;
-			if(callback) {if(object) {object.texture=promise;object.hasTexture=true;callback(object);break;}}
-			else {if(object) {object.texture=promise;object.hasTexture=true;break;}}
-			
-			return promise;
+			var promise = i;
+			if(callback) {if(object) {object.texture = promise; object.hasTexture = true; callback(object); break;}}
+			else {if(object) {object.texture = promise; object.hasTexture = true; break;}}
 		}
 	}
 	
-	if(callback) {if(object) {return gl.textureManager.loadTexture(gl,src,callback,object);}}
+	if(callback) {if(object) {gl.textureManager.loadTexture(gl,src,callback,object);}}
 	else 
 	{
-		if(object) {return gl.textureManager.loadTexture(gl,src,null,object);}
+		if(object) {gl.textureManager.loadTexture(gl,src,null,object);}
 		else {return gl.textureManager.loadTexture(gl,src,null,null);}
 	}
 };
 
 GLTextureManger.prototype.loadTexture = function(gl, src, callback, object) 
 {
-	var texture=gl.createTexture();
-    var image=new Image();
+	var texture = gl.createTexture();
+    var image = new Image();
   	image.addEventListener("load", function() {
     	gl.bindTexture(gl.TEXTURE_2D, texture);
     	if (!gl.textureManager.isPowerOfTwo(image.width)||!gl.textureManager.isPowerOfTwo(image.height)) {
 	        // Scale up the texture to the next highest power of two dimensions.
-	        var canvas=document.createElement("canvas");
-	        canvas.width=gl.textureManager.nextHighestPowerOfTwo(image.width);
-	        canvas.height=gl.textureManager.nextHighestPowerOfTwo(image.height);
-	        var ctx=canvas.getContext("2d");
+	        var canvas = document.createElement("canvas");
+	        canvas.width = gl.textureManager.nextHighestPowerOfTwo(image.width);
+	        canvas.height = gl.textureManager.nextHighestPowerOfTwo(image.height);
+	        var ctx = canvas.getContext("2d");
 	        //TODO: Center image in new power of two demnsion
 	        ctx.drawImage(image,0,0,image.width,image.height);
-	        image=canvas;
+	        image = canvas;
     	}
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);
         gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
@@ -181,18 +177,17 @@ GLTextureManger.prototype.loadTexture = function(gl, src, callback, object)
          
        	if(!texture) {RedditGL_LOG("Texture FAILED: "+src);return;}
    			
-   		RedditGL_LOG("Texture loaded: "+src);  
+   		RedditGL_LOG("Texture loaded: " + src);  
    		
      	if(callback) {
-     		if(object) {object.texture=gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;callback(object);}
+     		if(object) {object.texture = gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;callback(object);}
      	}
      	else {
-     		if(object) {object.texture=gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;}
-     		else {var promise=gl.textureManager.addTexture(gl,texture,src);return promise;}
+     		if(object) {object.texture = gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;}
+     		else {var promise = gl.textureManager.addTexture(gl,texture,src);return promise;}
      	}
   	});
-   	image.src=src;
-
+   	image.src = src;
 };
 
 /*
@@ -223,30 +218,30 @@ GLTextureManger.prototype.nextHighestPowerOfTwo = function(x)
  */
 function getShader(gl, id) 
 {
-	var shaderScript=document.getElementById(id);
+	var shaderScript = document.getElementById(id);
     if (!shaderScript) 
     {
      	return null;
     }
 
-    var str="";
-    var k=shaderScript.firstChild;
+    var str = "";
+    var k = shaderScript.firstChild;
     while (k) 
     {
-    	if (k.nodeType==3) {
-        	str+=k.textContent;
+    	if (k.nodeType == 3) {
+        	str += k.textContent;
         }
-    	k=k.nextSibling;
+    	k = k.nextSibling;
     }
 
     var shader;
-    if (shaderScript.type=="x-shader/x-fragment") 
+    if (shaderScript.type == "x-shader/x-fragment") 
     {
-      	shader=gl.createShader(gl.FRAGMENT_SHADER);
+      	shader = gl.createShader(gl.FRAGMENT_SHADER);
     } 
-    else if (shaderScript.type=="x-shader/x-vertex") 
+    else if (shaderScript.type == "x-shader/x-vertex") 
     {
-        shader=gl.createShader(gl.VERTEX_SHADER);
+        shader = gl.createShader(gl.VERTEX_SHADER);
     } else {
         return null;
     }
@@ -264,8 +259,8 @@ function getShader(gl, id)
 
 function initShader(gl, shaderVS, shaderFS, attribs, uniforms) 
 {
-	var vertexShader=getShader(gl,shaderVS);
-    var fragmentShader=getShader(gl,shaderFS);
+	var vertexShader = getShader(gl,shaderVS);
+    var fragmentShader = getShader(gl,shaderFS);
 
     var shaderProgram = gl.createProgram();
     gl.attachShader(shaderProgram,vertexShader);
@@ -282,22 +277,22 @@ function initShader(gl, shaderVS, shaderFS, attribs, uniforms)
     // Add any shader attributes and uniforms that we specified needing
     if(attribs) 
     {
-    	shaderProgram.attribute={};
+    	shaderProgram.attribute = {};
     	for(var i in attribs) {
-        	var attrib=attribs[i];
-           	shaderProgram.attribute[attrib]=gl.getAttribLocation(shaderProgram, attrib);
+        	var attrib = attribs[i];
+           	shaderProgram.attribute[attrib] = gl.getAttribLocation(shaderProgram, attrib);
             gl.enableVertexAttribArray(shaderProgram.attribute[attrib]);
-            RedditGL_LOG("Shader added attribute: "+attrib);
+            RedditGL_LOG("Shader added attribute: " + attrib);
         }
   	}
     if(uniforms) 
     {
-     	shaderProgram.uniform={};
+     	shaderProgram.uniform = {};
       	for(var i in uniforms) 
       	{
-       		var uniform=uniforms[i];
-            shaderProgram.uniform[uniform]=gl.getUniformLocation(shaderProgram, uniform);
-            RedditGL_LOG("Shader added uniform: "+uniform);
+       		var uniform = uniforms[i];
+            shaderProgram.uniform[uniform] = gl.getUniformLocation(shaderProgram, uniform);
+            RedditGL_LOG("Shader added uniform: " + uniform);
         }
   	}
   	if(shaderProgram)

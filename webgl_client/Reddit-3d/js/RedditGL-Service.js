@@ -41,13 +41,33 @@ RedditClientService.prototype.connectionEstablished = function(request) {
 	{
 		RedditGL_LOG("Reddit Service: Connection established!");	
 		this.serviceData = request;
-			
-		for (var i = 0; i < this.serviceData.something.length; i++) {
-			var aString = this.serviceData.something[i].data.title;
-			//RedditGL_LOG(aString);
-			addWord(aString, "Cube", i);
-		}
 		
+		// Clean current data
+		removeObjectInstances("Cube");
+		var n = AlphabetGL.length;
+		var k = n;
+		do
+		{
+			var i = k-n;
+			removeObjectInstances(AlphabetGL[i]);
+		}
+		while(--n);
+		// Add new data
+		n = this.serviceData.something.length;
+		k = n;
+		var object = getObject("Cube");
+		loadInstances(object,n);
+		//setObjectInstanceTexture(gl,object.instances[0],"http://b.thumbs.redditmedia.com/X7hR6bh26wvHz0qs.jpg");
+		do
+		{
+			var i = k-n;
+			var data = this.serviceData.something[i].data;
+			RedditGL_LOG("Data " + i, data);
+			if(data.thumbnail != "") {setObjectInstanceTexture(gl,object.instances[i],data.thumbnail);}
+			var aString = data.title;
+			addWord(aString,"Cube",i);
+		}
+		while(--n);
 	}
 	else 
 	{
