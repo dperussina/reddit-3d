@@ -1,0 +1,182 @@
+/* 
+    Document   : redditcss
+    Created on : Oct 11, 2012, 1:18:25 PM
+    Author     : Rob_Weaver
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/*   Standard   */
+
+html, body {
+    font-family:Arial, Calibri; 
+    background-color:#bababa; 
+    margin:0; 
+    padding:0; 
+    text-align:center;
+    overflow:hidden;
+}
+	    
+	    /*** horizontal list applied to thumbnails, nav controls ***/
+ul {
+    float:left;
+    width:100%;
+    margin: 0px 0px 20px 0px;
+    padding:0;
+    list-style-type:none;
+}
+    
+li {
+    display:inline; 
+    margin-right:5px;
+} 
+
+/****   Movable Menu Div  *****/
+
+
+/*  sets up area for div to move on */
+.infoDiv {
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    /*! important !*/
+    display:none;
+    background-color: none;
+    text-align:center;
+    z-index:101;
+}
+
+/*  target the attribute to make a menu  */
+.infoDiv:target {
+    display: block;
+}
+
+.infoDiv div {
+    /* either absolute or fixed */
+    position:absolute;
+    top:100px;
+    left: 600px;
+    min-width:200px;
+    min-height:300px;
+    background-color: grey;
+    /* rounded corners */
+    -o-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    z-index:102;
+    opacity: .9;
+}
+
+.infoDiv div h1 {
+    min-width: 100px;
+    text-align: center;
+    padding: 0 10px 0 10px;
+    font-size: 24px;
+    color:#dadada;
+    z-index:103;
+}
+
+.infoDiv img {
+    padding:10px;
+    z-index:105;
+    border: solid 1px gray;
+     /* rounded corners */
+    -o-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: -moz-linear-gradient(top, #dadada, #505050 5%, 
+                                     #bababa 50%, #303030 50%, #101010);
+    
+    background: -webkit-gradient(linear, center top, center bottom, 
+                                                    from(#dadada), 
+                                                    color-stop(0.05, #505050), 
+                                                    color-stop(0.5, #bababa), 
+                                                    color-stop(0.5, #303030), 
+                                                    to(#101010));
+        
+}
+
+.infoDiv ul a {
+    padding:5px;
+    margin: 10px 0 0 0;
+    font-size:20px;
+    font-weight:bold;
+    color:Yellow;
+    text-decoration:none;
+    border: solid 1px Gray;
+    /* rounded corners */
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    z-index:110;
+}
+
+
+/*******  thumbnails to click on *******/
+
+#thumbnail {
+    position:relative;
+    margin: 70px 0 0 0;
+    height:250px;
+    padding-top:30px;
+    background-color:#cacaca;
+            
+    /* add shadows */
+    -moz-box-shadow: 5px 5px 10px rgba(50,50,50,0.7);
+    -webkit-box-shadow: 5px 5px 10px rgba(50,50,50,0.7);
+    box-shadow: 5px 5px 10px rgba(50,50,50,0.7);
+}
+
+#thumbnail img {
+    padding:10px;
+    height:200px;
+    max-width:300px;
+    border: solid 1px gray;
+    /* rounded corners */
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    /* add shadows */
+    -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);        
+    z-index:1;
+}
+
+#thumbnail img:hover, 
+.movingDiv ul a:hover {
+    background:#505050;
+    background: -moz-linear-gradient(top, #eaeaea, 
+                                                #505050 50%, 
+                                                #303030 50%, 
+                                                #404040);
+    background: -webkit-gradient(linear, left top, left bottom, 
+                                                        from(#eaeaea),
+                                                        color-stop(0.5, #505050), 
+                                                        color-stop(0.5, #303030), 
+                                                        to(#404040));
+	   
+}
+
+#planet {
+    /*   position: relative;*/
+    left: 100px;
+    width: 80px;
+    height: 80px;
+    background-color: red;
+    padding: 0;
+    margin: 5px;
+    text-align: center;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+} 

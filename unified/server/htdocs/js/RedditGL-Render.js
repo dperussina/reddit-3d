@@ -20,31 +20,31 @@ RedditGL_Render.prototype.resize = function(gl, scene, canvas)
 };
 RedditGL_Render.prototype.update = function(scene, timing) 
 {
-	var aCamera=scene.camera;
+	var aCamera = scene.camera;
 	aCamera.update();
 	frustum = mat6x4.frustum(aCamera.pMatrix,aCamera.getViewMatrix(), frustum);
 	
-	var sceneObjects=scene.sceneObjects;
+	var sceneObjects = scene.sceneObjects;
 	if(!sceneObjects) {return;}
-	var n=sceneObjects.length;
-	var k=n;
+	var n = sceneObjects.length;
+	var k = n;
 	do
 	{
-		var i=k-n;
-		var object=sceneObjects[i];	
+		var i = k-n;
+		var object = sceneObjects[i];	
 		if(!object){break;}
-		var instances=object.instances;
-		var nn=instances.length;
-		var kk=nn;
+		var instances = object.instances;
+		var nn = instances.length;
+		var kk = nn;
 		do
 		{
-			var ii=kk-nn;
-			var objectInstance=instances[ii]; 
+			var ii = kk-nn;
+			var objectInstance = instances[ii]; 
 			if(!objectInstance){break;}
 			var dt = timing.frameTime;
-			objectInstance.rotation[0]+=(90*dt)/1000.0;
-    		objectInstance.rotation[1]+=(90*dt)/1000.0;
-    		objectInstance.rotation[2]+=(90*dt)/1000.0;
+			objectInstance.rotation[0] += (90*dt)/1000.0;
+    		objectInstance.rotation[1] += (90*dt)/1000.0;
+    		objectInstance.rotation[2] += (90*dt)/1000.0;
 		}
 		while(--nn);
 	}
@@ -52,16 +52,16 @@ RedditGL_Render.prototype.update = function(scene, timing)
 };
 RedditGL_Render.prototype.drawScene = function(gl, scene) 
 {	
-	var aCamera=scene.camera;
-	var sceneObjects=scene.sceneObjects;
+	var aCamera = scene.camera;
+	var sceneObjects = scene.sceneObjects;
 	if(!sceneObjects) {return;}
 		
 	var n=sceneObjects.length;
 	var k=n;
 	do
 	{
-		var i=k-n;
-		var object=sceneObjects[i];	
+		var i = k-n;
+		var object = sceneObjects[i];	
 		if(!object){break;}
 		if(object.loaded) 
 		{
@@ -72,12 +72,12 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			{
 				case K_ShaderColor:
 					gl.useProgram(scene.shaders.color);
-					shader=scene.shaders.color;
+					shader = scene.shaders.color;
 				break;
 				
 				case K_ShaderTexture:
 					gl.useProgram(scene.shaders.texture);
-					shader=scene.shaders.texture;
+					shader = scene.shaders.texture;
 				break;
 				
 				default:
@@ -89,26 +89,9 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			
 			if(object.hasTexture) 
 			{	
-				var texture, objTexture;
 				if(!object.vertexTextureBuffer) {break;}
-				if(!object.texture) 
-				{
-					if(!gl.textureManager.textureArray[0]) {break;}
-					else {objTexture=gl.textureManager.textureArray[0]}
-					
-				}
-				else 
-				{
-					objTexture=object.texture;
-				}
-				
 				gl.bindBuffer(gl.ARRAY_BUFFER,object.vertexTextureBuffer);
 				gl.vertexAttribPointer(shader.attribute.aTextureCoord,object.vertexTextureBuffer.itemSize,gl.FLOAT,false,0,0);
-				
-				texture=gl.textureManager.getTexture(gl,objTexture);
-				gl.activeTexture(gl.TEXTURE0);
-				gl.bindTexture(gl.TEXTURE_2D,texture);
-				gl.uniform1i(shader.uniform.uSampler,0);	
 			}
 			else 
 			{	
@@ -122,34 +105,52 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 		    gl.uniformMatrix4fv(shader.uniform.uPMatrix,false,aCamera.pMatrix);
 		    gl.uniformMatrix4fv(shader.uniform.uViewMatrix,false,aCamera.getViewMatrix());
 		 	
-		 	var instances=object.instances;
+		 	var instances = object.instances;
 		 	if(!instances) {break;}
-			var nn=instances.length;
-			var kk=nn;
+			var nn = instances.length;
+			var kk = nn;
 			do
 			{
-				var ii=kk-nn;
-				var objectInstance=instances[ii]; 
+				var ii = kk-nn;
+				var objectInstance = instances[ii]; 
 				if(!objectInstance){break;}
 				if(!objectInstance.hidden) 
 				{	
 					
 					if(objectInstance.hasTexture) 
 					{	
-						if(!object.vertexTextureBuffer||!object.texture) {return;}
 						gl.bindBuffer(gl.ARRAY_BUFFER,object.vertexTextureBuffer);
 						gl.vertexAttribPointer(shader.attribute.aTextureCoord,object.vertexTextureBuffer.itemSize,gl.FLOAT,false,0,0);
 						
-						var texture=gl.textureManager.getTexture(gl,objectInstance.texture);
+						var texture = gl.textureManager.getTexture(gl,objectInstance.texture);
 						gl.activeTexture(gl.TEXTURE0);
 						gl.bindTexture(gl.TEXTURE_2D,texture);
 						gl.uniform1i(shader.uniform.uSampler,0);	
 					}
+					else if(object.hasTexture)
+					{
+						var texture, objTexture;
+						if(!object.texture) 
+						{
+							if(!gl.textureManager.textureArray[0]) {break;}
+							else {objTexture = gl.textureManager.textureArray[0]}
+							
+						}
+						else 
+						{
+							objTexture = object.texture;
+						}
+						
+						var texture = gl.textureManager.getTexture(gl,objTexture);
+						gl.activeTexture(gl.TEXTURE0);
+						gl.bindTexture(gl.TEXTURE_2D,texture);
+						gl.uniform1i(shader.uniform.uSampler,0);
+					}
 					
-					var mv=objectInstance.mvMatrix;
+					var mv = objectInstance.mvMatrix;
 					mat4.identity(mv);		
 					
-					var scale=[objectInstance.scale,objectInstance.scale,objectInstance.scale];
+					var scale = [objectInstance.scale,objectInstance.scale,objectInstance.scale];
 					mat4.scale(mv,scale);
 					
 					var isVisible = true;
@@ -168,7 +169,7 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			    		mat4.translate(mv,objectInstance.position);	
 						
 			    		// Rotate about object axis
-			    		if(object.name=='Sphere'||object.name=='Cube') 
+			    		if(object.name == 'Sphere' || object.name == 'Cube') 
 			    		{
 			    			//mat4.rotate(mv,degToRad(objectInstance.rotation[0]),[1,0,0]);	    	
 			    			mat4.rotate(mv,degToRad(-objectInstance.rotation[1]),[0,1,0]);	

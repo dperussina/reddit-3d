@@ -1,4 +1,4 @@
-function build() {
+(function build() {
 
 	var domain = require('domain');
 	var serverDomain = domain.create();
@@ -43,7 +43,7 @@ function build() {
 		}, function(js) {
 			var fileIn = js, fileOut = __dirname + "/htdocs/js/super.min.js";
 			new compressor.minify({
-				type : 'yui-js',
+				type : 'gcc',
 				fileIn : fileIn,
 				fileOut : fileOut,
 				callback : function(err) {
@@ -77,6 +77,5 @@ function build() {
 
 	});
 
-}
+})();
 
-module.exports = build;

@@ -24180,23 +24180,226 @@ $.widget( "ui.tooltip", {
 });
 
 }( jQuery ) );
-/*! Socket.IO.min.js build:0.9.10, production. Copyright(c) 2011 LearnBoost <dev@learnboost.com> MIT Licensed */
-var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){var c=a;c.version="0.9.10",c.protocol=1,c.transports=[],c.j=[],c.sockets={},c.connect=function(a,d){var e=c.util.parseUri(a),f,g;b&&b.location&&(e.protocol=e.protocol||b.location.protocol.slice(0,-1),e.host=e.host||(b.document?b.document.domain:b.location.hostname),e.port=e.port||b.location.port),f=c.util.uniqueUri(e);var h={host:e.host,secure:"https"==e.protocol,port:e.port||("https"==e.protocol?443:80),query:e.query||""};c.util.merge(h,d);if(h["force new connection"]||!c.sockets[f])g=new c.Socket(h);return!h["force new connection"]&&g&&(c.sockets[f]=g),g=g||c.sockets[f],g.of(e.path.length>1?e.path:"")}})("object"==typeof module?module.exports:this.io={},this),function(a,b){var c=a.util={},d=/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,e=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];c.parseUri=function(a){var b=d.exec(a||""),c={},f=14;while(f--)c[e[f]]=b[f]||"";return c},c.uniqueUri=function(a){var c=a.protocol,d=a.host,e=a.port;return"document"in b?(d=d||document.domain,e=e||(c=="https"&&document.location.protocol!=="https:"?443:document.location.port)):(d=d||"localhost",!e&&c=="https"&&(e=443)),(c||"http")+"://"+d+":"+(e||80)},c.query=function(a,b){var d=c.chunkQuery(a||""),e=[];c.merge(d,c.chunkQuery(b||""));for(var f in d)d.hasOwnProperty(f)&&e.push(f+"="+d[f]);return e.length?"?"+e.join("&"):""},c.chunkQuery=function(a){var b={},c=a.split("&"),d=0,e=c.length,f;for(;d<e;++d)f=c[d].split("="),f[0]&&(b[f[0]]=f[1]);return b};var f=!1;c.load=function(a){if("document"in b&&document.readyState==="complete"||f)return a();c.on(b,"load",a,!1)},c.on=function(a,b,c,d){a.attachEvent?a.attachEvent("on"+b,c):a.addEventListener&&a.addEventListener(b,c,d)},c.request=function(a){if(a&&"undefined"!=typeof XDomainRequest)return new XDomainRequest;if("undefined"!=typeof XMLHttpRequest&&(!a||c.ua.hasCORS))return new XMLHttpRequest;if(!a)try{return new(window[["Active"].concat("Object").join("X")])("Microsoft.XMLHTTP")}catch(b){}return null},"undefined"!=typeof window&&c.load(function(){f=!0}),c.defer=function(a){if(!c.ua.webkit||"undefined"!=typeof importScripts)return a();c.load(function(){setTimeout(a,100)})},c.merge=function(b,d,e,f){var g=f||[],h=typeof e=="undefined"?2:e,i;for(i in d)d.hasOwnProperty(i)&&c.indexOf(g,i)<0&&(typeof b[i]!="object"||!h?(b[i]=d[i],g.push(d[i])):c.merge(b[i],d[i],h-1,g));return b},c.mixin=function(a,b){c.merge(a.prototype,b.prototype)},c.inherit=function(a,b){function c(){}c.prototype=b.prototype,a.prototype=new c},c.isArray=Array.isArray||function(a){return Object.prototype.toString.call(a)==="[object Array]"},c.intersect=function(a,b){var d=[],e=a.length>b.length?a:b,f=a.length>b.length?b:a;for(var g=0,h=f.length;g<h;g++)~c.indexOf(e,f[g])&&d.push(f[g]);return d},c.indexOf=function(a,b,c){for(var d=a.length,c=c<0?c+d<0?0:c+d:c||0;c<d&&a[c]!==b;c++);return d<=c?-1:c},c.toArray=function(a){var b=[];for(var c=0,d=a.length;c<d;c++)b.push(a[c]);return b},c.ua={},c.ua.hasCORS="undefined"!=typeof XMLHttpRequest&&function(){try{var a=new XMLHttpRequest}catch(b){return!1}return a.withCredentials!=undefined}(),c.ua.webkit="undefined"!=typeof navigator&&/webkit/i.test(navigator.userAgent),c.ua.iDevice="undefined"!=typeof navigator&&/iPad|iPhone|iPod/i.test(navigator.userAgent)}("undefined"!=typeof io?io:module.exports,this),function(a,b){function c(){}a.EventEmitter=c,c.prototype.on=function(a,c){return this.$events||(this.$events={}),this.$events[a]?b.util.isArray(this.$events[a])?this.$events[a].push(c):this.$events[a]=[this.$events[a],c]:this.$events[a]=c,this},c.prototype.addListener=c.prototype.on,c.prototype.once=function(a,b){function d(){c.removeListener(a,d),b.apply(this,arguments)}var c=this;return d.listener=b,this.on(a,d),this},c.prototype.removeListener=function(a,c){if(this.$events&&this.$events[a]){var d=this.$events[a];if(b.util.isArray(d)){var e=-1;for(var f=0,g=d.length;f<g;f++)if(d[f]===c||d[f].listener&&d[f].listener===c){e=f;break}if(e<0)return this;d.splice(e,1),d.length||delete this.$events[a]}else(d===c||d.listener&&d.listener===c)&&delete this.$events[a]}return this},c.prototype.removeAllListeners=function(a){return a===undefined?(this.$events={},this):(this.$events&&this.$events[a]&&(this.$events[a]=null),this)},c.prototype.listeners=function(a){return this.$events||(this.$events={}),this.$events[a]||(this.$events[a]=[]),b.util.isArray(this.$events[a])||(this.$events[a]=[this.$events[a]]),this.$events[a]},c.prototype.emit=function(a){if(!this.$events)return!1;var c=this.$events[a];if(!c)return!1;var d=Array.prototype.slice.call(arguments,1);if("function"==typeof c)c.apply(this,d);else{if(!b.util.isArray(c))return!1;var e=c.slice();for(var f=0,g=e.length;f<g;f++)e[f].apply(this,d)}return!0}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(exports,nativeJSON){function f(a){return a<10?"0"+a:a}function date(a,b){return isFinite(a.valueOf())?a.getUTCFullYear()+"-"+f(a.getUTCMonth()+1)+"-"+f(a.getUTCDate())+"T"+f(a.getUTCHours())+":"+f(a.getUTCMinutes())+":"+f(a.getUTCSeconds())+"Z":null}function quote(a){return escapable.lastIndex=0,escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b=="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g=gap,h,i=b[a];i instanceof Date&&(i=date(a)),typeof rep=="function"&&(i=rep.call(b,a,i));switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";gap+=indent,h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1)h[c]=str(c,i)||"null";return e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]",gap=g,e}if(rep&&typeof rep=="object"){f=rep.length;for(c=0;c<f;c+=1)typeof rep[c]=="string"&&(d=rep[c],e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e))}else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e));return e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}",gap=g,e}}"use strict";if(nativeJSON&&nativeJSON.parse)return exports.JSON={parse:nativeJSON.parse,stringify:nativeJSON.stringify};var JSON=exports.JSON={},cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;JSON.stringify=function(a,b,c){var d;gap="",indent="";if(typeof c=="number")for(d=0;d<c;d+=1)indent+=" ";else typeof c=="string"&&(indent=c);rep=b;if(!b||typeof b=="function"||typeof b=="object"&&typeof b.length=="number")return str("",{"":a});throw new Error("JSON.stringify")},JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e=="object")for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),d!==undefined?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),typeof reviver=="function"?walk({"":j},""):j;throw new SyntaxError("JSON.parse")}}("undefined"!=typeof io?io:module.exports,typeof JSON!="undefined"?JSON:undefined),function(a,b){var c=a.parser={},d=c.packets=["disconnect","connect","heartbeat","message","json","event","ack","error","noop"],e=c.reasons=["transport not supported","client not handshaken","unauthorized"],f=c.advice=["reconnect"],g=b.JSON,h=b.util.indexOf;c.encodePacket=function(a){var b=h(d,a.type),c=a.id||"",i=a.endpoint||"",j=a.ack,k=null;switch(a.type){case"error":var l=a.reason?h(e,a.reason):"",m=a.advice?h(f,a.advice):"";if(l!==""||m!=="")k=l+(m!==""?"+"+m:"");break;case"message":a.data!==""&&(k=a.data);break;case"event":var n={name:a.name};a.args&&a.args.length&&(n.args=a.args),k=g.stringify(n);break;case"json":k=g.stringify(a.data);break;case"connect":a.qs&&(k=a.qs);break;case"ack":k=a.ackId+(a.args&&a.args.length?"+"+g.stringify(a.args):"")}var o=[b,c+(j=="data"?"+":""),i];return k!==null&&k!==undefined&&o.push(k),o.join(":")},c.encodePayload=function(a){var b="";if(a.length==1)return a[0];for(var c=0,d=a.length;c<d;c++){var e=a[c];b+="\ufffd"+e.length+"\ufffd"+a[c]}return b};var i=/([^:]+):([0-9]+)?(\+)?:([^:]+)?:?([\s\S]*)?/;c.decodePacket=function(a){var b=a.match(i);if(!b)return{};var c=b[2]||"",a=b[5]||"",h={type:d[b[1]],endpoint:b[4]||""};c&&(h.id=c,b[3]?h.ack="data":h.ack=!0);switch(h.type){case"error":var b=a.split("+");h.reason=e[b[0]]||"",h.advice=f[b[1]]||"";break;case"message":h.data=a||"";break;case"event":try{var j=g.parse(a);h.name=j.name,h.args=j.args}catch(k){}h.args=h.args||[];break;case"json":try{h.data=g.parse(a)}catch(k){}break;case"connect":h.qs=a||"";break;case"ack":var b=a.match(/^([0-9]+)(\+)?(.*)/);if(b){h.ackId=b[1],h.args=[];if(b[3])try{h.args=b[3]?g.parse(b[3]):[]}catch(k){}}break;case"disconnect":case"heartbeat":}return h},c.decodePayload=function(a){if(a.charAt(0)=="\ufffd"){var b=[];for(var d=1,e="";d<a.length;d++)a.charAt(d)=="\ufffd"?(b.push(c.decodePacket(a.substr(d+1).substr(0,e))),d+=Number(e)+1,e=""):e+=a.charAt(d);return b}return[c.decodePacket(a)]}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b){function c(a,b){this.socket=a,this.sessid=b}a.Transport=c,b.util.mixin(c,b.EventEmitter),c.prototype.heartbeats=function(){return!0},c.prototype.onData=function(a){this.clearCloseTimeout(),(this.socket.connected||this.socket.connecting||this.socket.reconnecting)&&this.setCloseTimeout();if(a!==""){var c=b.parser.decodePayload(a);if(c&&c.length)for(var d=0,e=c.length;d<e;d++)this.onPacket(c[d])}return this},c.prototype.onPacket=function(a){return this.socket.setHeartbeatTimeout(),a.type=="heartbeat"?this.onHeartbeat():(a.type=="connect"&&a.endpoint==""&&this.onConnect(),a.type=="error"&&a.advice=="reconnect"&&(this.isOpen=!1),this.socket.onPacket(a),this)},c.prototype.setCloseTimeout=function(){if(!this.closeTimeout){var a=this;this.closeTimeout=setTimeout(function(){a.onDisconnect()},this.socket.closeTimeout)}},c.prototype.onDisconnect=function(){return this.isOpen&&this.close(),this.clearTimeouts(),this.socket.onDisconnect(),this},c.prototype.onConnect=function(){return this.socket.onConnect(),this},c.prototype.clearCloseTimeout=function(){this.closeTimeout&&(clearTimeout(this.closeTimeout),this.closeTimeout=null)},c.prototype.clearTimeouts=function(){this.clearCloseTimeout(),this.reopenTimeout&&clearTimeout(this.reopenTimeout)},c.prototype.packet=function(a){this.send(b.parser.encodePacket(a))},c.prototype.onHeartbeat=function(a){this.packet({type:"heartbeat"})},c.prototype.onOpen=function(){this.isOpen=!0,this.clearCloseTimeout(),this.socket.onOpen()},c.prototype.onClose=function(){var a=this;this.isOpen=!1,this.socket.onClose(),this.onDisconnect()},c.prototype.prepareUrl=function(){var a=this.socket.options;return this.scheme()+"://"+a.host+":"+a.port+"/"+a.resource+"/"+b.protocol+"/"+this.name+"/"+this.sessid},c.prototype.ready=function(a,b){b.call(this)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){this.options={port:80,secure:!1,document:"document"in c?document:!1,resource:"socket.io",transports:b.transports,"connect timeout":1e4,"try multiple transports":!0,reconnect:!0,"reconnection delay":500,"reconnection limit":Infinity,"reopen delay":3e3,"max reconnection attempts":10,"sync disconnect on unload":!1,"auto connect":!0,"flash policy port":10843,manualFlush:!1},b.util.merge(this.options,a),this.connected=!1,this.open=!1,this.connecting=!1,this.reconnecting=!1,this.namespaces={},this.buffer=[],this.doBuffer=!1;if(this.options["sync disconnect on unload"]&&(!this.isXDomain()||b.util.ua.hasCORS)){var d=this;b.util.on(c,"beforeunload",function(){d.disconnectSync()},!1)}this.options["auto connect"]&&this.connect()}function e(){}a.Socket=d,b.util.mixin(d,b.EventEmitter),d.prototype.of=function(a){return this.namespaces[a]||(this.namespaces[a]=new b.SocketNamespace(this,a),a!==""&&this.namespaces[a].packet({type:"connect"})),this.namespaces[a]},d.prototype.publish=function(){this.emit.apply(this,arguments);var a;for(var b in this.namespaces)this.namespaces.hasOwnProperty(b)&&(a=this.of(b),a.$emit.apply(a,arguments))},d.prototype.handshake=function(a){function f(b){b instanceof Error?(c.connecting=!1,c.onError(b.message)):a.apply(null,b.split(":"))}var c=this,d=this.options,g=["http"+(d.secure?"s":"")+":/",d.host+":"+d.port,d.resource,b.protocol,b.util.query(this.options.query,"t="+ +(new Date))].join("/");if(this.isXDomain()&&!b.util.ua.hasCORS){var h=document.getElementsByTagName("script")[0],i=document.createElement("script");i.src=g+"&jsonp="+b.j.length,h.parentNode.insertBefore(i,h),b.j.push(function(a){f(a),i.parentNode.removeChild(i)})}else{var j=b.util.request();j.open("GET",g,!0),this.isXDomain()&&(j.withCredentials=!0),j.onreadystatechange=function(){j.readyState==4&&(j.onreadystatechange=e,j.status==200?f(j.responseText):j.status==403?c.onError(j.responseText):(c.connecting=!1,!c.reconnecting&&c.onError(j.responseText)))},j.send(null)}},d.prototype.getTransport=function(a){var c=a||this.transports,d;for(var e=0,f;f=c[e];e++)if(b.Transport[f]&&b.Transport[f].check(this)&&(!this.isXDomain()||b.Transport[f].xdomainCheck(this)))return new b.Transport[f](this,this.sessionid);return null},d.prototype.connect=function(a){if(this.connecting)return this;var c=this;return c.connecting=!0,this.handshake(function(d,e,f,g){function h(a){c.transport&&c.transport.clearTimeouts(),c.transport=c.getTransport(a);if(!c.transport)return c.publish("connect_failed");c.transport.ready(c,function(){c.connecting=!0,c.publish("connecting",c.transport.name),c.transport.open(),c.options["connect timeout"]&&(c.connectTimeoutTimer=setTimeout(function(){if(!c.connected){c.connecting=!1;if(c.options["try multiple transports"]){var a=c.transports;while(a.length>0&&a.splice(0,1)[0]!=c.transport.name);a.length?h(a):c.publish("connect_failed")}}},c.options["connect timeout"]))})}c.sessionid=d,c.closeTimeout=f*1e3,c.heartbeatTimeout=e*1e3,c.transports||(c.transports=c.origTransports=g?b.util.intersect(g.split(","),c.options.transports):c.options.transports),c.setHeartbeatTimeout(),h(c.transports),c.once("connect",function(){clearTimeout(c.connectTimeoutTimer),a&&typeof a=="function"&&a()})}),this},d.prototype.setHeartbeatTimeout=function(){clearTimeout(this.heartbeatTimeoutTimer);if(this.transport&&!this.transport.heartbeats())return;var a=this;this.heartbeatTimeoutTimer=setTimeout(function(){a.transport.onClose()},this.heartbeatTimeout)},d.prototype.packet=function(a){return this.connected&&!this.doBuffer?this.transport.packet(a):this.buffer.push(a),this},d.prototype.setBuffer=function(a){this.doBuffer=a,!a&&this.connected&&this.buffer.length&&(this.options.manualFlush||this.flushBuffer())},d.prototype.flushBuffer=function(){this.transport.payload(this.buffer),this.buffer=[]},d.prototype.disconnect=function(){if(this.connected||this.connecting)this.open&&this.of("").packet({type:"disconnect"}),this.onDisconnect("booted");return this},d.prototype.disconnectSync=function(){var a=b.util.request(),c=["http"+(this.options.secure?"s":"")+":/",this.options.host+":"+this.options.port,this.options.resource,b.protocol,"",this.sessionid].join("/")+"/?disconnect=1";a.open("GET",c,!1),a.send(null),this.onDisconnect("booted")},d.prototype.isXDomain=function(){var a=c.location.port||("https:"==c.location.protocol?443:80);return this.options.host!==c.location.hostname||this.options.port!=a},d.prototype.onConnect=function(){this.connected||(this.connected=!0,this.connecting=!1,this.doBuffer||this.setBuffer(!1),this.emit("connect"))},d.prototype.onOpen=function(){this.open=!0},d.prototype.onClose=function(){this.open=!1,clearTimeout(this.heartbeatTimeoutTimer)},d.prototype.onPacket=function(a){this.of(a.endpoint).onPacket(a)},d.prototype.onError=function(a){a&&a.advice&&a.advice==="reconnect"&&(this.connected||this.connecting)&&(this.disconnect(),this.options.reconnect&&this.reconnect()),this.publish("error",a&&a.reason?a.reason:a)},d.prototype.onDisconnect=function(a){var b=this.connected,c=this.connecting;this.connected=!1,this.connecting=!1,this.open=!1;if(b||c)this.transport.close(),this.transport.clearTimeouts(),b&&(this.publish("disconnect",a),"booted"!=a&&this.options.reconnect&&!this.reconnecting&&this.reconnect())},d.prototype.reconnect=function(){function e(){if(a.connected){for(var b in a.namespaces)a.namespaces.hasOwnProperty(b)&&""!==b&&a.namespaces[b].packet({type:"connect"});a.publish("reconnect",a.transport.name,a.reconnectionAttempts)}clearTimeout(a.reconnectionTimer),a.removeListener("connect_failed",f),a.removeListener("connect",f),a.reconnecting=!1,delete a.reconnectionAttempts,delete a.reconnectionDelay,delete a.reconnectionTimer,delete a.redoTransports,a.options["try multiple transports"]=c}function f(){if(!a.reconnecting)return;if(a.connected)return e();if(a.connecting&&a.reconnecting)return a.reconnectionTimer=setTimeout(f,1e3);a.reconnectionAttempts++>=b?a.redoTransports?(a.publish("reconnect_failed"),e()):(a.on("connect_failed",f),a.options["try multiple transports"]=!0,a.transports=a.origTransports,a.transport=a.getTransport(),a.redoTransports=!0,a.connect()):(a.reconnectionDelay<d&&(a.reconnectionDelay*=2),a.connect(),a.publish("reconnecting",a.reconnectionDelay,a.reconnectionAttempts),a.reconnectionTimer=setTimeout(f,a.reconnectionDelay))}this.reconnecting=!0,this.reconnectionAttempts=0,this.reconnectionDelay=this.options["reconnection delay"];var a=this,b=this.options["max reconnection attempts"],c=this.options["try multiple transports"],d=this.options["reconnection limit"];this.options["try multiple transports"]=!1,this.reconnectionTimer=setTimeout(f,this.reconnectionDelay),this.on("connect",f)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a,b){this.socket=a,this.name=b||"",this.flags={},this.json=new d(this,"json"),this.ackPackets=0,this.acks={}}function d(a,b){this.namespace=a,this.name=b}a.SocketNamespace=c,b.util.mixin(c,b.EventEmitter),c.prototype.$emit=b.EventEmitter.prototype.emit,c.prototype.of=function(){return this.socket.of.apply(this.socket,arguments)},c.prototype.packet=function(a){return a.endpoint=this.name,this.socket.packet(a),this.flags={},this},c.prototype.send=function(a,b){var c={type:this.flags.json?"json":"message",data:a};return"function"==typeof b&&(c.id=++this.ackPackets,c.ack=!0,this.acks[c.id]=b),this.packet(c)},c.prototype.emit=function(a){var b=Array.prototype.slice.call(arguments,1),c=b[b.length-1],d={type:"event",name:a};return"function"==typeof c&&(d.id=++this.ackPackets,d.ack="data",this.acks[d.id]=c,b=b.slice(0,b.length-1)),d.args=b,this.packet(d)},c.prototype.disconnect=function(){return this.name===""?this.socket.disconnect():(this.packet({type:"disconnect"}),this.$emit("disconnect")),this},c.prototype.onPacket=function(a){function d(){c.packet({type:"ack",args:b.util.toArray(arguments),ackId:a.id})}var c=this;switch(a.type){case"connect":this.$emit("connect");break;case"disconnect":this.name===""?this.socket.onDisconnect(a.reason||"booted"):this.$emit("disconnect",a.reason);break;case"message":case"json":var e=["message",a.data];a.ack=="data"?e.push(d):a.ack&&this.packet({type:"ack",ackId:a.id}),this.$emit.apply(this,e);break;case"event":var e=[a.name].concat(a.args);a.ack=="data"&&e.push(d),this.$emit.apply(this,e);break;case"ack":this.acks[a.ackId]&&(this.acks[a.ackId].apply(this,a.args),delete this.acks[a.ackId]);break;case"error":a.advice?this.socket.onError(a):a.reason=="unauthorized"?this.$emit("connect_failed",a.reason):this.$emit("error",a.reason)}},d.prototype.send=function(){this.namespace.flags[this.name]=!0,this.namespace.send.apply(this.namespace,arguments)},d.prototype.emit=function(){this.namespace.flags[this.name]=!0,this.namespace.emit.apply(this.namespace,arguments)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){b.Transport.apply(this,arguments)}a.websocket=d,b.util.inherit(d,b.Transport),d.prototype.name="websocket",d.prototype.open=function(){var a=b.util.query(this.socket.options.query),d=this,e;return e||(e=c.MozWebSocket||c.WebSocket),this.websocket=new e(this.prepareUrl()+a),this.websocket.onopen=function(){d.onOpen(),d.socket.setBuffer(!1)},this.websocket.onmessage=function(a){d.onData(a.data)},this.websocket.onclose=function(){d.onClose(),d.socket.setBuffer(!0)},this.websocket.onerror=function(a){d.onError(a)},this},b.util.ua.iDevice?d.prototype.send=function(a){var b=this;return setTimeout(function(){b.websocket.send(a)},0),this}:d.prototype.send=function(a){return this.websocket.send(a),this},d.prototype.payload=function(a){for(var b=0,c=a.length;b<c;b++)this.packet(a[b]);return this},d.prototype.close=function(){return this.websocket.close(),this},d.prototype.onError=function(a){this.socket.onError(a)},d.prototype.scheme=function(){return this.socket.options.secure?"wss":"ws"},d.check=function(){return"WebSocket"in c&&!("__addTask"in WebSocket)||"MozWebSocket"in c},d.xdomainCheck=function(){return!0},b.transports.push("websocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(){b.Transport.websocket.apply(this,arguments)}a.flashsocket=c,b.util.inherit(c,b.Transport.websocket),c.prototype.name="flashsocket",c.prototype.open=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.open.apply(a,c)}),this},c.prototype.send=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.send.apply(a,c)}),this},c.prototype.close=function(){return WebSocket.__tasks.length=0,b.Transport.websocket.prototype.close.call(this),this},c.prototype.ready=function(a,d){function e(){var b=a.options,e=b["flash policy port"],g=["http"+(b.secure?"s":"")+":/",b.host+":"+b.port,b.resource,"static/flashsocket","WebSocketMain"+(a.isXDomain()?"Insecure":"")+".swf"];c.loaded||(typeof WEB_SOCKET_SWF_LOCATION=="undefined"&&(WEB_SOCKET_SWF_LOCATION=g.join("/")),e!==843&&WebSocket.loadFlashPolicyFile("xmlsocket://"+b.host+":"+e),WebSocket.__initialize(),c.loaded=!0),d.call(f)}var f=this;if(document.body)return e();b.util.load(e)},c.check=function(){return typeof WebSocket!="undefined"&&"__initialize"in WebSocket&&!!swfobject?swfobject.getFlashPlayerVersion().major>=10:!1},c.xdomainCheck=function(){return!0},typeof window!="undefined"&&(WEB_SOCKET_DISABLE_AUTO_INITIALIZATION=!0),b.transports.push("flashsocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports);if("undefined"!=typeof window)var swfobject=function(){function A(){if(t)return;try{var a=i.getElementsByTagName("body")[0].appendChild(Q("span"));a.parentNode.removeChild(a)}catch(b){return}t=!0;var c=l.length;for(var d=0;d<c;d++)l[d]()}function B(a){t?a():l[l.length]=a}function C(b){if(typeof h.addEventListener!=a)h.addEventListener("load",b,!1);else if(typeof i.addEventListener!=a)i.addEventListener("load",b,!1);else if(typeof h.attachEvent!=a)R(h,"onload",b);else if(typeof h.onload=="function"){var c=h.onload;h.onload=function(){c(),b()}}else h.onload=b}function D(){k?E():F()}function E(){var c=i.getElementsByTagName("body")[0],d=Q(b);d.setAttribute("type",e);var f=c.appendChild(d);if(f){var g=0;(function(){if(typeof f.GetVariable!=a){var b=f.GetVariable("$version");b&&(b=b.split(" ")[1].split(","),y.pv=[parseInt(b[0],10),parseInt(b[1],10),parseInt(b[2],10)])}else if(g<10){g++,setTimeout(arguments.callee,10);return}c.removeChild(d),f=null,F()})()}else F()}function F(){var b=m.length;if(b>0)for(var c=0;c<b;c++){var d=m[c].id,e=m[c].callbackFn,f={success:!1,id:d};if(y.pv[0]>0){var g=P(d);if(g)if(S(m[c].swfVersion)&&!(y.wk&&y.wk<312))U(d,!0),e&&(f.success=!0,f.ref=G(d),e(f));else if(m[c].expressInstall&&H()){var h={};h.data=m[c].expressInstall,h.width=g.getAttribute("width")||"0",h.height=g.getAttribute("height")||"0",g.getAttribute("class")&&(h.styleclass=g.getAttribute("class")),g.getAttribute("align")&&(h.align=g.getAttribute("align"));var i={},j=g.getElementsByTagName("param"),k=j.length;for(var l=0;l<k;l++)j[l].getAttribute("name").toLowerCase()!="movie"&&(i[j[l].getAttribute("name")]=j[l].getAttribute("value"));I(h,i,d,e)}else J(g),e&&e(f)}else{U(d,!0);if(e){var n=G(d);n&&typeof n.SetVariable!=a&&(f.success=!0,f.ref=n),e(f)}}}}function G(c){var d=null,e=P(c);if(e&&e.nodeName=="OBJECT")if(typeof e.SetVariable!=a)d=e;else{var f=e.getElementsByTagName(b)[0];f&&(d=f)}return d}function H(){return!u&&S("6.0.65")&&(y.win||y.mac)&&!(y.wk&&y.wk<312)}function I(b,c,d,e){u=!0,r=e||null,s={success:!1,id:d};var g=P(d);if(g){g.nodeName=="OBJECT"?(p=K(g),q=null):(p=g,q=d),b.id=f;if(typeof b.width==a||!/%$/.test(b.width)&&parseInt(b.width,10)<310)b.width="310";if(typeof b.height==a||!/%$/.test(b.height)&&parseInt(b.height,10)<137)b.height="137";i.title=i.title.slice(0,47)+" - Flash Player Installation";var j=y.ie&&y.win?["Active"].concat("").join("X"):"PlugIn",k="MMredirectURL="+h.location.toString().replace(/&/g,"%26")+"&MMplayerType="+j+"&MMdoctitle="+i.title;typeof c.flashvars!=a?c.flashvars+="&"+k:c.flashvars=k;if(y.ie&&y.win&&g.readyState!=4){var l=Q("div");d+="SWFObjectNew",l.setAttribute("id",d),g.parentNode.insertBefore(l,g),g.style.display="none",function(){g.readyState==4?g.parentNode.removeChild(g):setTimeout(arguments.callee,10)}()}L(b,c,d)}}function J(a){if(y.ie&&y.win&&a.readyState!=4){var b=Q("div");a.parentNode.insertBefore(b,a),b.parentNode.replaceChild(K(a),b),a.style.display="none",function(){a.readyState==4?a.parentNode.removeChild(a):setTimeout(arguments.callee,10)}()}else a.parentNode.replaceChild(K(a),a)}function K(a){var c=Q("div");if(y.win&&y.ie)c.innerHTML=a.innerHTML;else{var d=a.getElementsByTagName(b)[0];if(d){var e=d.childNodes;if(e){var f=e.length;for(var g=0;g<f;g++)(e[g].nodeType!=1||e[g].nodeName!="PARAM")&&e[g].nodeType!=8&&c.appendChild(e[g].cloneNode(!0))}}}return c}function L(c,d,f){var g,h=P(f);if(y.wk&&y.wk<312)return g;if(h){typeof c.id==a&&(c.id=f);if(y.ie&&y.win){var i="";for(var j in c)c[j]!=Object.prototype[j]&&(j.toLowerCase()=="data"?d.movie=c[j]:j.toLowerCase()=="styleclass"?i+=' class="'+c[j]+'"':j.toLowerCase()!="classid"&&(i+=" "+j+'="'+c[j]+'"'));var k="";for(var l in d)d[l]!=Object.prototype[l]&&(k+='<param name="'+l+'" value="'+d[l]+'" />');h.outerHTML='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'+i+">"+k+"</object>",n[n.length]=c.id,g=P(c.id)}else{var m=Q(b);m.setAttribute("type",e);for(var o in c)c[o]!=Object.prototype[o]&&(o.toLowerCase()=="styleclass"?m.setAttribute("class",c[o]):o.toLowerCase()!="classid"&&m.setAttribute(o,c[o]));for(var p in d)d[p]!=Object.prototype[p]&&p.toLowerCase()!="movie"&&M(m,p,d[p]);h.parentNode.replaceChild(m,h),g=m}}return g}function M(a,b,c){var d=Q("param");d.setAttribute("name",b),d.setAttribute("value",c),a.appendChild(d)}function N(a){var b=P(a);b&&b.nodeName=="OBJECT"&&(y.ie&&y.win?(b.style.display="none",function(){b.readyState==4?O(a):setTimeout(arguments.callee,10)}()):b.parentNode.removeChild(b))}function O(a){var b=P(a);if(b){for(var c in b)typeof b[c]=="function"&&(b[c]=null);b.parentNode.removeChild(b)}}function P(a){var b=null;try{b=i.getElementById(a)}catch(c){}return b}function Q(a){return i.createElement(a)}function R(a,b,c){a.attachEvent(b,c),o[o.length]=[a,b,c]}function S(a){var b=y.pv,c=a.split(".");return c[0]=parseInt(c[0],10),c[1]=parseInt(c[1],10)||0,c[2]=parseInt(c[2],10)||0,b[0]>c[0]||b[0]==c[0]&&b[1]>c[1]||b[0]==c[0]&&b[1]==c[1]&&b[2]>=c[2]?!0:!1}function T(c,d,e,f){if(y.ie&&y.mac)return;var g=i.getElementsByTagName("head")[0];if(!g)return;var h=e&&typeof e=="string"?e:"screen";f&&(v=null,w=null);if(!v||w!=h){var j=Q("style");j.setAttribute("type","text/css"),j.setAttribute("media",h),v=g.appendChild(j),y.ie&&y.win&&typeof i.styleSheets!=a&&i.styleSheets.length>0&&(v=i.styleSheets[i.styleSheets.length-1]),w=h}y.ie&&y.win?v&&typeof v.addRule==b&&v.addRule(c,d):v&&typeof i.createTextNode!=a&&v.appendChild(i.createTextNode(c+" {"+d+"}"))}function U(a,b){if(!x)return;var c=b?"visible":"hidden";t&&P(a)?P(a).style.visibility=c:T("#"+a,"visibility:"+c)}function V(b){var c=/[\\\"<>\.;]/,d=c.exec(b)!=null;return d&&typeof encodeURIComponent!=a?encodeURIComponent(b):b}var a="undefined",b="object",c="Shockwave Flash",d="ShockwaveFlash.ShockwaveFlash",e="application/x-shockwave-flash",f="SWFObjectExprInst",g="onreadystatechange",h=window,i=document,j=navigator,k=!1,l=[D],m=[],n=[],o=[],p,q,r,s,t=!1,u=!1,v,w,x=!0,y=function(){var f=typeof i.getElementById!=a&&typeof i.getElementsByTagName!=a&&typeof i.createElement!=a,g=j.userAgent.toLowerCase(),l=j.platform.toLowerCase(),m=l?/win/.test(l):/win/.test(g),n=l?/mac/.test(l):/mac/.test(g),o=/webkit/.test(g)?parseFloat(g.replace(/^.*webkit\/(\d+(\.\d+)?).*$/,"$1")):!1,p=!1,q=[0,0,0],r=null;if(typeof j.plugins!=a&&typeof j.plugins[c]==b)r=j.plugins[c].description,r&&(typeof j.mimeTypes==a||!j.mimeTypes[e]||!!j.mimeTypes[e].enabledPlugin)&&(k=!0,p=!1,r=r.replace(/^.*\s+(\S+\s+\S+$)/,"$1"),q[0]=parseInt(r.replace(/^(.*)\..*$/,"$1"),10),q[1]=parseInt(r.replace(/^.*\.(.*)\s.*$/,"$1"),10),q[2]=/[a-zA-Z]/.test(r)?parseInt(r.replace(/^.*[a-zA-Z]+(.*)$/,"$1"),10):0);else if(typeof h[["Active"].concat("Object").join("X")]!=a)try{var s=new(window[["Active"].concat("Object").join("X")])(d);s&&(r=s.GetVariable("$version"),r&&(p=!0,r=r.split(" ")[1].split(","),q=[parseInt(r[0],10),parseInt(r[1],10),parseInt(r[2],10)]))}catch(t){}return{w3:f,pv:q,wk:o,ie:p,win:m,mac:n}}(),z=function(){if(!y.w3)return;(typeof i.readyState!=a&&i.readyState=="complete"||typeof i.readyState==a&&(i.getElementsByTagName("body")[0]||i.body))&&A(),t||(typeof i.addEventListener!=a&&i.addEventListener("DOMContentLoaded",A,!1),y.ie&&y.win&&(i.attachEvent(g,function(){i.readyState=="complete"&&(i.detachEvent(g,arguments.callee),A())}),h==top&&function(){if(t)return;try{i.documentElement.doScroll("left")}catch(a){setTimeout(arguments.callee,0);return}A()}()),y.wk&&function(){if(t)return;if(!/loaded|complete/.test(i.readyState)){setTimeout(arguments.callee,0);return}A()}(),C(A))}(),W=function(){y.ie&&y.win&&window.attachEvent("onunload",function(){var a=o.length;for(var b=0;b<a;b++)o[b][0].detachEvent(o[b][1],o[b][2]);var c=n.length;for(var d=0;d<c;d++)N(n[d]);for(var e in y)y[e]=null;y=null;for(var f in swfobject)swfobject[f]=null;swfobject=null})}();return{registerObject:function(a,b,c,d){if(y.w3&&a&&b){var e={};e.id=a,e.swfVersion=b,e.expressInstall=c,e.callbackFn=d,m[m.length]=e,U(a,!1)}else d&&d({success:!1,id:a})},getObjectById:function(a){if(y.w3)return G(a)},embedSWF:function(c,d,e,f,g,h,i,j,k,l){var m={success:!1,id:d};y.w3&&!(y.wk&&y.wk<312)&&c&&d&&e&&f&&g?(U(d,!1),B(function(){e+="",f+="";var n={};if(k&&typeof k===b)for(var o in k)n[o]=k[o];n.data=c,n.width=e,n.height=f;var p={};if(j&&typeof j===b)for(var q in j)p[q]=j[q];if(i&&typeof i===b)for(var r in i)typeof p.flashvars!=a?p.flashvars+="&"+r+"="+i[r]:p.flashvars=r+"="+i[r];if(S(g)){var s=L(n,p,d);n.id==d&&U(d,!0),m.success=!0,m.ref=s}else{if(h&&H()){n.data=h,I(n,p,d,l);return}U(d,!0)}l&&l(m)})):l&&l(m)},switchOffAutoHideShow:function(){x=!1},ua:y,getFlashPlayerVersion:function(){return{major:y.pv[0],minor:y.pv[1],release:y.pv[2]}},hasFlashPlayerVersion:S,createSWF:function(a,b,c){return y.w3?L(a,b,c):undefined},showExpressInstall:function(a,b,c,d){y.w3&&H()&&I(a,b,c,d)},removeSWF:function(a){y.w3&&N(a)},createCSS:function(a,b,c,d){y.w3&&T(a,b,c,d)},addDomLoadEvent:B,addLoadEvent:C,getQueryParamValue:function(a){var b=i.location.search||i.location.hash;if(b){/\?/.test(b)&&(b=b.split("?")[1]);if(a==null)return V(b);var c=b.split("&");for(var d=0;d<c.length;d++)if(c[d].substring(0,c[d].indexOf("="))==a)return V(c[d].substring(c[d].indexOf("=")+1))}return""},expressInstallCallback:function(){if(u){var a=P(f);a&&p&&(a.parentNode.replaceChild(p,a),q&&(U(q,!0),y.ie&&y.win&&(p.style.display="block")),r&&r(s)),u=!1}}}}();(function(){if("undefined"==typeof window||window.WebSocket)return;var a=window.console;if(!a||!a.log||!a.error)a={log:function(){},error:function(){}};if(!swfobject.hasFlashPlayerVersion("10.0.0")){a.error("Flash Player >= 10.0.0 is required.");return}location.protocol=="file:"&&a.error("WARNING: web-socket-js doesn't work in file:///... URL unless you set Flash Security Settings properly. Open the page via Web server i.e. http://..."),WebSocket=function(a,b,c,d,e){var f=this;f.__id=WebSocket.__nextId++,WebSocket.__instances[f.__id]=f,f.readyState=WebSocket.CONNECTING,f.bufferedAmount=0,f.__events={},b?typeof b=="string"&&(b=[b]):b=[],setTimeout(function(){WebSocket.__addTask(function(){WebSocket.__flash.create(f.__id,a,b,c||null,d||0,e||null)})},0)},WebSocket.prototype.send=function(a){if(this.readyState==WebSocket.CONNECTING)throw"INVALID_STATE_ERR: Web Socket connection has not been established";var b=WebSocket.__flash.send(this.__id,encodeURIComponent(a));return b<0?!0:(this.bufferedAmount+=b,!1)},WebSocket.prototype.close=function(){if(this.readyState==WebSocket.CLOSED||this.readyState==WebSocket.CLOSING)return;this.readyState=WebSocket.CLOSING,WebSocket.__flash.close(this.__id)},WebSocket.prototype.addEventListener=function(a,b,c){a in this.__events||(this.__events[a]=[]),this.__events[a].push(b)},WebSocket.prototype.removeEventListener=function(a,b,c){if(!(a in this.__events))return;var d=this.__events[a];for(var e=d.length-1;e>=0;--e)if(d[e]===b){d.splice(e,1);break}},WebSocket.prototype.dispatchEvent=function(a){var b=this.__events[a.type]||[];for(var c=0;c<b.length;++c)b[c](a);var d=this["on"+a.type];d&&d(a)},WebSocket.prototype.__handleEvent=function(a){"readyState"in a&&(this.readyState=a.readyState),"protocol"in a&&(this.protocol=a.protocol);var b;if(a.type=="open"||a.type=="error")b=this.__createSimpleEvent(a.type);else if(a.type=="close")b=this.__createSimpleEvent("close");else{if(a.type!="message")throw"unknown event type: "+a.type;var c=decodeURIComponent(a.message);b=this.__createMessageEvent("message",c)}this.dispatchEvent(b)},WebSocket.prototype.__createSimpleEvent=function(a){if(document.createEvent&&window.Event){var b=document.createEvent("Event");return b.initEvent(a,!1,!1),b}return{type:a,bubbles:!1,cancelable:!1}},WebSocket.prototype.__createMessageEvent=function(a,b){if(document.createEvent&&window.MessageEvent&&!window.opera){var c=document.createEvent("MessageEvent");return c.initMessageEvent("message",!1,!1,b,null,null,window,null),c}return{type:a,data:b,bubbles:!1,cancelable:!1}},WebSocket.CONNECTING=0,WebSocket.OPEN=1,WebSocket.CLOSING=2,WebSocket.CLOSED=3,WebSocket.__flash=null,WebSocket.__instances={},WebSocket.__tasks=[],WebSocket.__nextId=0,WebSocket.loadFlashPolicyFile=function(a){WebSocket.__addTask(function(){WebSocket.__flash.loadManualPolicyFile(a)})},WebSocket.__initialize=function(){if(WebSocket.__flash)return;WebSocket.__swfLocation&&(window.WEB_SOCKET_SWF_LOCATION=WebSocket.__swfLocation);if(!window.WEB_SOCKET_SWF_LOCATION){a.error("[WebSocket] set WEB_SOCKET_SWF_LOCATION to location of WebSocketMain.swf");return}var b=document.createElement("div");b.id="webSocketContainer",b.style.position="absolute",WebSocket.__isFlashLite()?(b.style.left="0px",b.style.top="0px"):(b.style.left="-100px",b.style.top="-100px");var c=document.createElement("div");c.id="webSocketFlash",b.appendChild(c),document.body.appendChild(b),swfobject.embedSWF(WEB_SOCKET_SWF_LOCATION,"webSocketFlash","1","1","10.0.0",null,null,{hasPriority:!0,swliveconnect:!0,allowScriptAccess:"always"},null,function(b){b.success||a.error("[WebSocket] swfobject.embedSWF failed")})},WebSocket.__onFlashInitialized=function(){setTimeout(function(){WebSocket.__flash=document.getElementById("webSocketFlash"),WebSocket.__flash.setCallerUrl(location.href),WebSocket.__flash.setDebug(!!window.WEB_SOCKET_DEBUG);for(var a=0;a<WebSocket.__tasks.length;++a)WebSocket.__tasks[a]();WebSocket.__tasks=[]},0)},WebSocket.__onFlashEvent=function(){return setTimeout(function(){try{var b=WebSocket.__flash.receiveEvents();for(var c=0;c<b.length;++c)WebSocket.__instances[b[c].webSocketId].__handleEvent(b[c])}catch(d){a.error(d)}},0),!0},WebSocket.__log=function(b){a.log(decodeURIComponent(b))},WebSocket.__error=function(b){a.error(decodeURIComponent(b))},WebSocket.__addTask=function(a){WebSocket.__flash?a():WebSocket.__tasks.push(a)},WebSocket.__isFlashLite=function(){if(!window.navigator||!window.navigator.mimeTypes)return!1;var a=window.navigator.mimeTypes["application/x-shockwave-flash"];return!a||!a.enabledPlugin||!a.enabledPlugin.filename?!1:a.enabledPlugin.filename.match(/flashlite/i)?!0:!1},window.WEB_SOCKET_DISABLE_AUTO_INITIALIZATION||(window.addEventListener?window.addEventListener("load",function(){WebSocket.__initialize()},!1):window.attachEvent("onload",function(){WebSocket.__initialize()}))})(),function(a,b,c){function d(a){if(!a)return;b.Transport.apply(this,arguments),this.sendBuffer=[]}function e(){}a.XHR=d,b.util.inherit(d,b.Transport),d.prototype.open=function(){return this.socket.setBuffer(!1),this.onOpen(),this.get(),this.setCloseTimeout(),this},d.prototype.payload=function(a){var c=[];for(var d=0,e=a.length;d<e;d++)c.push(b.parser.encodePacket(a[d]));this.send(b.parser.encodePayload(c))},d.prototype.send=function(a){return this.post(a),this},d.prototype.post=function(a){function d(){this.readyState==4&&(this.onreadystatechange=e,b.posting=!1,this.status==200?b.socket.setBuffer(!1):b.onClose())}function f(){this.onload=e,b.socket.setBuffer(!1)}var b=this;this.socket.setBuffer(!0),this.sendXHR=this.request("POST"),c.XDomainRequest&&this.sendXHR instanceof XDomainRequest?this.sendXHR.onload=this.sendXHR.onerror=f:this.sendXHR.onreadystatechange=d,this.sendXHR.send(a)},d.prototype.close=function(){return this.onClose(),this},d.prototype.request=function(a){var c=b.util.request(this.socket.isXDomain()),d=b.util.query(this.socket.options.query,"t="+ +(new Date));c.open(a||"GET",this.prepareUrl()+d,!0);if(a=="POST")try{c.setRequestHeader?c.setRequestHeader("Content-type","text/plain;charset=UTF-8"):c.contentType="text/plain"}catch(e){}return c},d.prototype.scheme=function(){return this.socket.options.secure?"https":"http"},d.check=function(a,d){try{var e=b.util.request(d),f=c.XDomainRequest&&e instanceof XDomainRequest,g=a&&a.options&&a.options.secure?"https:":"http:",h=g!=c.location.protocol;if(e&&(!f||!h))return!0}catch(i){}return!1},d.xdomainCheck=function(a){return d.check(a,!0)}}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a){b.Transport.XHR.apply(this,arguments)}a.htmlfile=c,b.util.inherit(c,b.Transport.XHR),c.prototype.name="htmlfile",c.prototype.get=function(){this.doc=new(window[["Active"].concat("Object").join("X")])("htmlfile"),this.doc.open(),this.doc.write("<html></html>"),this.doc.close(),this.doc.parentWindow.s=this;var a=this.doc.createElement("div");a.className="socketio",this.doc.body.appendChild(a),this.iframe=this.doc.createElement("iframe"),a.appendChild(this.iframe);var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date));this.iframe.src=this.prepareUrl()+d,b.util.on(window,"unload",function(){c.destroy()})},c.prototype._=function(a,b){this.onData(a);try{var c=b.getElementsByTagName("script")[0];c.parentNode.removeChild(c)}catch(d){}},c.prototype.destroy=function(){if(this.iframe){try{this.iframe.src="about:blank"}catch(a){}this.doc=null,this.iframe.parentNode.removeChild(this.iframe),this.iframe=null,CollectGarbage()}},c.prototype.close=function(){return this.destroy(),b.Transport.XHR.prototype.close.call(this)},c.check=function(a){if(typeof window!="undefined"&&["Active"].concat("Object").join("X")in window)try{var c=new(window[["Active"].concat("Object").join("X")])("htmlfile");return c&&b.Transport.XHR.check(a)}catch(d){}return!1},c.xdomainCheck=function(){return!1},b.transports.push("htmlfile")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(){b.Transport.XHR.apply(this,arguments)}function e(){}a["xhr-polling"]=d,b.util.inherit(d,b.Transport.XHR),b.util.merge(d,b.Transport.XHR),d.prototype.name="xhr-polling",d.prototype.heartbeats=function(){return!1},d.prototype.open=function(){var a=this;return b.Transport.XHR.prototype.open.call(a),!1},d.prototype.get=function(){function b(){this.readyState==4&&(this.onreadystatechange=e,this.status==200?(a.onData(this.responseText),a.get()):a.onClose())}function d(){this.onload=e,this.onerror=e,a.onData(this.responseText),a.get()}function f(){a.onClose()}if(!this.isOpen)return;var a=this;this.xhr=this.request(),c.XDomainRequest&&this.xhr instanceof XDomainRequest?(this.xhr.onload=d,this.xhr.onerror=f):this.xhr.onreadystatechange=b,this.xhr.send(null)},d.prototype.onClose=function(){b.Transport.XHR.prototype.onClose.call(this);if(this.xhr){this.xhr.onreadystatechange=this.xhr.onload=this.xhr.onerror=e;try{this.xhr.abort()}catch(a){}this.xhr=null}},d.prototype.ready=function(a,c){var d=this;b.util.defer(function(){c.call(d)})},b.transports.push("xhr-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b,c){function e(a){b.Transport["xhr-polling"].apply(this,arguments),this.index=b.j.length;var c=this;b.j.push(function(a){c._(a)})}var d=c.document&&"MozAppearance"in c.document.documentElement.style;a["jsonp-polling"]=e,b.util.inherit(e,b.Transport["xhr-polling"]),e.prototype.name="jsonp-polling",e.prototype.post=function(a){function i(){j(),c.socket.setBuffer(!1)}function j(){c.iframe&&c.form.removeChild(c.iframe);try{h=document.createElement('<iframe name="'+c.iframeId+'">')}catch(a){h=document.createElement("iframe"),h.name=c.iframeId}h.id=c.iframeId,c.form.appendChild(h),c.iframe=h}var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);if(!this.form){var e=document.createElement("form"),f=document.createElement("textarea"),g=this.iframeId="socketio_iframe_"+this.index,h;e.className="socketio",e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.display="none",e.target=g,e.method="POST",e.setAttribute("accept-charset","utf-8"),f.name="d",e.appendChild(f),document.body.appendChild(e),this.form=e,this.area=f}this.form.action=this.prepareUrl()+d,j(),this.area.value=b.JSON.stringify(a);try{this.form.submit()}catch(k){}this.iframe.attachEvent?h.onreadystatechange=function(){c.iframe.readyState=="complete"&&i()}:this.iframe.onload=i,this.socket.setBuffer(!0)},e.prototype.get=function(){var a=this,c=document.createElement("script"),e=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);this.script&&(this.script.parentNode.removeChild(this.script),this.script=null),c.async=!0,c.src=this.prepareUrl()+e,c.onerror=function(){a.onClose()};var f=document.getElementsByTagName("script")[0];f.parentNode.insertBefore(c,f),this.script=c,d&&setTimeout(function(){var a=document.createElement("iframe");document.body.appendChild(a),document.body.removeChild(a)},100)},e.prototype._=function(a){return this.onData(a),this.isOpen&&this.get(),this},e.prototype.ready=function(a,c){var e=this;if(!d)return c.call(this);b.util.load(function(){c.call(e)})},e.check=function(){return"document"in c},e.xdomainCheck=function(){return!0},b.transports.push("jsonp-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this)})()
 /*
- * Author(s): Daniel Perussina, William Miller, Rob Weaver
- * 2012 - Reddit3d, bitch
+ * Rob Weaver && William Miller && Dan Perussina
+ *  2012
  */
 
-document.subreddit = 'frontpage';
-$(document).ready(function() {
+var UIStyle = function(color, font, background) {
+	// Color
+	if (color) {
+		this.color = color;
+	}
+	// Set default Color
+	else {
+		color = null;
+	}
+
+	// Font
+	if (font) {
+		this.font = font;
+	}
+	// Set default font
+	else {
+		this.font = null;
+	}
+
+	// Background Image
+	if (background) {
+		this.background = background;
+	}
+	// Set default Image
+	else {
+		this.background = null;
+	}
+};
+
+var DynamicUI = function() {
+	this.width = 0;
+	this.height = 0;
+
+	this.style = new UIStyle();
+
+	this.UIDrag = null;
+};
+
+DynamicUI.prototype.init = function(divId, width, height, style) {
+
 	var availableTags = ['30ROCK', '3DS', '49ers', '4chan', 'aaaaaatheismmmmmmmmmm', 'AbandonedPorn', 'AcademicPhilosophy', 'active', 'actuallesbians', 'AdPorn', 'AdrenalinePorn', 'AdvancedFitness', 'adventuretime', 'AdviceAnimals', 'AdviceAtheists', 'AFL', 'aggies', 'ainbow', 'airsoft', 'AlbumArtPorn', 'AlienBlue', 'AlisonBrie', 'alternativeart', 'AMA', 'Amateur', 'AmateurArchives', 'amazondeals', 'AmISexy', 'amiugly', 'anal', 'analogygifs', 'Anarchism', 'Anarcho_Capitalism', 'Android', 'androidapps', 'androiddev', 'androidthemes', 'AnimalPorn', 'animation', 'anime', 'announcements', 'anonymous', 'answers', 'Anthropology', 'Anticonsumption', 'AntiJokes', 'Anxiety', 'AnythingGoesNews', 'AnythingGoesNSFW', 'AnythingGoesPics', 'AppHookup', 'apple', 'Aquariums', 'Archaeology', 'ArcherFX', 'architecture', 'ArchitecturePorn', 'archlinux', 'arduino', 'arresteddevelopment', 'Art', 'ArtisanVideos', 'ArtPorn', 'AsianHotties', 'AskCulinary', 'AskEngineers', 'AskHistorians', 'AskMen', 'AskReddit', 'askscience', 'askseddit', 'AskSocialScience', 'AskWomen', 'asmr', 'asoiaf', 'ass', 'assassinscreed', 'asshole', 'Assistance', 'asstastic', 'Astronomy', 'atheism', 'Atlanta', 'audioengineering', 'audiophile', 'Austin', 'australia', 'Autos', 'Avengers', 'aves', 'aviation', 'awesome', 'aww', 'awwnime', 'Awww', 'awwwtf', 'BabyBumps', 'backpacking', 'Bacon', 'Bad_Cop_No_Donut', 'badcompany2', 'Baking', 'baseball', 'Bass', 'batman', 'battlefield3', 'battlestations', 'bayarea', 'BBQ', 'BBW', 'bdsm', 'BDSMcommunity', 'BDSMGW', 'beach', 'beadsprites', 'BeardPorn', 'beards', 'beatles', 'beer', 'beermoney', 'beerporn', 'bestof', 'beyondthebump', 'bicycling', 'bigbangtheory', 'BiGoneMild', 'bikesgonewild', 'bikinis', 'bimbofetish', 'bindingofisaac', 'biology', 'Bioshock', 'birdpics', 'birdswitharms', 'bisexual', 'Bitcoin', 'bjj', 'blackops2', 'bleachshirts', 'Blink182', 'blog', 'Blowjobs', 'BMW', 'boardgames', 'BoardwalkEmpire', 'bodybuilding', 'bodyweightfitness', 'boltedontits', 'Bondage', 'boobbounce', 'Boobies', 'bookclub', 'bookporn', 'books', 'booksuggestions', 'Borderlands', 'Borderlands2', 'boston', 'BostonTerrier', 'BotanicalPorn', 'Bottomless_Vixens', 'Boxer', 'Braveryjerk', 'Braves', 'breakingbad', 'brisbane', 'britishproblems', 'BritishTV', 'brokengifs', 'BSG', 'BTFC', 'Buddhism', 'budgetfood', 'buffy', 'buildapc', 'buildapcsales', 'Bulldogs', 'burstingout', 'business', 'BuyItForLife', 'C25K', 'cablefail', 'cableporn', 'Calgary', 'California', 'calvinandhobbes', 'camping', 'CampingandHiking', 'camwhores', 'canada', 'CanadaPolitics', 'cannabis', 'carcrash', 'carlhprogramming', 'carporn', 'cars', 'casualiama', 'catpictures', 'cats', 'Celebs', 'cerebral', 'CFB', 'Chargers', 'Cheap_Meals', 'chelseafc', 'chemicalreactiongifs', 'chemistry', 'chess', 'CHIBears', 'chicago', 'childfree', 'ChristianGirls', 'Christianity', 'chrome', 'chubby', 'cigars', 'cincinnati', 'Cinemagraphs', 'circlebroke', 'circlebroke2', 'circlejerk', 'CityPorn', 'civ', 'Civcraft', 'CivcraftExchange', 'classic4chan', 'classicalmusic', 'classicrage', 'climbing', 'ClopClop', 'coding', 'Coffee', 'CoffeeWithJesus', 'cogsci', 'ColbertRally', 'collapse', 'CollegeAmateurs', 'CollegeBasketball', 'collegesluts', 'Colorado', 'comeonandslam', 'comicbooks', 'comics', 'commandline', 'community', 'compsci', 'computing', 'confession', 'Conservative', 'conspiracy', 'conspiratard', 'Cooking', 'cordcutters', 'corgi', 'cosplay', 'cosplaygirls', 'coupons', 'coversongs', 'coys', 'cpp', 'crafts', 'craigslist', 'CrappyDesign', 'creampies', 'CreepShots', 'creepy', 'creepyPMs', 'Cricket', 'cringe', 'cripplingalcoholism', 'crochet', 'crossdressing', 'crossfit', 'Cuckold', 'Cumberbitches', 'cumfetish', 'cumsluts', 'curiosityrover', 'curvy', 'cyberlaws', 'Cyberpunk', 'Dachshund', 'daddit', 'DAE', 'dailyprogrammer', 'Dallas', 'darknetplan', 'darksouls', 'dataisbeautiful', 'datfeel', 'datgap', 'dating_advice', 'dayz', 'dbz', 'DCcomics', 'de', 'deadpool', 'DealsReddit', 'DebateReligion', 'defaultgems', 'Demotivational', 'Denmark', 'Denver', 'depression', 'DepthHub', 'Design', 'DesignPorn', 'DessertPorn', 'DestructionPorn', 'Dexter', 'Diablo', 'diablo3', 'Diablo3Strategy', 'dirndls', 'DirtyGaming', 'dirtypenpals', 'dirtysmall', 'discgolf', 'disney', 'DIY', 'DJs', 'DnB', 'DnD', 'doctorwho', 'DoctorWhumour', 'Documentaries', 'Dodgers', 'DoesAnybodyElse', 'Dogfort', 'dogpictures', 'dogs', 'dolan', 'DotA2', 'downblouse', 'drawing', 'Drugs', 'drums', 'drunk', 'dubstep', 'DunderMifflin', 'dwarffortress', 'dykesgonemild', 'dykesgonewild', 'EA_FIFA', 'eagles', 'EarthPorn', 'eatsandwiches', 'eCards', 'ecchi', 'ECE', 'Economics', 'economy', 'EDC', 'edmproduction', 'education', 'EFLcomics', 'eldertrees', 'electrohouse', 'electronic_cigarette', 'electronicmusic', 'electronics', 'EmmaStone', 'EmmaWatson', 'ems', 'EndlessWar', 'energy', 'engineering', 'EngineeringStudents', 'Enhancement', 'entertainment', 'Entrepreneur', 'environment', 'Equality', 'europe', 'Eve', 'everymanshouldknow', 'evolution', 'evolutionReddit', 'exmormon', 'exmuslim', 'ExpectationVsReality', 'ExplainLikeImCalvin', 'explainlikeimfive', 'explainlikeimjive', 'ExposurePorn', 'eyes', 'facebookwins', 'facedownassup', 'facepalm', 'FacialFun', 'falcons', 'Fallout', 'familyguy', 'FancyFollicles', 'Fantasy', 'fantasyfootball', 'FanTheories', 'fashion', 'Favors', 'FearMe', 'feet', 'femalefashionadvice', 'femalepov', 'Feminism', 'feminisms', 'fffffffuuuuuuuuuuuu', 'fffffffuuuuuuuuuuuud', 'fia', 'FIFA', 'FifthWorldPics', 'fifthworldproblems', 'Filmmakers', 'FinalFantasy', 'finance', 'financialindependence', 'Firearms', 'firefly', 'firefox', 'FirePorn', 'firstworldanarchists', 'firstworldproblems', 'Fishing', 'fitmeals', 'Fitness', 'fitnesscirclejerk', 'FixedGearBicycle', 'food', 'Foodforthought', 'FoodPorn', 'ForeverAlone', 'ForeverAloneWomen', 'forhire', 'formula1', 'Forts', 'freebies', 'FreeKarma', 'Freethought', 'fringe', 'Frisson', 'Frugal', 'frugalmalefashion', 'ftlgame', 'funny', 'furry', 'futurama', 'futurebeats', 'futureporn', 'Futurology', 'gaaaaaaayyyyyyyyyyyy', 'gadgets', 'gainit', 'gallifrey', 'gamecollecting', 'GameDeals', 'gamedev', 'gamegrumps', 'gamemusic', 'gameofthrones', 'GameofTrolls2', 'gamernews', 'Games', 'gameswap', 'gaming', 'gamingnews', 'gamingpc', 'gardening', 'GaryJohnson', 'gay', 'gaybears', 'gaybros', 'GaybrosGoneWild', 'gaymers', 'GaymersGoneMild', 'gaymersgonewild', 'geek', 'GeekPorn', 'gentlemanboners', 'geology', 'geologyporn', 'germanshepherds', 'germany', 'GetMotivated', 'ggggg', 'gif', 'gifs', 'GifSound', 'ginger', 'GirlGamers', 'girlsdoingnerdythings', 'GirlsFinishingTheJob', 'girlsflashing', 'GirlsinStripedSocks', 'girlsinyogapants', 'girlskissing', 'GirlswithGlasses', 'GirlswithNeonHair', 'glassheads', 'Glitch_in_the_Matrix', 'GlobalOffensive', 'goldenretrievers', 'golf', 'gonenatural', 'gonewild', 'gonewildaudio', 'gonewildcurvy', 'gonewildflicks', 'GoneWildPlus', 'gonewildstories', 'GoneWildTube', 'google', 'googleplus', 'Gore', 'government', 'Graffiti', 'GrandTheftAutoV', 'graphic_design', 'gravityfalls', 'Green', 'GreenBayPackers', 'greenday', 'grool', 'grumpycats', 'GTA', 'Guildwars2', 'guildwars2funny', 'guineapigs', 'Guitar', 'guitarlessons', 'Gunners', 'GunPorn', 'guns', 'hackers', 'hacking', 'HairyPussy', 'HalfLife', 'halloween', 'halo', 'happy', 'HappyEmbarrassedGirls', 'happygaps', 'happygirls', 'hardbodies', 'hardscience', 'hardware', 'harrypotter', 'haskell', 'hawkthorne', 'Health', 'Heavymind', 'hentai', 'HeroesofNewerth', 'heteroflexible', 'HIFW', 'HighHeels', 'HighResNSFW', 'HIMYM', 'hiphopheads', 'HIPSTERGURLZ', 'HistoricalWhatIf', 'history', 'HistoryPorn', 'HITsWorthTurkingFor', 'hockey', 'Homebrewing', 'homeland', 'homemadexxx', 'homestead', 'homestuck', 'hookah', 'horror', 'HorseMask', 'Horses', 'Hotchickswithtattoos', 'hotties', 'House', 'houston', 'howto', 'howtonotgiveafuck', 'hugeboobs', 'HumanPorn', 'humor', 'Hungergames', 'Hunting', 'IAmA', 'IASIP', 'IDAP', 'ifyoulikeblank', 'iiiiiiitttttttttttt', 'illusionporn', 'Images', 'ImaginaryCharacters', 'ImaginaryLandscapes', 'ImaginaryMonsters', 'ImaginaryTechnology', 'ImGoingToHellForThis', 'incest', 'indepthstories', 'india', 'IndianBabes', 'IndieGaming', 'InfrastructurePorn', 'Inglip', 'InsightfulQuestions', 'InteriorDesign', 'introvert', 'investing', 'ipad', 'iphone', 'ireland', 'islam', 'Israel', 'itookapicture', 'IWantOut', 'IWantToLearn', 'jailbreak', 'japan', 'java', 'javascript', 'Jazz', 'Jeep', 'jobs', 'JoeRogan', 'Jokes', 'journeytolife', 'juicyasians', 'JusticePorn', 'Justrolledintotheshop', 'Kappa', 'KarmaConspiracy', 'katawashoujo', 'kateupton', 'KerbalSpaceProgram', 'keto', 'kindle', 'KingdomHearts', 'knitting', 'knives', 'kpics', 'kpop', 'LadyBoners', 'Ladybonersgonecuddly', 'ladybonersgw', 'ladyladyboners', 'languagelearning', 'law', 'LawSchool', 'leagueoflegends', 'LeagueOfMemes', 'leangains', 'learnart', 'LearnJapanese', 'learnmath', 'Learnmusic', 'learnprogramming', 'LearnUselessTalents', 'lectures', 'LegalTeens', 'lego', 'lesbians', 'LetsNotMeet', 'lgbt', 'Liberal', 'Libertarian', 'lifehacks', 'LifeProTips', 'lingerie', 'linguistics', 'linux', 'linux_gaming', 'linux4noobs', 'listentothis', 'lists', 'literature', 'LiverpoolFC', 'lockpicking', 'lol', 'lolcats', 'LoLFanArt', 'london', 'longboarding', 'LongDistance', 'lookatmydog', 'LosAngeles', 'loseit', 'lost', 'lostgeneration', 'lotr', 'Lovecraft', 'lovegaymale', 'LucidDreaming', 'ludology', 'LV426', 'mac', 'MachineLearning', 'MachinePorn', 'MacroPorn', 'madmen', 'magicskyfairy', 'magicTCG', 'MakeupAddiction', 'malefashionadvice', 'malegrooming', 'malehairadvice', 'malelifestyle', 'manga', 'mangonewild', 'MapPorn', 'marchingband', 'Marijuana', 'marketing', 'Marvel', 'mashups', 'masseffect', 'MassiveCock', 'math', 'MCPE', 'mcservers', 'medicine', 'Meditation', 'meetup', 'melbourne', 'meme', 'memes', 'MensRights', 'metacirclejerk', 'Metal', 'Metalcore', 'metalgearsolid', 'MetalMemes', 'metart', 'mexico', 'mflb', 'mfw', 'Michigan', 'microgrowery', 'microsoft', 'MilaKunis', 'mildlyinfuriating', 'mildlyinteresting', 'milf', 'Military', 'MilitaryPorn', 'mindcrack', 'Minecraft', 'Minecraft360', 'MinecraftInventions', 'minecraftsuggestions', 'minerapocalypse', 'MineZ', 'minimalism', 'minnesotavikings', 'misc', 'MLPdrawingschool', 'MLPLounge', 'MLS', 'MMA', 'moderatepolitics', 'Modern_Family', 'modnews', 'Mommit', 'montreal', 'Mooning', 'MorbidReality', 'motorcycles', 'movieclub', 'moviecritic', 'MoviePosterPorn', 'movies', 'Moviesinthemaking', 'MTB', 'MURICA', 'Muse', 'museum', 'Music', 'musictheory', 'mw3', 'mylittlealcoholic', 'mylittlehuman', 'mylittlepony', 'mythbusters', 'Naruto', 'nasa', 'nature', 'nba', 'needadvice', 'neopets', 'nerdfighters', 'netflix', 'NetflixBestOf', 'netsec', 'networking', 'neuro', 'neurophilosophy', 'NeutralPolitics', 'newjersey', 'newreddits', 'news', 'NewsPorn', 'newzealand', 'nextdoorasians', 'Nexus7', 'nfffffffluuuuuuuuuuuu', 'nfl', 'NigelThornberry', 'niggers', 'nintendo', 'Nipples', 'nocontext', 'NoFap', 'nofapgonewild', 'nongolfers', 'Nootropics', 'nosleep', 'nostalgia', 'notinteresting', 'NotSafeForNature', 'nottheonion', 'nsfw', 'NSFW_GIF', 'nsfw_gifs', 'NSFW_nospam', 'NSFW_Wallpapers', 'nsfw_wtf', 'nsfw2', 'NSFWFunny', 'nsfwhardcore', 'nsfwoutfits', 'nsfwvideos', 'nude', 'nursing', 'nutrition', 'nyc', 'NYGiants', 'O_Faces', 'obama', 'occupywallstreet', 'offbeat', 'Offensive_Wallpapers', 'offmychest', 'OFWGKTA', 'Ohlympics', 'OkCupid', 'OldSchoolCool', 'oliviawilde', 'olympics', 'OnePiece', 'onetruegod', 'OneY', 'onions', 'OnOff', 'opendirectories', 'opensource', 'orioles', 'osx', 'ottawa', 'Outdoors', 'palegirls', 'Paleo', 'PandR', 'Pantyfetish', 'paradoxplaza', 'Paranormal', 'Pareidolia', 'Parenting', 'parrots', 'passionx', 'patientgamers', 'Patriots', 'pcgaming', 'Pee', 'penis', 'PenmanshipPorn', 'PennStateUniversity', 'PerfectBabes', 'PerfectTiming', 'Permaculture', 'personalfinance', 'Pets', 'pewdiepie', 'philadelphia', 'philosophy', 'PhilosophyofScience', 'phish', 'Photobucketplunder', 'photocritique', 'photography', 'photoplunder', 'photoshop', 'photoshopbattles', 'PHP', 'Physics', 'piano', 'picrequests', 'pics', 'Pictures', 'picturesofiansleeping', 'Pieces', 'piercing', 'pinkfloyd', 'PipeTobacco', 'Piracy', 'pitbulls', 'Pizza', 'Planetside', 'Playdate', 'playitforward', 'PocketWhales', 'Poetry', 'Pokeents', 'pokemon', 'pokemonconspiracies', 'PokePorn', 'poker', 'polandball', 'POLITIC', 'PoliticalDiscussion', 'PoliticalHumor', 'politics', 'polyamory', 'popping', 'poppunkers', 'porn', 'porn_gifs', 'pornography', 'pornvids', 'Portal', 'Portland', 'PostCollapse', 'PostHardcore', 'postrock', 'PrettyGirls', 'privacy', 'productivity', 'progmetal', 'programming', 'progressive', 'progresspics', 'ProjectEnrichment', 'ProjectReddit', 'promos', 'PropagandaPosters', 'proper', 'PS3', 'psychology', 'Psychonaut', 'PublicFlashing', 'pug', 'pugs', 'punk', 'Punny', 'Purdue', 'pussy', 'Pyongyang', 'Python', 'Quebec', 'quotes', 'QuotesPorn', 'r4r', 'Rabbits', 'radiohead', 'radioreddit', 'ragecomics', 'ragenovels', 'Rainmeter', 'Random_Acts_Of_Amazon', 'Random_Acts_Of_Pizza', 'RandomActsOfPolish', 'RandomKindness', 'randomsexiness', 'raspberry_pi', 'Rateme', 'RATS', 'reactiongifs', 'realasians', 'realdubstep', 'RealGirls', 'recipes', 'reddevils', 'reddit.com', 'RedditDayOf', 'RedditLaqueristas', 'reddits', 'redditstories', 'RedditThroughHistory', 'redheads', 'Redskins', 'regularshow', 'relationship_advice', 'relationships', 'religion', 'RenewableEnergy', 'reportthespammers', 'Republican', 'ReverseEngineering', 'rit', 'robotics', 'RomeSweetRome', 'ronpaul', 'RoomPorn', 'roosterteeth', 'RotMG', 'rpg', 'rpg_gamers', 'ruby', 'rugbyunion', 'rule34', 'runescape', 'running', 'sailing', 'Saints', 'sandiego', 'sanfrancisco', 'ScarlettJohansson', 'SceneGirls', 'Scholar', 'science', 'scifi', 'Scotch', 'screenshots', 'Screenwriting', 'Scrubs', 'Seahawks', 'Seattle', 'secretsanta', 'seduction', 'see', 'seinfeld', 'self', 'selfhelp', 'SelfSufficiency', 'sex', 'SexPositive', 'Sexy', 'SexyButNotPorn', 'SFGiants', 'SFM', 'Sherlock', 'SHHHHHEEEEEEEEIIIITT', 'ShinyPokemon', 'ShinyPorn', 'ShitRedditSays', 'Shitty_Watercolour', 'shittyadvice', 'shittyadviceanimals', 'shittyaskscience', 'shittybattlestations', 'shittyfoodporn', 'ShittyLifeProTips', 'shittyreactiongifs', 'shorthairedhotties', 'shortscarystories', 'ShouldIbuythisgame', 'showerbeer', 'shutupandtakemymoney', 'simpleliving', 'sixwordstories', 'Ska', 'skateboarding', 'skeptic', 'SketchDaily', 'skiing', 'SkyPorn', 'skyrim', 'slackerrecipes', 'Slender_Man', 'SlenderMan', 'sloths', 'slowcooking', 'snackexchange', 'Sneakers', 'snowboarding', 'SNSD', 'soccer', 'SocialEngineering', 'socialism', 'socialskills', 'sociology', 'software', 'somethingimade', 'Sonsofanarchy', 'SOPA', 'southpark', 'space', 'spacedicks', 'spaceporn', 'SpecArt', 'spiders', 'SpideyMeme', 'spongebob', 'sports', 'SquaredCircle', 'SRDBroke', 'SRSWomen', 'Stacked', 'Stahp', 'StandUpComedy', 'standupshots', 'starcraft', 'Stargate', 'starlets', 'startrek', 'startups', 'StarWars', 'StateOfTheUnion', 'statistics', 'Steam', 'steamdeals', 'SteamGameSwap', 'steampunk', 'steelers', 'stencils', 'StLouis', 'stockings', 'StonerEngineering', 'StonerProTips', 'stopsmoking', 'subaru', 'SubredditDrama', 'subredditoftheday', 'subs', 'subscribers', 'suicidegirls', 'SuicideWatch', 'summonerschool', 'Supernatural', 'surfing', 'Survival', 'sweden', 'swoleacceptance', 'swtor', 'sysadmin', 'TalesFromRetail', 'talesfromtechsupport', 'tall', 'tattoo', 'tattoos', 'tea', 'TechNewsToday', 'technology', 'techsupport', 'techsupportgore', 'ted', 'tedtalks', 'teenagers', 'teenboobies', 'tekkit', 'television', 'Terraria', 'terriblefacebookmemes', 'Texans', 'texas', 'tf2', 'TF2fashionadvice', 'tf2trade', 'Tgirls', 'TheAgora', 'theeternalwar', 'TheFacebookDelusion', 'TheHobbit', 'TheLastAirbender', 'TheoryOfReddit', 'theredditor', 'TheSimpsons', 'thesims', 'TheStopGirl', 'Thetruthishere', 'thewalkingdead', 'TheWayWeWere', 'thick', 'ThriftStoreHauls', 'Thrifty', 'tifu', 'tightdresses', 'TightShorts', 'TimAndEric', 'tinycode', 'TinyHouses', 'TinyTits', 'tipofmytongue', 'TittyDrop', 'tldr', 'todayilearned', 'TomHardy', 'tomhiddleston', 'tonightsdinner', 'toosoon', 'TopGear', 'toplessamateurs', 'Torchlight', 'toronto', 'torrents', 'totalwar', 'trackers', 'trailerparkboys', 'trance', 'transgender', 'Transhuman', 'travel', 'treecomics', 'treemusic', 'trees', 'treesgonewild', 'Tribes', 'trippy', 'TrollingAnimals', 'TrollXChromosomes', 'TrueAskReddit', 'TrueAtheism', 'TrueBlood', 'TrueFilm', 'truegaming', 'TrueReddit', 'TrueTrueReddit', 'TwoXChromosomes', 'typography', 'Ubuntu', 'UFOs', 'UIUC', 'ukpolitics', 'Unashamed', 'unitedkingdom', 'UniversityofReddit', 'UpliftingNews', 'Upskirt', 'upvotegifs', 'urbanexploration', 'vancouver', 'vegan', 'vegetarian', 'VegRecipes', 'vertical', 'vexillology', 'video', 'videos', 'VillagePorn', 'vim', 'vinyl', 'vita', 'VolleyballGirls', 'voluptuous', 'wallpaper', 'wallpapers', 'Warhammer', 'washingtondc', 'Watches', 'waterporn', 'WeAreTheMusicMakers', 'web_design', 'webcomics', 'webdesign', 'webdev', 'WebGames', 'weightroom', 'Weird', 'whatisthisthing', 'whatsthisbug', 'whoselineisitanyway', 'wicked_edge', 'wifesharing', 'wiiu', 'WikiLeaks', 'wikipedia', 'windows', 'windowshots', 'windowsphone', 'wine', 'wisconsin', 'woahdude', 'women', 'WomenOfColor', 'woodworking', 'Wordpress', 'workaholics', 'worldbuilding', 'worldevents', 'worldnews', 'WorldofTanks', 'worldpolitics', 'worstof', 'wow', 'writing', 'WTF', 'WtSSTaDaMiT', 'xbox360', 'Xcom', 'xkcd', 'xxfitness', 'yiff', 'yoga', 'YouShouldKnow', 'youtubecomments', 'youtubehaiku', 'yugioh', 'zelda', 'zen', 'ZenHabits', 'zombies'];
+	$("#users_choice").autocomplete({
+		source : availableTags
+	});
 
-	$( "#users_choice" ).autocomplete({
-            source: availableTags
-        });
+	// Set sytle objects
+	if (style) {
+		this.style = style;
+	}
 
-});
+	this.width = width;
+	this.height = height;
 
+	this.UIDrag = Drag;
+	//TODO: This fails when compiled
+	//error: Uncaught TypeError: Cannot set property 'onmousedown' of null
+	//stack :
+	/*Drag.init super.min.js:653
+	DynamicUI.init super.min.js:652
+	RedditGL.init super.min.js:823
+	(anonymous function) super.min.js:822
+	m super.min.js:29
+	n.fireWith super.min.js:30
+	i.extend.ready super.min.js:20
+	oa*/
+	//removed for now
+	this.UIDrag.init(document.getElementById(divId));
+};
+
+/**************************************************
+ * dom-drag.js
+ * 09.25.2001
+ * www.youngpup.net
+ * Script featured on Dynamic Drive (http://www.dynamicdrive.com) 12.08.2005
+ **************************************************
+ * 10.28.2001 - fixed minor bug where events
+ * sometimes fired off the handle, not the root.
+ **************************************************/
+
+var Drag = {
+
+	obj : null,
+
+	init : function(o, oRoot, minX, maxX, minY, maxY, bSwapHorzRef, bSwapVertRef, fXMapper, fYMapper) {
+		try{
+			o.onmousedown = Drag.start;
+		}catch(err){
+			console.log("ERROR : "+ err);
+			return;
+		}
+		
+
+		o.hmode = bSwapHorzRef ? false : true;
+		o.vmode = bSwapVertRef ? false : true;
+
+		o.root = oRoot && oRoot != null ? oRoot : o;
+
+		if (o.hmode && isNaN(parseInt(o.root.style.left)))
+			o.root.style.left = "0px";
+		if (o.vmode && isNaN(parseInt(o.root.style.top)))
+			o.root.style.top = "0px";
+		if (!o.hmode && isNaN(parseInt(o.root.style.right)))
+			o.root.style.right = "0px";
+		if (!o.vmode && isNaN(parseInt(o.root.style.bottom)))
+			o.root.style.bottom = "0px";
+
+		o.minX = typeof minX != 'undefined' ? minX : null;
+		o.minY = typeof minY != 'undefined' ? minY : null;
+		o.maxX = typeof maxX != 'undefined' ? maxX : null;
+		o.maxY = typeof maxY != 'undefined' ? maxY : null;
+
+		o.xMapper = fXMapper ? fXMapper : null;
+		o.yMapper = fYMapper ? fYMapper : null;
+
+		o.root.onDragStart = new Function();
+		o.root.onDragEnd = new Function();
+		o.root.onDrag = new Function();
+	},
+
+	start : function(e) {
+		var o = Drag.obj = this;
+		e = Drag.fixE(e);
+		var y = parseInt(o.vmode ? o.root.style.top : o.root.style.bottom);
+		var x = parseInt(o.hmode ? o.root.style.left : o.root.style.right);
+		o.root.onDragStart(x, y);
+
+		o.lastMouseX = e.clientX;
+		o.lastMouseY = e.clientY;
+
+		if (o.hmode) {
+			if (o.minX != null)
+				o.minMouseX = e.clientX - x + o.minX;
+			if (o.maxX != null)
+				o.maxMouseX = o.minMouseX + o.maxX - o.minX;
+		} else {
+			if (o.minX != null)
+				o.maxMouseX = -o.minX + e.clientX + x;
+			if (o.maxX != null)
+				o.minMouseX = -o.maxX + e.clientX + x;
+		}
+
+		if (o.vmode) {
+			if (o.minY != null)
+				o.minMouseY = e.clientY - y + o.minY;
+			if (o.maxY != null)
+				o.maxMouseY = o.minMouseY + o.maxY - o.minY;
+		} else {
+			if (o.minY != null)
+				o.maxMouseY = -o.minY + e.clientY + y;
+			if (o.maxY != null)
+				o.minMouseY = -o.maxY + e.clientY + y;
+		}
+
+		document.onmousemove = Drag.drag;
+		document.onmouseup = Drag.end;
+
+		return false;
+	},
+
+	drag : function(e) {
+		e = Drag.fixE(e);
+		var o = Drag.obj;
+
+		var ey = e.clientY;
+		var ex = e.clientX;
+		var y = parseInt(o.vmode ? o.root.style.top : o.root.style.bottom);
+		var x = parseInt(o.hmode ? o.root.style.left : o.root.style.right);
+		var nx, ny;
+
+		if (o.minX != null)
+			ex = o.hmode ? Math.max(ex, o.minMouseX) : Math.min(ex, o.maxMouseX);
+		if (o.maxX != null)
+			ex = o.hmode ? Math.min(ex, o.maxMouseX) : Math.max(ex, o.minMouseX);
+		if (o.minY != null)
+			ey = o.vmode ? Math.max(ey, o.minMouseY) : Math.min(ey, o.maxMouseY);
+		if (o.maxY != null)
+			ey = o.vmode ? Math.min(ey, o.maxMouseY) : Math.max(ey, o.minMouseY);
+
+		nx = x + ((ex - o.lastMouseX) * (o.hmode ? 1 : -1));
+		ny = y + ((ey - o.lastMouseY) * (o.vmode ? 1 : -1));
+
+		if (o.xMapper)
+			nx = o.xMapper(y)
+		else if (o.yMapper)
+			ny = o.yMapper(x)
+
+		Drag.obj.root.style[o.hmode ? "left" : "right"] = nx + "px";
+		Drag.obj.root.style[o.vmode ? "top" : "bottom"] = ny + "px";
+		Drag.obj.lastMouseX = ex;
+		Drag.obj.lastMouseY = ey;
+
+		Drag.obj.root.onDrag(nx, ny);
+		return false;
+	},
+
+	end : function() {
+		document.onmousemove = null;
+		document.onmouseup = null;
+		Drag.obj.root.onDragEnd(parseInt(Drag.obj.root.style[Drag.obj.hmode ? "left" : "right"]), parseInt(Drag.obj.root.style[Drag.obj.vmode ? "top" : "bottom"]));
+		Drag.obj = null;
+	},
+
+	fixE : function(e) {
+		if ( typeof e == 'undefined')
+			e = window.event;
+		if ( typeof e.layerX == 'undefined')
+			e.layerX = e.offsetX;
+		if ( typeof e.layerY == 'undefined')
+			e.layerY = e.offsetY;
+		return e;
+	}
+};
+
+/*! Socket.IO.min.js build:0.9.10, production. Copyright(c) 2011 LearnBoost <dev@learnboost.com> MIT Licensed */
+var io="undefined"==typeof module?{}:module.exports;(function(){(function(a,b){var c=a;c.version="0.9.10",c.protocol=1,c.transports=[],c.j=[],c.sockets={},c.connect=function(a,d){var e=c.util.parseUri(a),f,g;b&&b.location&&(e.protocol=e.protocol||b.location.protocol.slice(0,-1),e.host=e.host||(b.document?b.document.domain:b.location.hostname),e.port=e.port||b.location.port),f=c.util.uniqueUri(e);var h={host:e.host,secure:"https"==e.protocol,port:e.port||("https"==e.protocol?443:80),query:e.query||""};c.util.merge(h,d);if(h["force new connection"]||!c.sockets[f])g=new c.Socket(h);return!h["force new connection"]&&g&&(c.sockets[f]=g),g=g||c.sockets[f],g.of(e.path.length>1?e.path:"")}})("object"==typeof module?module.exports:this.io={},this),function(a,b){var c=a.util={},d=/^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,e=["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];c.parseUri=function(a){var b=d.exec(a||""),c={},f=14;while(f--)c[e[f]]=b[f]||"";return c},c.uniqueUri=function(a){var c=a.protocol,d=a.host,e=a.port;return"document"in b?(d=d||document.domain,e=e||(c=="https"&&document.location.protocol!=="https:"?443:document.location.port)):(d=d||"localhost",!e&&c=="https"&&(e=443)),(c||"http")+"://"+d+":"+(e||80)},c.query=function(a,b){var d=c.chunkQuery(a||""),e=[];c.merge(d,c.chunkQuery(b||""));for(var f in d)d.hasOwnProperty(f)&&e.push(f+"="+d[f]);return e.length?"?"+e.join("&"):""},c.chunkQuery=function(a){var b={},c=a.split("&"),d=0,e=c.length,f;for(;d<e;++d)f=c[d].split("="),f[0]&&(b[f[0]]=f[1]);return b};var f=!1;c.load=function(a){if("document"in b&&document.readyState==="complete"||f)return a();c.on(b,"load",a,!1)},c.on=function(a,b,c,d){a.attachEvent?a.attachEvent("on"+b,c):a.addEventListener&&a.addEventListener(b,c,d)},c.request=function(a){if(a&&"undefined"!=typeof XDomainRequest)return new XDomainRequest;if("undefined"!=typeof XMLHttpRequest&&(!a||c.ua.hasCORS))return new XMLHttpRequest;if(!a)try{return new(window[["Active"].concat("Object").join("X")])("Microsoft.XMLHTTP")}catch(b){}return null},"undefined"!=typeof window&&c.load(function(){f=!0}),c.defer=function(a){if(!c.ua.webkit||"undefined"!=typeof importScripts)return a();c.load(function(){setTimeout(a,100)})},c.merge=function(b,d,e,f){var g=f||[],h=typeof e=="undefined"?2:e,i;for(i in d)d.hasOwnProperty(i)&&c.indexOf(g,i)<0&&(typeof b[i]!="object"||!h?(b[i]=d[i],g.push(d[i])):c.merge(b[i],d[i],h-1,g));return b},c.mixin=function(a,b){c.merge(a.prototype,b.prototype)},c.inherit=function(a,b){function c(){}c.prototype=b.prototype,a.prototype=new c},c.isArray=Array.isArray||function(a){return Object.prototype.toString.call(a)==="[object Array]"},c.intersect=function(a,b){var d=[],e=a.length>b.length?a:b,f=a.length>b.length?b:a;for(var g=0,h=f.length;g<h;g++)~c.indexOf(e,f[g])&&d.push(f[g]);return d},c.indexOf=function(a,b,c){for(var d=a.length,c=c<0?c+d<0?0:c+d:c||0;c<d&&a[c]!==b;c++);return d<=c?-1:c},c.toArray=function(a){var b=[];for(var c=0,d=a.length;c<d;c++)b.push(a[c]);return b},c.ua={},c.ua.hasCORS="undefined"!=typeof XMLHttpRequest&&function(){try{var a=new XMLHttpRequest}catch(b){return!1}return a.withCredentials!=undefined}(),c.ua.webkit="undefined"!=typeof navigator&&/webkit/i.test(navigator.userAgent),c.ua.iDevice="undefined"!=typeof navigator&&/iPad|iPhone|iPod/i.test(navigator.userAgent)}("undefined"!=typeof io?io:module.exports,this),function(a,b){function c(){}a.EventEmitter=c,c.prototype.on=function(a,c){return this.$events||(this.$events={}),this.$events[a]?b.util.isArray(this.$events[a])?this.$events[a].push(c):this.$events[a]=[this.$events[a],c]:this.$events[a]=c,this},c.prototype.addListener=c.prototype.on,c.prototype.once=function(a,b){function d(){c.removeListener(a,d),b.apply(this,arguments)}var c=this;return d.listener=b,this.on(a,d),this},c.prototype.removeListener=function(a,c){if(this.$events&&this.$events[a]){var d=this.$events[a];if(b.util.isArray(d)){var e=-1;for(var f=0,g=d.length;f<g;f++)if(d[f]===c||d[f].listener&&d[f].listener===c){e=f;break}if(e<0)return this;d.splice(e,1),d.length||delete this.$events[a]}else(d===c||d.listener&&d.listener===c)&&delete this.$events[a]}return this},c.prototype.removeAllListeners=function(a){return a===undefined?(this.$events={},this):(this.$events&&this.$events[a]&&(this.$events[a]=null),this)},c.prototype.listeners=function(a){return this.$events||(this.$events={}),this.$events[a]||(this.$events[a]=[]),b.util.isArray(this.$events[a])||(this.$events[a]=[this.$events[a]]),this.$events[a]},c.prototype.emit=function(a){if(!this.$events)return!1;var c=this.$events[a];if(!c)return!1;var d=Array.prototype.slice.call(arguments,1);if("function"==typeof c)c.apply(this,d);else{if(!b.util.isArray(c))return!1;var e=c.slice();for(var f=0,g=e.length;f<g;f++)e[f].apply(this,d)}return!0}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(exports,nativeJSON){function f(a){return a<10?"0"+a:a}function date(a,b){return isFinite(a.valueOf())?a.getUTCFullYear()+"-"+f(a.getUTCMonth()+1)+"-"+f(a.getUTCDate())+"T"+f(a.getUTCHours())+":"+f(a.getUTCMinutes())+":"+f(a.getUTCSeconds())+"Z":null}function quote(a){return escapable.lastIndex=0,escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b=="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g=gap,h,i=b[a];i instanceof Date&&(i=date(a)),typeof rep=="function"&&(i=rep.call(b,a,i));switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";gap+=indent,h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1)h[c]=str(c,i)||"null";return e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]",gap=g,e}if(rep&&typeof rep=="object"){f=rep.length;for(c=0;c<f;c+=1)typeof rep[c]=="string"&&(d=rep[c],e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e))}else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e));return e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}",gap=g,e}}"use strict";if(nativeJSON&&nativeJSON.parse)return exports.JSON={parse:nativeJSON.parse,stringify:nativeJSON.stringify};var JSON=exports.JSON={},cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;JSON.stringify=function(a,b,c){var d;gap="",indent="";if(typeof c=="number")for(d=0;d<c;d+=1)indent+=" ";else typeof c=="string"&&(indent=c);rep=b;if(!b||typeof b=="function"||typeof b=="object"&&typeof b.length=="number")return str("",{"":a});throw new Error("JSON.stringify")},JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e=="object")for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),d!==undefined?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),typeof reviver=="function"?walk({"":j},""):j;throw new SyntaxError("JSON.parse")}}("undefined"!=typeof io?io:module.exports,typeof JSON!="undefined"?JSON:undefined),function(a,b){var c=a.parser={},d=c.packets=["disconnect","connect","heartbeat","message","json","event","ack","error","noop"],e=c.reasons=["transport not supported","client not handshaken","unauthorized"],f=c.advice=["reconnect"],g=b.JSON,h=b.util.indexOf;c.encodePacket=function(a){var b=h(d,a.type),c=a.id||"",i=a.endpoint||"",j=a.ack,k=null;switch(a.type){case"error":var l=a.reason?h(e,a.reason):"",m=a.advice?h(f,a.advice):"";if(l!==""||m!=="")k=l+(m!==""?"+"+m:"");break;case"message":a.data!==""&&(k=a.data);break;case"event":var n={name:a.name};a.args&&a.args.length&&(n.args=a.args),k=g.stringify(n);break;case"json":k=g.stringify(a.data);break;case"connect":a.qs&&(k=a.qs);break;case"ack":k=a.ackId+(a.args&&a.args.length?"+"+g.stringify(a.args):"")}var o=[b,c+(j=="data"?"+":""),i];return k!==null&&k!==undefined&&o.push(k),o.join(":")},c.encodePayload=function(a){var b="";if(a.length==1)return a[0];for(var c=0,d=a.length;c<d;c++){var e=a[c];b+="\ufffd"+e.length+"\ufffd"+a[c]}return b};var i=/([^:]+):([0-9]+)?(\+)?:([^:]+)?:?([\s\S]*)?/;c.decodePacket=function(a){var b=a.match(i);if(!b)return{};var c=b[2]||"",a=b[5]||"",h={type:d[b[1]],endpoint:b[4]||""};c&&(h.id=c,b[3]?h.ack="data":h.ack=!0);switch(h.type){case"error":var b=a.split("+");h.reason=e[b[0]]||"",h.advice=f[b[1]]||"";break;case"message":h.data=a||"";break;case"event":try{var j=g.parse(a);h.name=j.name,h.args=j.args}catch(k){}h.args=h.args||[];break;case"json":try{h.data=g.parse(a)}catch(k){}break;case"connect":h.qs=a||"";break;case"ack":var b=a.match(/^([0-9]+)(\+)?(.*)/);if(b){h.ackId=b[1],h.args=[];if(b[3])try{h.args=b[3]?g.parse(b[3]):[]}catch(k){}}break;case"disconnect":case"heartbeat":}return h},c.decodePayload=function(a){if(a.charAt(0)=="\ufffd"){var b=[];for(var d=1,e="";d<a.length;d++)a.charAt(d)=="\ufffd"?(b.push(c.decodePacket(a.substr(d+1).substr(0,e))),d+=Number(e)+1,e=""):e+=a.charAt(d);return b}return[c.decodePacket(a)]}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b){function c(a,b){this.socket=a,this.sessid=b}a.Transport=c,b.util.mixin(c,b.EventEmitter),c.prototype.heartbeats=function(){return!0},c.prototype.onData=function(a){this.clearCloseTimeout(),(this.socket.connected||this.socket.connecting||this.socket.reconnecting)&&this.setCloseTimeout();if(a!==""){var c=b.parser.decodePayload(a);if(c&&c.length)for(var d=0,e=c.length;d<e;d++)this.onPacket(c[d])}return this},c.prototype.onPacket=function(a){return this.socket.setHeartbeatTimeout(),a.type=="heartbeat"?this.onHeartbeat():(a.type=="connect"&&a.endpoint==""&&this.onConnect(),a.type=="error"&&a.advice=="reconnect"&&(this.isOpen=!1),this.socket.onPacket(a),this)},c.prototype.setCloseTimeout=function(){if(!this.closeTimeout){var a=this;this.closeTimeout=setTimeout(function(){a.onDisconnect()},this.socket.closeTimeout)}},c.prototype.onDisconnect=function(){return this.isOpen&&this.close(),this.clearTimeouts(),this.socket.onDisconnect(),this},c.prototype.onConnect=function(){return this.socket.onConnect(),this},c.prototype.clearCloseTimeout=function(){this.closeTimeout&&(clearTimeout(this.closeTimeout),this.closeTimeout=null)},c.prototype.clearTimeouts=function(){this.clearCloseTimeout(),this.reopenTimeout&&clearTimeout(this.reopenTimeout)},c.prototype.packet=function(a){this.send(b.parser.encodePacket(a))},c.prototype.onHeartbeat=function(a){this.packet({type:"heartbeat"})},c.prototype.onOpen=function(){this.isOpen=!0,this.clearCloseTimeout(),this.socket.onOpen()},c.prototype.onClose=function(){var a=this;this.isOpen=!1,this.socket.onClose(),this.onDisconnect()},c.prototype.prepareUrl=function(){var a=this.socket.options;return this.scheme()+"://"+a.host+":"+a.port+"/"+a.resource+"/"+b.protocol+"/"+this.name+"/"+this.sessid},c.prototype.ready=function(a,b){b.call(this)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){this.options={port:80,secure:!1,document:"document"in c?document:!1,resource:"socket.io",transports:b.transports,"connect timeout":1e4,"try multiple transports":!0,reconnect:!0,"reconnection delay":500,"reconnection limit":Infinity,"reopen delay":3e3,"max reconnection attempts":10,"sync disconnect on unload":!1,"auto connect":!0,"flash policy port":10843,manualFlush:!1},b.util.merge(this.options,a),this.connected=!1,this.open=!1,this.connecting=!1,this.reconnecting=!1,this.namespaces={},this.buffer=[],this.doBuffer=!1;if(this.options["sync disconnect on unload"]&&(!this.isXDomain()||b.util.ua.hasCORS)){var d=this;b.util.on(c,"beforeunload",function(){d.disconnectSync()},!1)}this.options["auto connect"]&&this.connect()}function e(){}a.Socket=d,b.util.mixin(d,b.EventEmitter),d.prototype.of=function(a){return this.namespaces[a]||(this.namespaces[a]=new b.SocketNamespace(this,a),a!==""&&this.namespaces[a].packet({type:"connect"})),this.namespaces[a]},d.prototype.publish=function(){this.emit.apply(this,arguments);var a;for(var b in this.namespaces)this.namespaces.hasOwnProperty(b)&&(a=this.of(b),a.$emit.apply(a,arguments))},d.prototype.handshake=function(a){function f(b){b instanceof Error?(c.connecting=!1,c.onError(b.message)):a.apply(null,b.split(":"))}var c=this,d=this.options,g=["http"+(d.secure?"s":"")+":/",d.host+":"+d.port,d.resource,b.protocol,b.util.query(this.options.query,"t="+ +(new Date))].join("/");if(this.isXDomain()&&!b.util.ua.hasCORS){var h=document.getElementsByTagName("script")[0],i=document.createElement("script");i.src=g+"&jsonp="+b.j.length,h.parentNode.insertBefore(i,h),b.j.push(function(a){f(a),i.parentNode.removeChild(i)})}else{var j=b.util.request();j.open("GET",g,!0),this.isXDomain()&&(j.withCredentials=!0),j.onreadystatechange=function(){j.readyState==4&&(j.onreadystatechange=e,j.status==200?f(j.responseText):j.status==403?c.onError(j.responseText):(c.connecting=!1,!c.reconnecting&&c.onError(j.responseText)))},j.send(null)}},d.prototype.getTransport=function(a){var c=a||this.transports,d;for(var e=0,f;f=c[e];e++)if(b.Transport[f]&&b.Transport[f].check(this)&&(!this.isXDomain()||b.Transport[f].xdomainCheck(this)))return new b.Transport[f](this,this.sessionid);return null},d.prototype.connect=function(a){if(this.connecting)return this;var c=this;return c.connecting=!0,this.handshake(function(d,e,f,g){function h(a){c.transport&&c.transport.clearTimeouts(),c.transport=c.getTransport(a);if(!c.transport)return c.publish("connect_failed");c.transport.ready(c,function(){c.connecting=!0,c.publish("connecting",c.transport.name),c.transport.open(),c.options["connect timeout"]&&(c.connectTimeoutTimer=setTimeout(function(){if(!c.connected){c.connecting=!1;if(c.options["try multiple transports"]){var a=c.transports;while(a.length>0&&a.splice(0,1)[0]!=c.transport.name);a.length?h(a):c.publish("connect_failed")}}},c.options["connect timeout"]))})}c.sessionid=d,c.closeTimeout=f*1e3,c.heartbeatTimeout=e*1e3,c.transports||(c.transports=c.origTransports=g?b.util.intersect(g.split(","),c.options.transports):c.options.transports),c.setHeartbeatTimeout(),h(c.transports),c.once("connect",function(){clearTimeout(c.connectTimeoutTimer),a&&typeof a=="function"&&a()})}),this},d.prototype.setHeartbeatTimeout=function(){clearTimeout(this.heartbeatTimeoutTimer);if(this.transport&&!this.transport.heartbeats())return;var a=this;this.heartbeatTimeoutTimer=setTimeout(function(){a.transport.onClose()},this.heartbeatTimeout)},d.prototype.packet=function(a){return this.connected&&!this.doBuffer?this.transport.packet(a):this.buffer.push(a),this},d.prototype.setBuffer=function(a){this.doBuffer=a,!a&&this.connected&&this.buffer.length&&(this.options.manualFlush||this.flushBuffer())},d.prototype.flushBuffer=function(){this.transport.payload(this.buffer),this.buffer=[]},d.prototype.disconnect=function(){if(this.connected||this.connecting)this.open&&this.of("").packet({type:"disconnect"}),this.onDisconnect("booted");return this},d.prototype.disconnectSync=function(){var a=b.util.request(),c=["http"+(this.options.secure?"s":"")+":/",this.options.host+":"+this.options.port,this.options.resource,b.protocol,"",this.sessionid].join("/")+"/?disconnect=1";a.open("GET",c,!1),a.send(null),this.onDisconnect("booted")},d.prototype.isXDomain=function(){var a=c.location.port||("https:"==c.location.protocol?443:80);return this.options.host!==c.location.hostname||this.options.port!=a},d.prototype.onConnect=function(){this.connected||(this.connected=!0,this.connecting=!1,this.doBuffer||this.setBuffer(!1),this.emit("connect"))},d.prototype.onOpen=function(){this.open=!0},d.prototype.onClose=function(){this.open=!1,clearTimeout(this.heartbeatTimeoutTimer)},d.prototype.onPacket=function(a){this.of(a.endpoint).onPacket(a)},d.prototype.onError=function(a){a&&a.advice&&a.advice==="reconnect"&&(this.connected||this.connecting)&&(this.disconnect(),this.options.reconnect&&this.reconnect()),this.publish("error",a&&a.reason?a.reason:a)},d.prototype.onDisconnect=function(a){var b=this.connected,c=this.connecting;this.connected=!1,this.connecting=!1,this.open=!1;if(b||c)this.transport.close(),this.transport.clearTimeouts(),b&&(this.publish("disconnect",a),"booted"!=a&&this.options.reconnect&&!this.reconnecting&&this.reconnect())},d.prototype.reconnect=function(){function e(){if(a.connected){for(var b in a.namespaces)a.namespaces.hasOwnProperty(b)&&""!==b&&a.namespaces[b].packet({type:"connect"});a.publish("reconnect",a.transport.name,a.reconnectionAttempts)}clearTimeout(a.reconnectionTimer),a.removeListener("connect_failed",f),a.removeListener("connect",f),a.reconnecting=!1,delete a.reconnectionAttempts,delete a.reconnectionDelay,delete a.reconnectionTimer,delete a.redoTransports,a.options["try multiple transports"]=c}function f(){if(!a.reconnecting)return;if(a.connected)return e();if(a.connecting&&a.reconnecting)return a.reconnectionTimer=setTimeout(f,1e3);a.reconnectionAttempts++>=b?a.redoTransports?(a.publish("reconnect_failed"),e()):(a.on("connect_failed",f),a.options["try multiple transports"]=!0,a.transports=a.origTransports,a.transport=a.getTransport(),a.redoTransports=!0,a.connect()):(a.reconnectionDelay<d&&(a.reconnectionDelay*=2),a.connect(),a.publish("reconnecting",a.reconnectionDelay,a.reconnectionAttempts),a.reconnectionTimer=setTimeout(f,a.reconnectionDelay))}this.reconnecting=!0,this.reconnectionAttempts=0,this.reconnectionDelay=this.options["reconnection delay"];var a=this,b=this.options["max reconnection attempts"],c=this.options["try multiple transports"],d=this.options["reconnection limit"];this.options["try multiple transports"]=!1,this.reconnectionTimer=setTimeout(f,this.reconnectionDelay),this.on("connect",f)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a,b){this.socket=a,this.name=b||"",this.flags={},this.json=new d(this,"json"),this.ackPackets=0,this.acks={}}function d(a,b){this.namespace=a,this.name=b}a.SocketNamespace=c,b.util.mixin(c,b.EventEmitter),c.prototype.$emit=b.EventEmitter.prototype.emit,c.prototype.of=function(){return this.socket.of.apply(this.socket,arguments)},c.prototype.packet=function(a){return a.endpoint=this.name,this.socket.packet(a),this.flags={},this},c.prototype.send=function(a,b){var c={type:this.flags.json?"json":"message",data:a};return"function"==typeof b&&(c.id=++this.ackPackets,c.ack=!0,this.acks[c.id]=b),this.packet(c)},c.prototype.emit=function(a){var b=Array.prototype.slice.call(arguments,1),c=b[b.length-1],d={type:"event",name:a};return"function"==typeof c&&(d.id=++this.ackPackets,d.ack="data",this.acks[d.id]=c,b=b.slice(0,b.length-1)),d.args=b,this.packet(d)},c.prototype.disconnect=function(){return this.name===""?this.socket.disconnect():(this.packet({type:"disconnect"}),this.$emit("disconnect")),this},c.prototype.onPacket=function(a){function d(){c.packet({type:"ack",args:b.util.toArray(arguments),ackId:a.id})}var c=this;switch(a.type){case"connect":this.$emit("connect");break;case"disconnect":this.name===""?this.socket.onDisconnect(a.reason||"booted"):this.$emit("disconnect",a.reason);break;case"message":case"json":var e=["message",a.data];a.ack=="data"?e.push(d):a.ack&&this.packet({type:"ack",ackId:a.id}),this.$emit.apply(this,e);break;case"event":var e=[a.name].concat(a.args);a.ack=="data"&&e.push(d),this.$emit.apply(this,e);break;case"ack":this.acks[a.ackId]&&(this.acks[a.ackId].apply(this,a.args),delete this.acks[a.ackId]);break;case"error":a.advice?this.socket.onError(a):a.reason=="unauthorized"?this.$emit("connect_failed",a.reason):this.$emit("error",a.reason)}},d.prototype.send=function(){this.namespace.flags[this.name]=!0,this.namespace.send.apply(this.namespace,arguments)},d.prototype.emit=function(){this.namespace.flags[this.name]=!0,this.namespace.emit.apply(this.namespace,arguments)}}("undefined"!=typeof io?io:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(a){b.Transport.apply(this,arguments)}a.websocket=d,b.util.inherit(d,b.Transport),d.prototype.name="websocket",d.prototype.open=function(){var a=b.util.query(this.socket.options.query),d=this,e;return e||(e=c.MozWebSocket||c.WebSocket),this.websocket=new e(this.prepareUrl()+a),this.websocket.onopen=function(){d.onOpen(),d.socket.setBuffer(!1)},this.websocket.onmessage=function(a){d.onData(a.data)},this.websocket.onclose=function(){d.onClose(),d.socket.setBuffer(!0)},this.websocket.onerror=function(a){d.onError(a)},this},b.util.ua.iDevice?d.prototype.send=function(a){var b=this;return setTimeout(function(){b.websocket.send(a)},0),this}:d.prototype.send=function(a){return this.websocket.send(a),this},d.prototype.payload=function(a){for(var b=0,c=a.length;b<c;b++)this.packet(a[b]);return this},d.prototype.close=function(){return this.websocket.close(),this},d.prototype.onError=function(a){this.socket.onError(a)},d.prototype.scheme=function(){return this.socket.options.secure?"wss":"ws"},d.check=function(){return"WebSocket"in c&&!("__addTask"in WebSocket)||"MozWebSocket"in c},d.xdomainCheck=function(){return!0},b.transports.push("websocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(){b.Transport.websocket.apply(this,arguments)}a.flashsocket=c,b.util.inherit(c,b.Transport.websocket),c.prototype.name="flashsocket",c.prototype.open=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.open.apply(a,c)}),this},c.prototype.send=function(){var a=this,c=arguments;return WebSocket.__addTask(function(){b.Transport.websocket.prototype.send.apply(a,c)}),this},c.prototype.close=function(){return WebSocket.__tasks.length=0,b.Transport.websocket.prototype.close.call(this),this},c.prototype.ready=function(a,d){function e(){var b=a.options,e=b["flash policy port"],g=["http"+(b.secure?"s":"")+":/",b.host+":"+b.port,b.resource,"static/flashsocket","WebSocketMain"+(a.isXDomain()?"Insecure":"")+".swf"];c.loaded||(typeof WEB_SOCKET_SWF_LOCATION=="undefined"&&(WEB_SOCKET_SWF_LOCATION=g.join("/")),e!==843&&WebSocket.loadFlashPolicyFile("xmlsocket://"+b.host+":"+e),WebSocket.__initialize(),c.loaded=!0),d.call(f)}var f=this;if(document.body)return e();b.util.load(e)},c.check=function(){return typeof WebSocket!="undefined"&&"__initialize"in WebSocket&&!!swfobject?swfobject.getFlashPlayerVersion().major>=10:!1},c.xdomainCheck=function(){return!0},typeof window!="undefined"&&(WEB_SOCKET_DISABLE_AUTO_INITIALIZATION=!0),b.transports.push("flashsocket")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports);if("undefined"!=typeof window)var swfobject=function(){function A(){if(t)return;try{var a=i.getElementsByTagName("body")[0].appendChild(Q("span"));a.parentNode.removeChild(a)}catch(b){return}t=!0;var c=l.length;for(var d=0;d<c;d++)l[d]()}function B(a){t?a():l[l.length]=a}function C(b){if(typeof h.addEventListener!=a)h.addEventListener("load",b,!1);else if(typeof i.addEventListener!=a)i.addEventListener("load",b,!1);else if(typeof h.attachEvent!=a)R(h,"onload",b);else if(typeof h.onload=="function"){var c=h.onload;h.onload=function(){c(),b()}}else h.onload=b}function D(){k?E():F()}function E(){var c=i.getElementsByTagName("body")[0],d=Q(b);d.setAttribute("type",e);var f=c.appendChild(d);if(f){var g=0;(function(){if(typeof f.GetVariable!=a){var b=f.GetVariable("$version");b&&(b=b.split(" ")[1].split(","),y.pv=[parseInt(b[0],10),parseInt(b[1],10),parseInt(b[2],10)])}else if(g<10){g++,setTimeout(arguments.callee,10);return}c.removeChild(d),f=null,F()})()}else F()}function F(){var b=m.length;if(b>0)for(var c=0;c<b;c++){var d=m[c].id,e=m[c].callbackFn,f={success:!1,id:d};if(y.pv[0]>0){var g=P(d);if(g)if(S(m[c].swfVersion)&&!(y.wk&&y.wk<312))U(d,!0),e&&(f.success=!0,f.ref=G(d),e(f));else if(m[c].expressInstall&&H()){var h={};h.data=m[c].expressInstall,h.width=g.getAttribute("width")||"0",h.height=g.getAttribute("height")||"0",g.getAttribute("class")&&(h.styleclass=g.getAttribute("class")),g.getAttribute("align")&&(h.align=g.getAttribute("align"));var i={},j=g.getElementsByTagName("param"),k=j.length;for(var l=0;l<k;l++)j[l].getAttribute("name").toLowerCase()!="movie"&&(i[j[l].getAttribute("name")]=j[l].getAttribute("value"));I(h,i,d,e)}else J(g),e&&e(f)}else{U(d,!0);if(e){var n=G(d);n&&typeof n.SetVariable!=a&&(f.success=!0,f.ref=n),e(f)}}}}function G(c){var d=null,e=P(c);if(e&&e.nodeName=="OBJECT")if(typeof e.SetVariable!=a)d=e;else{var f=e.getElementsByTagName(b)[0];f&&(d=f)}return d}function H(){return!u&&S("6.0.65")&&(y.win||y.mac)&&!(y.wk&&y.wk<312)}function I(b,c,d,e){u=!0,r=e||null,s={success:!1,id:d};var g=P(d);if(g){g.nodeName=="OBJECT"?(p=K(g),q=null):(p=g,q=d),b.id=f;if(typeof b.width==a||!/%$/.test(b.width)&&parseInt(b.width,10)<310)b.width="310";if(typeof b.height==a||!/%$/.test(b.height)&&parseInt(b.height,10)<137)b.height="137";i.title=i.title.slice(0,47)+" - Flash Player Installation";var j=y.ie&&y.win?["Active"].concat("").join("X"):"PlugIn",k="MMredirectURL="+h.location.toString().replace(/&/g,"%26")+"&MMplayerType="+j+"&MMdoctitle="+i.title;typeof c.flashvars!=a?c.flashvars+="&"+k:c.flashvars=k;if(y.ie&&y.win&&g.readyState!=4){var l=Q("div");d+="SWFObjectNew",l.setAttribute("id",d),g.parentNode.insertBefore(l,g),g.style.display="none",function(){g.readyState==4?g.parentNode.removeChild(g):setTimeout(arguments.callee,10)}()}L(b,c,d)}}function J(a){if(y.ie&&y.win&&a.readyState!=4){var b=Q("div");a.parentNode.insertBefore(b,a),b.parentNode.replaceChild(K(a),b),a.style.display="none",function(){a.readyState==4?a.parentNode.removeChild(a):setTimeout(arguments.callee,10)}()}else a.parentNode.replaceChild(K(a),a)}function K(a){var c=Q("div");if(y.win&&y.ie)c.innerHTML=a.innerHTML;else{var d=a.getElementsByTagName(b)[0];if(d){var e=d.childNodes;if(e){var f=e.length;for(var g=0;g<f;g++)(e[g].nodeType!=1||e[g].nodeName!="PARAM")&&e[g].nodeType!=8&&c.appendChild(e[g].cloneNode(!0))}}}return c}function L(c,d,f){var g,h=P(f);if(y.wk&&y.wk<312)return g;if(h){typeof c.id==a&&(c.id=f);if(y.ie&&y.win){var i="";for(var j in c)c[j]!=Object.prototype[j]&&(j.toLowerCase()=="data"?d.movie=c[j]:j.toLowerCase()=="styleclass"?i+=' class="'+c[j]+'"':j.toLowerCase()!="classid"&&(i+=" "+j+'="'+c[j]+'"'));var k="";for(var l in d)d[l]!=Object.prototype[l]&&(k+='<param name="'+l+'" value="'+d[l]+'" />');h.outerHTML='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'+i+">"+k+"</object>",n[n.length]=c.id,g=P(c.id)}else{var m=Q(b);m.setAttribute("type",e);for(var o in c)c[o]!=Object.prototype[o]&&(o.toLowerCase()=="styleclass"?m.setAttribute("class",c[o]):o.toLowerCase()!="classid"&&m.setAttribute(o,c[o]));for(var p in d)d[p]!=Object.prototype[p]&&p.toLowerCase()!="movie"&&M(m,p,d[p]);h.parentNode.replaceChild(m,h),g=m}}return g}function M(a,b,c){var d=Q("param");d.setAttribute("name",b),d.setAttribute("value",c),a.appendChild(d)}function N(a){var b=P(a);b&&b.nodeName=="OBJECT"&&(y.ie&&y.win?(b.style.display="none",function(){b.readyState==4?O(a):setTimeout(arguments.callee,10)}()):b.parentNode.removeChild(b))}function O(a){var b=P(a);if(b){for(var c in b)typeof b[c]=="function"&&(b[c]=null);b.parentNode.removeChild(b)}}function P(a){var b=null;try{b=i.getElementById(a)}catch(c){}return b}function Q(a){return i.createElement(a)}function R(a,b,c){a.attachEvent(b,c),o[o.length]=[a,b,c]}function S(a){var b=y.pv,c=a.split(".");return c[0]=parseInt(c[0],10),c[1]=parseInt(c[1],10)||0,c[2]=parseInt(c[2],10)||0,b[0]>c[0]||b[0]==c[0]&&b[1]>c[1]||b[0]==c[0]&&b[1]==c[1]&&b[2]>=c[2]?!0:!1}function T(c,d,e,f){if(y.ie&&y.mac)return;var g=i.getElementsByTagName("head")[0];if(!g)return;var h=e&&typeof e=="string"?e:"screen";f&&(v=null,w=null);if(!v||w!=h){var j=Q("style");j.setAttribute("type","text/css"),j.setAttribute("media",h),v=g.appendChild(j),y.ie&&y.win&&typeof i.styleSheets!=a&&i.styleSheets.length>0&&(v=i.styleSheets[i.styleSheets.length-1]),w=h}y.ie&&y.win?v&&typeof v.addRule==b&&v.addRule(c,d):v&&typeof i.createTextNode!=a&&v.appendChild(i.createTextNode(c+" {"+d+"}"))}function U(a,b){if(!x)return;var c=b?"visible":"hidden";t&&P(a)?P(a).style.visibility=c:T("#"+a,"visibility:"+c)}function V(b){var c=/[\\\"<>\.;]/,d=c.exec(b)!=null;return d&&typeof encodeURIComponent!=a?encodeURIComponent(b):b}var a="undefined",b="object",c="Shockwave Flash",d="ShockwaveFlash.ShockwaveFlash",e="application/x-shockwave-flash",f="SWFObjectExprInst",g="onreadystatechange",h=window,i=document,j=navigator,k=!1,l=[D],m=[],n=[],o=[],p,q,r,s,t=!1,u=!1,v,w,x=!0,y=function(){var f=typeof i.getElementById!=a&&typeof i.getElementsByTagName!=a&&typeof i.createElement!=a,g=j.userAgent.toLowerCase(),l=j.platform.toLowerCase(),m=l?/win/.test(l):/win/.test(g),n=l?/mac/.test(l):/mac/.test(g),o=/webkit/.test(g)?parseFloat(g.replace(/^.*webkit\/(\d+(\.\d+)?).*$/,"$1")):!1,p=!1,q=[0,0,0],r=null;if(typeof j.plugins!=a&&typeof j.plugins[c]==b)r=j.plugins[c].description,r&&(typeof j.mimeTypes==a||!j.mimeTypes[e]||!!j.mimeTypes[e].enabledPlugin)&&(k=!0,p=!1,r=r.replace(/^.*\s+(\S+\s+\S+$)/,"$1"),q[0]=parseInt(r.replace(/^(.*)\..*$/,"$1"),10),q[1]=parseInt(r.replace(/^.*\.(.*)\s.*$/,"$1"),10),q[2]=/[a-zA-Z]/.test(r)?parseInt(r.replace(/^.*[a-zA-Z]+(.*)$/,"$1"),10):0);else if(typeof h[["Active"].concat("Object").join("X")]!=a)try{var s=new(window[["Active"].concat("Object").join("X")])(d);s&&(r=s.GetVariable("$version"),r&&(p=!0,r=r.split(" ")[1].split(","),q=[parseInt(r[0],10),parseInt(r[1],10),parseInt(r[2],10)]))}catch(t){}return{w3:f,pv:q,wk:o,ie:p,win:m,mac:n}}(),z=function(){if(!y.w3)return;(typeof i.readyState!=a&&i.readyState=="complete"||typeof i.readyState==a&&(i.getElementsByTagName("body")[0]||i.body))&&A(),t||(typeof i.addEventListener!=a&&i.addEventListener("DOMContentLoaded",A,!1),y.ie&&y.win&&(i.attachEvent(g,function(){i.readyState=="complete"&&(i.detachEvent(g,arguments.callee),A())}),h==top&&function(){if(t)return;try{i.documentElement.doScroll("left")}catch(a){setTimeout(arguments.callee,0);return}A()}()),y.wk&&function(){if(t)return;if(!/loaded|complete/.test(i.readyState)){setTimeout(arguments.callee,0);return}A()}(),C(A))}(),W=function(){y.ie&&y.win&&window.attachEvent("onunload",function(){var a=o.length;for(var b=0;b<a;b++)o[b][0].detachEvent(o[b][1],o[b][2]);var c=n.length;for(var d=0;d<c;d++)N(n[d]);for(var e in y)y[e]=null;y=null;for(var f in swfobject)swfobject[f]=null;swfobject=null})}();return{registerObject:function(a,b,c,d){if(y.w3&&a&&b){var e={};e.id=a,e.swfVersion=b,e.expressInstall=c,e.callbackFn=d,m[m.length]=e,U(a,!1)}else d&&d({success:!1,id:a})},getObjectById:function(a){if(y.w3)return G(a)},embedSWF:function(c,d,e,f,g,h,i,j,k,l){var m={success:!1,id:d};y.w3&&!(y.wk&&y.wk<312)&&c&&d&&e&&f&&g?(U(d,!1),B(function(){e+="",f+="";var n={};if(k&&typeof k===b)for(var o in k)n[o]=k[o];n.data=c,n.width=e,n.height=f;var p={};if(j&&typeof j===b)for(var q in j)p[q]=j[q];if(i&&typeof i===b)for(var r in i)typeof p.flashvars!=a?p.flashvars+="&"+r+"="+i[r]:p.flashvars=r+"="+i[r];if(S(g)){var s=L(n,p,d);n.id==d&&U(d,!0),m.success=!0,m.ref=s}else{if(h&&H()){n.data=h,I(n,p,d,l);return}U(d,!0)}l&&l(m)})):l&&l(m)},switchOffAutoHideShow:function(){x=!1},ua:y,getFlashPlayerVersion:function(){return{major:y.pv[0],minor:y.pv[1],release:y.pv[2]}},hasFlashPlayerVersion:S,createSWF:function(a,b,c){return y.w3?L(a,b,c):undefined},showExpressInstall:function(a,b,c,d){y.w3&&H()&&I(a,b,c,d)},removeSWF:function(a){y.w3&&N(a)},createCSS:function(a,b,c,d){y.w3&&T(a,b,c,d)},addDomLoadEvent:B,addLoadEvent:C,getQueryParamValue:function(a){var b=i.location.search||i.location.hash;if(b){/\?/.test(b)&&(b=b.split("?")[1]);if(a==null)return V(b);var c=b.split("&");for(var d=0;d<c.length;d++)if(c[d].substring(0,c[d].indexOf("="))==a)return V(c[d].substring(c[d].indexOf("=")+1))}return""},expressInstallCallback:function(){if(u){var a=P(f);a&&p&&(a.parentNode.replaceChild(p,a),q&&(U(q,!0),y.ie&&y.win&&(p.style.display="block")),r&&r(s)),u=!1}}}}();(function(){if("undefined"==typeof window||window.WebSocket)return;var a=window.console;if(!a||!a.log||!a.error)a={log:function(){},error:function(){}};if(!swfobject.hasFlashPlayerVersion("10.0.0")){a.error("Flash Player >= 10.0.0 is required.");return}location.protocol=="file:"&&a.error("WARNING: web-socket-js doesn't work in file:///... URL unless you set Flash Security Settings properly. Open the page via Web server i.e. http://..."),WebSocket=function(a,b,c,d,e){var f=this;f.__id=WebSocket.__nextId++,WebSocket.__instances[f.__id]=f,f.readyState=WebSocket.CONNECTING,f.bufferedAmount=0,f.__events={},b?typeof b=="string"&&(b=[b]):b=[],setTimeout(function(){WebSocket.__addTask(function(){WebSocket.__flash.create(f.__id,a,b,c||null,d||0,e||null)})},0)},WebSocket.prototype.send=function(a){if(this.readyState==WebSocket.CONNECTING)throw"INVALID_STATE_ERR: Web Socket connection has not been established";var b=WebSocket.__flash.send(this.__id,encodeURIComponent(a));return b<0?!0:(this.bufferedAmount+=b,!1)},WebSocket.prototype.close=function(){if(this.readyState==WebSocket.CLOSED||this.readyState==WebSocket.CLOSING)return;this.readyState=WebSocket.CLOSING,WebSocket.__flash.close(this.__id)},WebSocket.prototype.addEventListener=function(a,b,c){a in this.__events||(this.__events[a]=[]),this.__events[a].push(b)},WebSocket.prototype.removeEventListener=function(a,b,c){if(!(a in this.__events))return;var d=this.__events[a];for(var e=d.length-1;e>=0;--e)if(d[e]===b){d.splice(e,1);break}},WebSocket.prototype.dispatchEvent=function(a){var b=this.__events[a.type]||[];for(var c=0;c<b.length;++c)b[c](a);var d=this["on"+a.type];d&&d(a)},WebSocket.prototype.__handleEvent=function(a){"readyState"in a&&(this.readyState=a.readyState),"protocol"in a&&(this.protocol=a.protocol);var b;if(a.type=="open"||a.type=="error")b=this.__createSimpleEvent(a.type);else if(a.type=="close")b=this.__createSimpleEvent("close");else{if(a.type!="message")throw"unknown event type: "+a.type;var c=decodeURIComponent(a.message);b=this.__createMessageEvent("message",c)}this.dispatchEvent(b)},WebSocket.prototype.__createSimpleEvent=function(a){if(document.createEvent&&window.Event){var b=document.createEvent("Event");return b.initEvent(a,!1,!1),b}return{type:a,bubbles:!1,cancelable:!1}},WebSocket.prototype.__createMessageEvent=function(a,b){if(document.createEvent&&window.MessageEvent&&!window.opera){var c=document.createEvent("MessageEvent");return c.initMessageEvent("message",!1,!1,b,null,null,window,null),c}return{type:a,data:b,bubbles:!1,cancelable:!1}},WebSocket.CONNECTING=0,WebSocket.OPEN=1,WebSocket.CLOSING=2,WebSocket.CLOSED=3,WebSocket.__flash=null,WebSocket.__instances={},WebSocket.__tasks=[],WebSocket.__nextId=0,WebSocket.loadFlashPolicyFile=function(a){WebSocket.__addTask(function(){WebSocket.__flash.loadManualPolicyFile(a)})},WebSocket.__initialize=function(){if(WebSocket.__flash)return;WebSocket.__swfLocation&&(window.WEB_SOCKET_SWF_LOCATION=WebSocket.__swfLocation);if(!window.WEB_SOCKET_SWF_LOCATION){a.error("[WebSocket] set WEB_SOCKET_SWF_LOCATION to location of WebSocketMain.swf");return}var b=document.createElement("div");b.id="webSocketContainer",b.style.position="absolute",WebSocket.__isFlashLite()?(b.style.left="0px",b.style.top="0px"):(b.style.left="-100px",b.style.top="-100px");var c=document.createElement("div");c.id="webSocketFlash",b.appendChild(c),document.body.appendChild(b),swfobject.embedSWF(WEB_SOCKET_SWF_LOCATION,"webSocketFlash","1","1","10.0.0",null,null,{hasPriority:!0,swliveconnect:!0,allowScriptAccess:"always"},null,function(b){b.success||a.error("[WebSocket] swfobject.embedSWF failed")})},WebSocket.__onFlashInitialized=function(){setTimeout(function(){WebSocket.__flash=document.getElementById("webSocketFlash"),WebSocket.__flash.setCallerUrl(location.href),WebSocket.__flash.setDebug(!!window.WEB_SOCKET_DEBUG);for(var a=0;a<WebSocket.__tasks.length;++a)WebSocket.__tasks[a]();WebSocket.__tasks=[]},0)},WebSocket.__onFlashEvent=function(){return setTimeout(function(){try{var b=WebSocket.__flash.receiveEvents();for(var c=0;c<b.length;++c)WebSocket.__instances[b[c].webSocketId].__handleEvent(b[c])}catch(d){a.error(d)}},0),!0},WebSocket.__log=function(b){a.log(decodeURIComponent(b))},WebSocket.__error=function(b){a.error(decodeURIComponent(b))},WebSocket.__addTask=function(a){WebSocket.__flash?a():WebSocket.__tasks.push(a)},WebSocket.__isFlashLite=function(){if(!window.navigator||!window.navigator.mimeTypes)return!1;var a=window.navigator.mimeTypes["application/x-shockwave-flash"];return!a||!a.enabledPlugin||!a.enabledPlugin.filename?!1:a.enabledPlugin.filename.match(/flashlite/i)?!0:!1},window.WEB_SOCKET_DISABLE_AUTO_INITIALIZATION||(window.addEventListener?window.addEventListener("load",function(){WebSocket.__initialize()},!1):window.attachEvent("onload",function(){WebSocket.__initialize()}))})(),function(a,b,c){function d(a){if(!a)return;b.Transport.apply(this,arguments),this.sendBuffer=[]}function e(){}a.XHR=d,b.util.inherit(d,b.Transport),d.prototype.open=function(){return this.socket.setBuffer(!1),this.onOpen(),this.get(),this.setCloseTimeout(),this},d.prototype.payload=function(a){var c=[];for(var d=0,e=a.length;d<e;d++)c.push(b.parser.encodePacket(a[d]));this.send(b.parser.encodePayload(c))},d.prototype.send=function(a){return this.post(a),this},d.prototype.post=function(a){function d(){this.readyState==4&&(this.onreadystatechange=e,b.posting=!1,this.status==200?b.socket.setBuffer(!1):b.onClose())}function f(){this.onload=e,b.socket.setBuffer(!1)}var b=this;this.socket.setBuffer(!0),this.sendXHR=this.request("POST"),c.XDomainRequest&&this.sendXHR instanceof XDomainRequest?this.sendXHR.onload=this.sendXHR.onerror=f:this.sendXHR.onreadystatechange=d,this.sendXHR.send(a)},d.prototype.close=function(){return this.onClose(),this},d.prototype.request=function(a){var c=b.util.request(this.socket.isXDomain()),d=b.util.query(this.socket.options.query,"t="+ +(new Date));c.open(a||"GET",this.prepareUrl()+d,!0);if(a=="POST")try{c.setRequestHeader?c.setRequestHeader("Content-type","text/plain;charset=UTF-8"):c.contentType="text/plain"}catch(e){}return c},d.prototype.scheme=function(){return this.socket.options.secure?"https":"http"},d.check=function(a,d){try{var e=b.util.request(d),f=c.XDomainRequest&&e instanceof XDomainRequest,g=a&&a.options&&a.options.secure?"https:":"http:",h=g!=c.location.protocol;if(e&&(!f||!h))return!0}catch(i){}return!1},d.xdomainCheck=function(a){return d.check(a,!0)}}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b){function c(a){b.Transport.XHR.apply(this,arguments)}a.htmlfile=c,b.util.inherit(c,b.Transport.XHR),c.prototype.name="htmlfile",c.prototype.get=function(){this.doc=new(window[["Active"].concat("Object").join("X")])("htmlfile"),this.doc.open(),this.doc.write("<html></html>"),this.doc.close(),this.doc.parentWindow.s=this;var a=this.doc.createElement("div");a.className="socketio",this.doc.body.appendChild(a),this.iframe=this.doc.createElement("iframe"),a.appendChild(this.iframe);var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date));this.iframe.src=this.prepareUrl()+d,b.util.on(window,"unload",function(){c.destroy()})},c.prototype._=function(a,b){this.onData(a);try{var c=b.getElementsByTagName("script")[0];c.parentNode.removeChild(c)}catch(d){}},c.prototype.destroy=function(){if(this.iframe){try{this.iframe.src="about:blank"}catch(a){}this.doc=null,this.iframe.parentNode.removeChild(this.iframe),this.iframe=null,CollectGarbage()}},c.prototype.close=function(){return this.destroy(),b.Transport.XHR.prototype.close.call(this)},c.check=function(a){if(typeof window!="undefined"&&["Active"].concat("Object").join("X")in window)try{var c=new(window[["Active"].concat("Object").join("X")])("htmlfile");return c&&b.Transport.XHR.check(a)}catch(d){}return!1},c.xdomainCheck=function(){return!1},b.transports.push("htmlfile")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports),function(a,b,c){function d(){b.Transport.XHR.apply(this,arguments)}function e(){}a["xhr-polling"]=d,b.util.inherit(d,b.Transport.XHR),b.util.merge(d,b.Transport.XHR),d.prototype.name="xhr-polling",d.prototype.heartbeats=function(){return!1},d.prototype.open=function(){var a=this;return b.Transport.XHR.prototype.open.call(a),!1},d.prototype.get=function(){function b(){this.readyState==4&&(this.onreadystatechange=e,this.status==200?(a.onData(this.responseText),a.get()):a.onClose())}function d(){this.onload=e,this.onerror=e,a.onData(this.responseText),a.get()}function f(){a.onClose()}if(!this.isOpen)return;var a=this;this.xhr=this.request(),c.XDomainRequest&&this.xhr instanceof XDomainRequest?(this.xhr.onload=d,this.xhr.onerror=f):this.xhr.onreadystatechange=b,this.xhr.send(null)},d.prototype.onClose=function(){b.Transport.XHR.prototype.onClose.call(this);if(this.xhr){this.xhr.onreadystatechange=this.xhr.onload=this.xhr.onerror=e;try{this.xhr.abort()}catch(a){}this.xhr=null}},d.prototype.ready=function(a,c){var d=this;b.util.defer(function(){c.call(d)})},b.transports.push("xhr-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this),function(a,b,c){function e(a){b.Transport["xhr-polling"].apply(this,arguments),this.index=b.j.length;var c=this;b.j.push(function(a){c._(a)})}var d=c.document&&"MozAppearance"in c.document.documentElement.style;a["jsonp-polling"]=e,b.util.inherit(e,b.Transport["xhr-polling"]),e.prototype.name="jsonp-polling",e.prototype.post=function(a){function i(){j(),c.socket.setBuffer(!1)}function j(){c.iframe&&c.form.removeChild(c.iframe);try{h=document.createElement('<iframe name="'+c.iframeId+'">')}catch(a){h=document.createElement("iframe"),h.name=c.iframeId}h.id=c.iframeId,c.form.appendChild(h),c.iframe=h}var c=this,d=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);if(!this.form){var e=document.createElement("form"),f=document.createElement("textarea"),g=this.iframeId="socketio_iframe_"+this.index,h;e.className="socketio",e.style.position="absolute",e.style.top="0px",e.style.left="0px",e.style.display="none",e.target=g,e.method="POST",e.setAttribute("accept-charset","utf-8"),f.name="d",e.appendChild(f),document.body.appendChild(e),this.form=e,this.area=f}this.form.action=this.prepareUrl()+d,j(),this.area.value=b.JSON.stringify(a);try{this.form.submit()}catch(k){}this.iframe.attachEvent?h.onreadystatechange=function(){c.iframe.readyState=="complete"&&i()}:this.iframe.onload=i,this.socket.setBuffer(!0)},e.prototype.get=function(){var a=this,c=document.createElement("script"),e=b.util.query(this.socket.options.query,"t="+ +(new Date)+"&i="+this.index);this.script&&(this.script.parentNode.removeChild(this.script),this.script=null),c.async=!0,c.src=this.prepareUrl()+e,c.onerror=function(){a.onClose()};var f=document.getElementsByTagName("script")[0];f.parentNode.insertBefore(c,f),this.script=c,d&&setTimeout(function(){var a=document.createElement("iframe");document.body.appendChild(a),document.body.removeChild(a)},100)},e.prototype._=function(a){return this.onData(a),this.isOpen&&this.get(),this},e.prototype.ready=function(a,c){var e=this;if(!d)return c.call(this);b.util.load(function(){c.call(e)})},e.check=function(){return"document"in c},e.xdomainCheck=function(){return!0},b.transports.push("jsonp-polling")}("undefined"!=typeof io?io.Transport:module.exports,"undefined"!=typeof io?io:module.parent.exports,this)})()
 /*
  * Modified by William C Miller 2012
  */
@@ -26485,9 +26688,9 @@ function initGL(canvas)
 {
 	var glRef;
 	try {
-    	glRef=canvas.getContext("experimental-webgl");
-        glRef.viewportWidth=canvas.width;
-        glRef.viewportHeight=canvas.height;
+    	glRef = canvas.getContext("experimental-webgl");
+        glRef.viewportWidth = canvas.width;
+        glRef.viewportHeight = canvas.height;
   	} 
   	catch (e) {
   	}
@@ -26530,7 +26733,7 @@ function startRenderLoop(canvas, callback)
 	        timeStamp:time,
 	        elapsed:time-startTime,
 	        frameTime:time-lastTimeStamp,
-	        framesPerSecond:framesPerSecond,
+	        framesPerSecond:framesPerSecond
 	  	});
 	            
 	   	++frameCount;
@@ -26541,27 +26744,27 @@ function startRenderLoop(canvas, callback)
 
 var GLTextureManger = function() 
 {
-	this.textureArray=new Array();
-	this.srcArray=new Array();
-	this.texCount=0;
+	this.textureArray = new Array();
+	this.srcArray = new Array();
+	this.texCount = 0;
 };
 
 GLTextureManger.prototype.init = function(gl) 
 {
 	// Load default texture
-	var callback=this.addTexture;
-	var defaultSrc="root/textures/reddit-icon.png";
-	var defaultTex=gl.textureManager.preloadTexture(gl, defaultSrc, null, null);	
+	var callback = this.addTexture;
+	var defaultSrc = "root/textures/reddit-icon.png";
+	var defaultTex = gl.textureManager.preloadTexture(gl, defaultSrc, null, null);	
 };
 
 GLTextureManger.prototype.addTexture = function(gl, texture, src) 
 {
-	var promise=gl.textureManager.texCount;
-	texture.index=promise;
-	texture.src=src;
+	var promise = gl.textureManager.texCount;
+	texture.index = promise;
+	texture.src = src;
 	
-	gl.textureManager.textureArray[promise]=texture;
-	gl.textureManager.srcArray[promise]=src;
+	gl.textureManager.textureArray[promise] = texture;
+	gl.textureManager.srcArray[promise] = src;
 	gl.textureManager.texCount++;
 	
 	RedditGL_LOG("Texture added: " + texture.src); 
@@ -26572,11 +26775,9 @@ GLTextureManger.prototype.addTexture = function(gl, texture, src)
 
 GLTextureManger.prototype.getTexture = function(gl, promise) 
 {
-	var texture=gl.textureManager.textureArray[promise];
-	if(!texture)
-		return gl.textureManager.textureArray[0];
-	else
-		return texture;
+	var texture = gl.textureManager.textureArray[promise];
+	if(!texture) {return gl.textureManager.textureArray[0];}
+	else {return texture;}
 };
 
 GLTextureManger.prototype.getCurrentIndex = function(gl) 
@@ -26586,43 +26787,41 @@ GLTextureManger.prototype.getCurrentIndex = function(gl)
 
 GLTextureManger.prototype.preloadTexture = function(gl, src, callback, object) 
 {
-	var c=gl.textureManager.texCount;
+	var c = gl.textureManager.texCount;
 	for(var i=0;i<c;i++) 
 	{
-		if(gl.textureManager.srcArray[i]==src) 
+		if(gl.textureManager.srcArray[i] == src) 
 		{
 			RedditGL_LOG("Texture "+src+" already loaded");
-			var promise=i;
-			if(callback) {if(object) {object.texture=promise;object.hasTexture=true;callback(object);break;}}
-			else {if(object) {object.texture=promise;object.hasTexture=true;break;}}
-			
-			return promise;
+			var promise = i;
+			if(callback) {if(object) {object.texture = promise; object.hasTexture = true; callback(object); break;}}
+			else {if(object) {object.texture = promise; object.hasTexture = true; break;}}
 		}
 	}
 	
-	if(callback) {if(object) {return gl.textureManager.loadTexture(gl,src,callback,object);}}
+	if(callback) {if(object) {gl.textureManager.loadTexture(gl,src,callback,object);}}
 	else 
 	{
-		if(object) {return gl.textureManager.loadTexture(gl,src,null,object);}
+		if(object) {gl.textureManager.loadTexture(gl,src,null,object);}
 		else {return gl.textureManager.loadTexture(gl,src,null,null);}
 	}
 };
 
 GLTextureManger.prototype.loadTexture = function(gl, src, callback, object) 
 {
-	var texture=gl.createTexture();
-    var image=new Image();
+	var texture = gl.createTexture();
+    var image = new Image();
   	image.addEventListener("load", function() {
     	gl.bindTexture(gl.TEXTURE_2D, texture);
     	if (!gl.textureManager.isPowerOfTwo(image.width)||!gl.textureManager.isPowerOfTwo(image.height)) {
 	        // Scale up the texture to the next highest power of two dimensions.
-	        var canvas=document.createElement("canvas");
-	        canvas.width=gl.textureManager.nextHighestPowerOfTwo(image.width);
-	        canvas.height=gl.textureManager.nextHighestPowerOfTwo(image.height);
-	        var ctx=canvas.getContext("2d");
+	        var canvas = document.createElement("canvas");
+	        canvas.width = gl.textureManager.nextHighestPowerOfTwo(image.width);
+	        canvas.height = gl.textureManager.nextHighestPowerOfTwo(image.height);
+	        var ctx = canvas.getContext("2d");
 	        //TODO: Center image in new power of two demnsion
 	        ctx.drawImage(image,0,0,image.width,image.height);
-	        image=canvas;
+	        image = canvas;
     	}
         gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);
         gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
@@ -26631,18 +26830,17 @@ GLTextureManger.prototype.loadTexture = function(gl, src, callback, object)
          
        	if(!texture) {RedditGL_LOG("Texture FAILED: "+src);return;}
    			
-   		RedditGL_LOG("Texture loaded: "+src);  
+   		RedditGL_LOG("Texture loaded: " + src);  
    		
      	if(callback) {
-     		if(object) {object.texture=gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;callback(object);}
+     		if(object) {object.texture = gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;callback(object);}
      	}
      	else {
-     		if(object) {object.texture=gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;}
-     		else {var promise=gl.textureManager.addTexture(gl,texture,src);return promise;}
+     		if(object) {object.texture = gl.textureManager.addTexture(gl,texture,src);object.hasTexture=true;}
+     		else {var promise = gl.textureManager.addTexture(gl,texture,src);return promise;}
      	}
   	});
-   	image.src=src;
-
+   	image.src = src;
 };
 
 /*
@@ -26673,30 +26871,30 @@ GLTextureManger.prototype.nextHighestPowerOfTwo = function(x)
  */
 function getShader(gl, id) 
 {
-	var shaderScript=document.getElementById(id);
+	var shaderScript = document.getElementById(id);
     if (!shaderScript) 
     {
      	return null;
     }
 
-    var str="";
-    var k=shaderScript.firstChild;
+    var str = "";
+    var k = shaderScript.firstChild;
     while (k) 
     {
-    	if (k.nodeType==3) {
-        	str+=k.textContent;
+    	if (k.nodeType == 3) {
+        	str += k.textContent;
         }
-    	k=k.nextSibling;
+    	k = k.nextSibling;
     }
 
     var shader;
-    if (shaderScript.type=="x-shader/x-fragment") 
+    if (shaderScript.type == "x-shader/x-fragment") 
     {
-      	shader=gl.createShader(gl.FRAGMENT_SHADER);
+      	shader = gl.createShader(gl.FRAGMENT_SHADER);
     } 
-    else if (shaderScript.type=="x-shader/x-vertex") 
+    else if (shaderScript.type == "x-shader/x-vertex") 
     {
-        shader=gl.createShader(gl.VERTEX_SHADER);
+        shader = gl.createShader(gl.VERTEX_SHADER);
     } else {
         return null;
     }
@@ -26714,8 +26912,8 @@ function getShader(gl, id)
 
 function initShader(gl, shaderVS, shaderFS, attribs, uniforms) 
 {
-	var vertexShader=getShader(gl,shaderVS);
-    var fragmentShader=getShader(gl,shaderFS);
+	var vertexShader = getShader(gl,shaderVS);
+    var fragmentShader = getShader(gl,shaderFS);
 
     var shaderProgram = gl.createProgram();
     gl.attachShader(shaderProgram,vertexShader);
@@ -26732,22 +26930,22 @@ function initShader(gl, shaderVS, shaderFS, attribs, uniforms)
     // Add any shader attributes and uniforms that we specified needing
     if(attribs) 
     {
-    	shaderProgram.attribute={};
+    	shaderProgram.attribute = {};
     	for(var i in attribs) {
-        	var attrib=attribs[i];
-           	shaderProgram.attribute[attrib]=gl.getAttribLocation(shaderProgram, attrib);
+        	var attrib = attribs[i];
+           	shaderProgram.attribute[attrib] = gl.getAttribLocation(shaderProgram, attrib);
             gl.enableVertexAttribArray(shaderProgram.attribute[attrib]);
-            RedditGL_LOG("Shader added attribute: "+attrib);
+            RedditGL_LOG("Shader added attribute: " + attrib);
         }
   	}
     if(uniforms) 
     {
-     	shaderProgram.uniform={};
+     	shaderProgram.uniform = {};
       	for(var i in uniforms) 
       	{
-       		var uniform=uniforms[i];
-            shaderProgram.uniform[uniform]=gl.getUniformLocation(shaderProgram, uniform);
-            RedditGL_LOG("Shader added uniform: "+uniform);
+       		var uniform = uniforms[i];
+            shaderProgram.uniform[uniform] = gl.getUniformLocation(shaderProgram, uniform);
+            RedditGL_LOG("Shader added uniform: " + uniform);
         }
   	}
   	if(shaderProgram)
@@ -26766,40 +26964,48 @@ function SkyboxCallback (model)
   	setObjectInstancePosition(model.instances[0],vec3.create());  	
   	setObjectInstanceScale(model.instances[0],1000);
   	setObjectInstanceSpeed(model.instances[0],0.0);
-  	model.loaded=true;
+  	model.loaded = true;
   	RedditMain.addObject(model);
 };
 
 function ModelCallback (model) 
 {
-	loadInstances(model,100);
-  	model.loaded=true;
+	//loadInstances(model,100);
+	//RedditGL_LOG("'" + model.name + "' " + " Instance(s) created - Count: " + model.instanceCount);
+  	model.loaded = true;
 	RedditMain.addObject(model);	
 };
 
+// Default Text callback
+function CharacterCallback (model) 
+{	
+  	model.loaded = true;
+  	RedditMain.addObject(model);
+};	
+
 function initBufferObject(gl, typeClass, type, texture, callback) 
 {
-	if(typeClass=="environment") 
+	if(typeClass == "environment") 
 	{
-		if(type=="skybox") 
+		if(type == "skybox") 
 		{
-			if(!callback) {callback=SkyboxCallback;}
+			if(!callback) {callback = SkyboxCallback;}
 			initCubeBuffer(gl,texture,callback,true);
 		}
 	}
-	else if(typeClass=="primitive") 
+	else if(typeClass == "primitive") 
 	{
 		if(!callback) {callback = ModelCallback;}
-		if(type=="cube") 
+		if(type == "cube") 
 		{
 			initCubeBuffer(gl,texture,callback);
 		}
-		else if(type=="sphere") {
+		else if(type == "sphere") {
 			initSphereBuffer(gl,texture,callback);
 		}
 	}
-	else if(typeClass=="model"){
-		if(!callback) {callback=ModelCallback;}
+	else if(typeClass == "model"){
+		if(!callback) {callback = ModelCallback;}
 		initJSONModel(gl,type,texture,callback);
 	}		
 };
@@ -26807,14 +27013,14 @@ function initBufferObject(gl, typeClass, type, texture, callback)
 function initCubeBuffer(gl, texture, callback, isSkybox) 
 {
 	
-	var bufferObject={};
-   	var vertices=[];
-	var textureCoords=[];
-	var vertexIndices=[];
+	var bufferObject = {};
+   	var vertices = [];
+	var textureCoords = [];
+	var vertexIndices = [];
 	
-	bufferObject.vertexPositionBuffer=gl.createBuffer();
+	bufferObject.vertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexPositionBuffer);
-    vertices= 
+    vertices = 
     [
 	    //x,y,z
 	   	// Front face
@@ -26846,13 +27052,13 @@ function initCubeBuffer(gl, texture, callback, isSkybox)
 	   -1.0, -1.0, -1.0,
 	   -1.0, -1.0,  1.0,
 	   -1.0,  1.0,  1.0,
-	   -1.0,  1.0, -1.0,
+	   -1.0,  1.0, -1.0
     ];
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
-    bufferObject.vertexPositionBuffer.itemSize=3;
-    bufferObject.vertexPositionBuffer.numItems=24;
+    bufferObject.vertexPositionBuffer.itemSize = 3;
+    bufferObject.vertexPositionBuffer.numItems = 24;
 
-    textureCoords= 
+    textureCoords = 
     [
     	// Front face
        	0.0,1.0,
@@ -26883,23 +27089,23 @@ function initCubeBuffer(gl, texture, callback, isSkybox)
         1.0, 1.0,
         0.0, 1.0,
         0.0, 0.0,
-        1.0, 0.0,
+        1.0, 0.0
   	];
   	
   	if(texture != null) 
   	{
-		bufferObject.vertexTextureBuffer=gl.createBuffer();
+		bufferObject.vertexTextureBuffer = gl.createBuffer();
     	gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexTextureBuffer);
     	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(textureCoords),gl.STATIC_DRAW);
-    	bufferObject.vertexTextureBuffer.itemSize=2;
-    	bufferObject.vertexTextureBuffer.numItems=textureCoords.length/2;	
-    	bufferObject.shaderType=K_ShaderTexture;
+    	bufferObject.vertexTextureBuffer.itemSize = 2;
+    	bufferObject.vertexTextureBuffer.numItems = textureCoords.length/2;	
+    	bufferObject.shaderType = K_ShaderTexture;
 	}
 	else {
-		bufferObject.vertexColorBuffer=gl.createBuffer();
+		bufferObject.vertexColorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject.vertexColorBuffer);
-		var colors=[];
-		var k=vertices.length/3;
+		var colors = [];
+		var k = vertices.length/3;
 		for(var i=0;i<k;i++) 
 		{
 			for(var j=0;j<4;j++) 
@@ -26908,14 +27114,14 @@ function initCubeBuffer(gl, texture, callback, isSkybox)
 			}
 		}
 		gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(colors),gl.STATIC_DRAW);
-		bufferObject.vertexColorBuffer.itemSize=4;
-		bufferObject.vertexColorBuffer.numItems=colors.length;	
-		bufferObject.shaderType=K_ShaderColor;
+		bufferObject.vertexColorBuffer.itemSize = 4;
+		bufferObject.vertexColorBuffer.numItems = colors.length;	
+		bufferObject.shaderType = K_ShaderColor;
 	}
 
-    bufferObject.vertexIndexBuffer=gl.createBuffer();
+    bufferObject.vertexIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,bufferObject.vertexIndexBuffer);
-    vertexIndices= 
+    vertexIndices = 
     [
     	0, 1, 2,      0, 2, 3,    // Front face
         4, 5, 6,      4, 6, 7,    // Back face
@@ -26925,21 +27131,21 @@ function initCubeBuffer(gl, texture, callback, isSkybox)
         20, 21, 22,   20, 22, 23  // Left face
    	];
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(vertexIndices),gl.STATIC_DRAW);
-    bufferObject.vertexIndexBuffer.itemSize=1;
-    bufferObject.vertexIndexBuffer.numItems=36;
+    bufferObject.vertexIndexBuffer.itemSize = 1;
+    bufferObject.vertexIndexBuffer.numItems = 36;
     
-    bufferObject.name="Cube";
-    bufferObject.instances=[];
-   	bufferObject.instanceCount=0;
+    bufferObject.name = "Cube";
+    bufferObject.instances = [];
+   	bufferObject.instanceCount = 0;
    	
    	if(isSkybox) 
    	{
-   		bufferObject.isSkybox=true;
-   		bufferObject.name="Skybox";	
+   		bufferObject.isSkybox = true;
+   		bufferObject.name = "Skybox";	
    	}
    	
-   	RedditGL_LOG("Primitive: "+"'"+bufferObject.name+"' "+"Buffer Object created");
-   	if(texture!=null)
+   	RedditGL_LOG("Primitive: " + "'" + bufferObject.name + "' " + "Buffer Object created");
+   	if(texture != null)
     	gl.textureManager.preloadTexture(gl,texture,callback,bufferObject);  
     else	
     	callback(bufferObject);
@@ -26947,32 +27153,32 @@ function initCubeBuffer(gl, texture, callback, isSkybox)
 
 function initSphereBuffer(gl, texture, callback) 
 {		
-	var bufferObject={};
-   	var vertices=[];
-	var textureCoords=[];
-	var vertexIndices=[];
+	var bufferObject = {};
+   	var vertices = [];
+	var textureCoords = [];
+	var vertexIndices = [];
 	
-	var radius=1.0;
-	var latitudeBands=45;
-    var longitudeBands=45;
+	var radius = 1.0;
+	var latitudeBands = 45;
+    var longitudeBands = 45;
     var m = Math;
    	for (var latNumber=0;latNumber<=latitudeBands;latNumber++) {
-        var theta=latNumber*m.PI/latitudeBands;
-        var sinTheta=m.sin(theta);
-        var cosTheta=m.cos(theta);
+        var theta = latNumber*m.PI/latitudeBands;
+        var sinTheta = m.sin(theta);
+        var cosTheta = m.cos(theta);
 
         for (var longNumber=0;longNumber<=longitudeBands;longNumber++) {
-           	var phi=longNumber*2*m.PI/longitudeBands;
-            var sinPhi=m.sin(phi);
-            var cosPhi=m.cos(phi);
+           	var phi = longNumber*2*m.PI/longitudeBands;
+            var sinPhi = m.sin(phi);
+            var cosPhi = m.cos(phi);
 
-            var x=cosPhi*sinTheta;
-            var y=cosTheta;
-            var z=sinPhi*sinTheta;
-            var u=1-(longNumber/longitudeBands);
-            var v=1-(latNumber/latitudeBands);
-            var first=(latNumber*(longitudeBands+1))+longNumber;
-            var second=first+longitudeBands+1;
+            var x = cosPhi*sinTheta;
+            var y = cosTheta;
+            var z =sinPhi*sinTheta;
+            var u = 1-(longNumber/longitudeBands);
+            var v = 1-(latNumber/latitudeBands);
+            var first = (latNumber*(longitudeBands+1))+longNumber;
+            var second = first+longitudeBands+1;
 			
 			
 			vertices.push(radius*x);
@@ -26993,28 +27199,28 @@ function initSphereBuffer(gl, texture, callback)
       	}
   	}
   	
-	textureCoords=textureCoords.reverse();
+	textureCoords = textureCoords.reverse();
 	
-    bufferObject.vertexPositionBuffer=gl.createBuffer();
+    bufferObject.vertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexPositionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
-    bufferObject.vertexPositionBuffer.itemSize=3;
-    bufferObject.vertexPositionBuffer.numItems=vertices.length/3;
+    bufferObject.vertexPositionBuffer.itemSize = 3;
+    bufferObject.vertexPositionBuffer.numItems = vertices.length/3;
     
     if(texture != null) 
     {
-		bufferObject.vertexTextureBuffer=gl.createBuffer();
+		bufferObject.vertexTextureBuffer = gl.createBuffer();
     	gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexTextureBuffer);
     	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(textureCoords),gl.STATIC_DRAW);
-    	bufferObject.vertexTextureBuffer.itemSize=2;
-    	bufferObject.vertexTextureBuffer.numItems=textureCoords.length/2;	
-    	bufferObject.shaderType=K_ShaderTexture;
+    	bufferObject.vertexTextureBuffer.itemSize = 2;
+    	bufferObject.vertexTextureBuffer.numItems = textureCoords.length/2;	
+    	bufferObject.shaderType = K_ShaderTexture;
 	}
 	else 
 	{
 		bufferObject.vertexColorBuffer=gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexColorBuffer);
-		var colors=[];
+		var colors = [];
 		var k=vertices.length/3;
 		for(var i=0;i<k;i++) 
 		{
@@ -27024,23 +27230,23 @@ function initSphereBuffer(gl, texture, callback)
 			}
 		}
 		gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(colors),gl.STATIC_DRAW);
-		bufferObject.vertexColorBuffer.itemSize=4;
-		bufferObject.vertexColorBuffer.numItems=colors.length;	
-		bufferObject.shaderType=K_ShaderColor;
+		bufferObject.vertexColorBuffer.itemSize = 4;
+		bufferObject.vertexColorBuffer.numItems = colors.length;	
+		bufferObject.shaderType = K_ShaderColor;
 	}
  
-    bufferObject.vertexIndexBuffer=gl.createBuffer();
+    bufferObject.vertexIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,bufferObject.vertexIndexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(vertexIndices),gl.STATIC_DRAW);
-    bufferObject.vertexIndexBuffer.itemSize=1;
-    bufferObject.vertexIndexBuffer.numItems=vertexIndices.length;
+    bufferObject.vertexIndexBuffer.itemSize = 1;
+    bufferObject.vertexIndexBuffer.numItems = vertexIndices.length;
     
-    bufferObject.name="Sphere";
-    bufferObject.instances=[];
-   	bufferObject.instanceCount=0;
+    bufferObject.name = "Sphere";
+    bufferObject.instances = [];
+   	bufferObject.instanceCount = 0;
    	   	
-   	RedditGL_LOG("Primitive: "+"'"+bufferObject.name+"' "+"Buffer Object created");
-	if(texture!=null)
+   	RedditGL_LOG("Primitive: " + "'" + bufferObject.name + "' " + "Buffer Object created");
+	if(texture != null)
     	gl.textureManager.preloadTexture(gl,texture,callback,bufferObject);  
     else	
     	callback(bufferObject);
@@ -27048,11 +27254,11 @@ function initSphereBuffer(gl, texture, callback)
 
 function initJSONModel(gl, path, texture, callback) 
 {	
-	var request=new XMLHttpRequest();
+	var request = new XMLHttpRequest();
     request.open("GET",path);
-    request.onreadystatechange=function() 
+    request.onreadystatechange = function() 
     {
-    	if(request.readyState==4) 
+    	if(request.readyState == 4) 
     	{
         	loadJSONModel(gl,JSON.parse(request.responseText),texture,callback);	
         }
@@ -27062,29 +27268,29 @@ function initJSONModel(gl, path, texture, callback)
 
 function loadJSONModel(gl, model, texture, callback) 
 {
-	var bufferObject={};
+	var bufferObject = {};
 
-    bufferObject.vertexPositionBuffer=gl.createBuffer();
+    bufferObject.vertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexPositionBuffer);
    	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(model.vertices),gl.STATIC_DRAW);
-    bufferObject.vertexPositionBuffer.itemSize=3;
-    bufferObject.vertexPositionBuffer.numItems=model.vertices.length/3;
+    bufferObject.vertexPositionBuffer.itemSize = 3;
+    bufferObject.vertexPositionBuffer.numItems = model.vertices.length/3;
 	
-	if(model.textureCoords&&texture!=null) 
+	if(model.textureCoords && texture != null) 
 	{
-		bufferObject.vertexTextureBuffer=gl.createBuffer();
+		bufferObject.vertexTextureBuffer = gl.createBuffer();
     	gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexTextureBuffer);
     	gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(model.textureCoords),gl.STATIC_DRAW);
-    	bufferObject.vertexTextureBuffer.itemSize=2;
-    	bufferObject.vertexTextureBuffer.numItems=model.textureCoords.length/2;
-    	bufferObject.shaderType=K_ShaderTexture;	
+    	bufferObject.vertexTextureBuffer.itemSize = 2;
+    	bufferObject.vertexTextureBuffer.numItems = model.textureCoords.length/2;
+    	bufferObject.shaderType = K_ShaderTexture;	
 	}
 	else 
 	{
-		bufferObject.vertexColorBuffer=gl.createBuffer();
+		bufferObject.vertexColorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexColorBuffer);
-		var colors=[];
-		var k=model.vertices.length/3;
+		var colors = [];
+		var k = model.vertices.length/3;
 		for(var i=0;i<k;i++) 
 		{
 			for(var j=0;j<4;j++) 
@@ -27093,32 +27299,164 @@ function loadJSONModel(gl, model, texture, callback)
 			}
 		}
 		gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(colors),gl.STATIC_DRAW);
-		bufferObject.vertexColorBuffer.itemSize=4;
-		bufferObject.vertexColorBuffer.numItems=colors.length;	
+		bufferObject.vertexColorBuffer.itemSize = 4;
+		bufferObject.vertexColorBuffer.numItems = colors.length;	
 		bufferObject.shaderType=K_ShaderColor;
 	}
       
-    bufferObject.vertexNormalBuffer=gl.createBuffer();
+    bufferObject.vertexNormalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER,bufferObject.vertexNormalBuffer);
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(model.normals),gl.STATIC_DRAW);
-    bufferObject.vertexNormalBuffer.itemSize=3;
-    bufferObject.vertexNormalBuffer.numItems=model.normals.length/3;
+    bufferObject.vertexNormalBuffer.itemSize = 3;
+    bufferObject.vertexNormalBuffer.numItems = model.normals.length/3;
     
-    bufferObject.vertexIndexBuffer=gl.createBuffer();
+    bufferObject.vertexIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,bufferObject.vertexIndexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(model.models[0].indices),gl.STATIC_DRAW);
-    bufferObject.vertexIndexBuffer.itemSize=1;
-    bufferObject.vertexIndexBuffer.numItems=model.models[0].indices.length;
+    bufferObject.vertexIndexBuffer.itemSize = 1;
+    bufferObject.vertexIndexBuffer.numItems = model.models[0].indices.length;
     
-    bufferObject.name=model.name;
-    bufferObject.instances=[];
-   	bufferObject.instanceCount=0;  
+    bufferObject.name = model.name;
+    bufferObject.instances = [];
+   	bufferObject.instanceCount = 0;  
    	
-   	RedditGL_LOG("Model: "+"'"+bufferObject.name+"' "+"Buffer Object created");
-   	if(texture!=null)
+   	RedditGL_LOG("Model: " + "'" + bufferObject.name + "' " + "Buffer Object created");
+   	if(texture != null)
     	gl.textureManager.preloadTexture(gl,texture,callback,bufferObject);  
     else	
     	callback(bufferObject);
+};
+
+
+/*
+ * Text Methods
+ */
+
+var AlphabetGL = 
+[
+	'!','#','$','&',
+	'(',')','+','.',
+	'0','1','2','3',
+	'4','5','6','7',
+	'8','9','<','>',
+	'?','@','A','B',
+	'C','D','E','F',
+	'G','H','I','J',
+	'K','L','M','N',
+	'O','P','Q','R',
+	'S','T','U','V',
+	'W','X','Y','Z'
+];
+
+function getObject (name) 
+{
+	var sceneObjects = RedditMain.scene.sceneObjects
+	var n = sceneObjects.length;
+	var k = n;
+	do
+	{
+		var i = k-n;
+		var object = sceneObjects[i];
+		if(object.name == name) {return object;}
+	}
+	while(--n);
+	
+	return null;
+};
+
+// Load up at least one instance of every character
+function initAlphabet (callback) 
+{
+	if(!callback) {callback = CharacterCallback;}
+	var path = "root/models/FontHappyMonkey/FontHappyMonkey_0";
+	
+	RedditGL_LOG("Initiating TextGL Alphabet");
+	RedditGL_LOG("Initiating TextGL Alphabet Count: " + AlphabetGL.length);
+	
+	for(var i in AlphabetGL) 
+	{
+		var aChar = AlphabetGL[i];
+		var completePath = path + aChar.charCodeAt() + ".json";
+		initBufferObject(gl,"model",completePath,null,callback);
+	}
+};
+
+function addWord (txt, objectName, index) 
+{
+	var sceneObjects = RedditMain.scene.sceneObjects;
+	var n = sceneObjects.length;
+	var k = n;
+	do 
+	{
+		var i = k-n
+		var object = sceneObjects[i];
+		if(objectName == object.name)
+		{
+			var objectInstance = object.instances[index];
+			var txtSize = 2.0;
+			var space = 0.5;
+			var vPos = vec3.create(objectInstance.position);
+			vPos[0] -= (space*1.9*txt.length)/2;
+				
+			vPos[1] += 2.5;
+			// Adjust for object to attach to
+			vPos[0] *= objectInstance.scale/txtSize;
+			vPos[1] *= objectInstance.scale/txtSize;
+			vPos[2] *= objectInstance.scale/txtSize;
+				
+			var vRot = vec3.create(objectInstance.rotation);
+			var fSpeed = objectInstance.speed;
+				
+			var nn = txt.length;
+			var kk = nn;
+			do
+			{
+				var ii = kk-nn;	
+				var aChar = txt[ii];
+				aChar = aChar.toUpperCase();
+				var isChar = false;
+				for(var tt=0;tt<AlphabetGL.length;tt++) 
+				{
+					if(aChar == AlphabetGL[tt])
+					{
+						isChar = true;
+					}
+				}
+				if(aChar != " " && isChar == true)
+				{
+					createCharInstance(aChar,vPos,vRot,fSpeed,txtSize);	
+				}
+				vPos[0] = vPos[0] + space;
+			}
+			while(--nn);	
+		}
+	}
+	while(--n);
+};
+
+function createCharInstance (aChar, vPos, vRot, fSpeed, fSize, count) 
+{	
+	var object = getObject(aChar);
+	var u = object.instanceCount;
+	if(count)
+	{
+		addObjectInstance(object,count);
+		for(var i=0;i<count;i++) 
+		{
+			setObjectInstanceRotation(object.instances[i+u],vRot);
+			setObjectInstancePosition(object.instances[i+u],vPos);
+			setObjectInstanceScale(object.instances[i+u],fSize);			
+  			setObjectInstanceSpeed(object.instances[i+u],fSpeed);	
+  		}	
+	}
+	else 
+	{
+		addObjectInstance(object);
+		setObjectInstanceRotation(object.instances[0+u],vRot);
+		setObjectInstancePosition(object.instances[0+u],vPos);
+		setObjectInstanceScale(object.instances[0+u],fSize);
+  		setObjectInstanceSpeed(object.instances[0+u],fSpeed);
+	}	
 };
 
 /*
@@ -27127,26 +27465,26 @@ function loadJSONModel(gl, model, texture, callback)
 
 function loadInstances(model, count) 
 {
-	var maxInstanceCount=RedditMain.maxInstanceCount;
-	if(count>maxInstanceCount) {count=maxInstanceCount}
-	var scale=1.0,speed=0.08,range=100,isRandom=true;
+	var maxInstanceCount = RedditMain.maxInstanceCount;
+	if(count > maxInstanceCount) {count = maxInstanceCount}
+	var scale = 1.0,speed = 0.08,range = 100,isRandom = true;
 	// Create an instance or many 2nd arg optional, 1 instance required to render
   	addObjectInstance(model,count);	 
-  	var n=count;
-	var k=n;
-	var m=Math;
+  	var n = count;
+	var k = n;
+	var m = Math;
 	do
 	{
-		var i=k-n;
-		var position=[range,0.0,0.0];
+		var i = k-n;
+		var position = [range,0.0,0.0];
   		if(isRandom) 
   		{
-  			var plusOrMinus=m.random()<0.5?-1:1;
-  			position=[m.random()*range*plusOrMinus,m.random()*2*plusOrMinus,m.random()*range*plusOrMinus];
+  			var plusOrMinus = m.random()<0.5?-1:1;
+  			position = [m.random()*range*plusOrMinus,m.random()*2*plusOrMinus,m.random()*range*plusOrMinus];
   			//scale=m.random()*2.0;
-  			speed=m.random()*0.08;
+  			speed = m.random()*0.08;
   		}
-  		var instance=model.instances[i];
+  		var instance = model.instances[i];
   		setObjectInstancePosition(instance,position);
   		setObjectInstanceScale(instance,scale);
   		setObjectInstanceSpeed(instance,speed);
@@ -27156,48 +27494,77 @@ function loadInstances(model, count)
 
 function addObjectInstance(object, count) 
 {
-	var u=object.instanceCount;
-	var instances=object.instances;
+	var u = object.instanceCount;
+	var instances = object.instances;
 	if(count) {
-		var n=count;
-		var k=n;
+		var n = count;
+		var k = n;
 		do
 		{
-			var i=k-n;
-			instances[u+i]=new instance();
-			instances[u+i].create();
+			var i = k-n;
+			instances[u+i] = new instance();
 		}
 		while(--n);
 	}
 	else {
-		instances[u]=new instance();	
-		instances[u].create();	
-		count=1;
+		instances[u] = new instance();	
+		count = 1;
 	}
-	object.instanceCount=u+count;
+	object.instanceCount = u+count;
 	
-	RedditGL_LOG("'"+object.name+"' "+" Instance(s) created - Count: "+object.instanceCount);
+	//RedditGL_LOG("'"+object.name+"' "+" Instance(s) created - Count: "+object.instanceCount);
+};
+
+function removeObjectInstances(objectName)
+{
+	var sceneObjects = RedditMain.scene.sceneObjects;
+	var n = sceneObjects.length;
+	var k = n;
+	do 
+	{
+		var i = k-n
+		var object = sceneObjects[i];
+		if(objectName == object.name)
+		{
+			if(object.instanceCount > 0)
+			{
+				var instances = object.instances;
+				var nn = object.instanceCount;
+				var kk = nn;
+				do
+				{
+					var ii = kk-nn;
+					instances[i] = null;
+				}
+				while(--nn);
+				object.instances = null;
+				object.instances = [];
+				object.instanceCount = 0;	
+			}
+		}
+	}
+	while(--n);
 };
 
 function setObjectInstanceRotation(objectInstance, rot) 
 {
-	objectInstance.rotation=vec3.create(rot);
+	objectInstance.rotation = vec3.create(rot);
 };
 
 function setObjectInstancePosition(objectInstance, pos) 
 {
-	objectInstance.position=vec3.create(pos);
+	objectInstance.position = vec3.create(pos);
 };
 
 function setObjectInstanceScale(objectInstance, value) 
 {
-	objectInstance.scale=value;
-	objectInstance.BBox=value*1.5;
+	objectInstance.scale = value;
+	objectInstance.BBox = value*1.5;
 };
 
 function setObjectInstanceSpeed(objectInstance, speed) 
 {
-	objectInstance.speed=speed;
+	objectInstance.speed = speed;
 };
 
 function setObjectInstanceTexture(gl, objectInstance, src) 
@@ -27210,21 +27577,17 @@ function setObjectInstanceTexture(gl, objectInstance, src)
  */
 var instance = function()
 {
-}; 
-
-instance.prototype.create = function() 
-{
-	this.mvMatrix=mat4.create();
-	this.rotation=vec3.create();
-	this.position=vec3.create();
-	this.scale=1.0;
-	this.speed=1.0;
-	this.BBox=this.scale*1.5;
+	this.mvMatrix = mat4.create();
+	this.rotation = vec3.create();
+	this.position = vec3.create();
+	this.scale = 1.0;
+	this.speed = 1.0;
+	this.BBox = this.scale*1.5;
 	
-	this.hidden=false;	
-	this.hasTexture=false;
-	this.texture=0;
-};
+	this.hidden = false;	
+	this.hasTexture = false;
+	this.texture = 0;
+}; 
 /*
  * William Miller 2012
  */
@@ -27241,7 +27604,7 @@ var AlphabetGL =
 	'K','L','M','N',
 	'O','P','Q','R',
 	'S','T','U','V',
-	'W','X','Y','Z',
+	'W','X','Y','Z'
 ];
 
 function getCharIndex (aChar) 
@@ -27367,87 +27730,129 @@ function createCharInstance (aChar, vPos, vRot, fSpeed, fSize, count)
 
 var CameraWebGLOrbit = function(max) 
 {
-	this.moving=false;
-    this.orbitX=0;
-    this.orbitY=0;
-    this.distance=10;
-    this.zoomSpeed=100;
-    this.maxDistance=max;
-    this.center=vec3.create();
-    this.viewMatrix=mat4.create();
-    this.pMatrix=mat4.create();
-    this.dirty=true;
+	this.moving = false;
+    this.orbitX = 0;
+    this.orbitY = 0;
+    this.distance = 10;
+    this.zoomSpeed = 100;
+    
+    this.maxDistance = max;
+    this.center = vec3.create();
+    
+    this.rotMatrix = mat4.create(); 
+    mat4.identity(this.rotMatrix);
+     
+    this.viewMatrix = mat4.create();
+    this.pMatrix = mat4.create();
+    
+    this.keys = new Array(128);
+    this.shift = false;
+    this.dirty = true;
 };
 
 CameraWebGLOrbit.prototype.init = function(canvas) 
 {
-	var self=this,
+	var self = this,
     lastX,lastY;  
 	// Set up the appropriate event hooks
+	// Set up the appropriate event hooks
+   	document.addEventListener("keydown", function (event) {
+    	self.keys[event.keyCode] = true;
+      	if(event.keyCode == 32) { // Prevent the page from scrolling
+       		event.preventDefault();
+      		return false;
+       	}
+       	if(event.shiftKey)
+       	{
+       		self.shift = true;
+       	}
+  	}, true);
+
+ 	document.addEventListener("keyup", function (event) {
+    	self.keys[event.keyCode] = false;
+    	if(self.shift) {self.shift = false;}
+   	}, false);
+   	
     canvas.addEventListener('mousedown',function(event) 
     {
-   		if(event.which===1) 
+   		if(event.which === 1) 
    		{
-         	self.moving=true;
+         	self.moving = true;
         }
-        lastX=event.pageX;
-        lastY=event.pageY;
+        lastX = event.pageX;
+        lastY = event.pageY;
     }, false);
 
     canvas.addEventListener('mousemove',function(event) 
     {
    		if(self.moving)
    		{
-       		var xDelta=event.pageX-lastX,
-            yDelta=event.pageY-lastY;
-
-         	lastX=event.pageX;
-          	lastY=event.pageY;
+       		var xDelta = event.pageX-lastX,
+            yDelta = event.pageY-lastY;
+			
+         	lastX = event.pageX;
+          	lastY = event.pageY;
           	
-          	var movement=Math.PI*2;
-
-        	self.orbitY+=xDelta*0.015;
-            while(self.orbitY<0) 
-            {
-            	self.orbitY += movement;
-            }
-            while(self.orbitY>=movement) 
-            {
-              	self.orbitY-=movement;
-            }
-            
-            self.orbitX+=yDelta*0.015;
-            while(self.orbitX<0) 
-            {
-             	self.orbitX+=movement;
-            }
-            while (self.orbitX>=movement) 
-            {
-             	self.orbitX-=movement;
-            }
-
-            self.dirty=true;
-            }
-        },false);
+          	if(self.shift)
+          	{
+          		var movement = Math.PI*2;           
+	        	self.orbitY += xDelta*0.015;
+	            while(self.orbitY < 0) 
+	            {
+	            	self.orbitY += movement;
+	            }
+	            while(self.orbitY >= movement) 
+	            {
+	              	self.orbitY -= movement;
+	            }
+	            
+	            self.orbitX += yDelta*0.015;
+	            while(self.orbitX < 0) 
+	            {
+	             	self.orbitX += movement;
+	            }
+	            while (self.orbitX >= movement) 
+	            {
+	             	self.orbitX -= movement;
+	            }	
+	            
+	            // Update the directional matrix
+				var rot = self.rotMatrix;
+	            mat4.identity(rot);
+	            mat4.rotateY(rot, -self.orbitY);
+          	}
+          	else 
+          	{
+          		var angle = Math.atan2(yDelta, xDelta);
+				var movX = Math.cos(-angle);
+				var movZ = Math.sin(angle);
+				var mov = vec3.create([movX,0.0,movZ]);
+				var rot = self.rotMatrix;
+				mat4.multiplyVec3(rot, mov);
+				vec3.add(self.center, mov);
+          	}
+            self.dirty = true;
+      	}
+  	},false);
 
   	canvas.addEventListener('mouseup',function() 
   	{
-     	self.moving=false;
-     	self.dirty=true;
+     	self.moving = false;
+     	self.dirty = true;
   	},false);
   	
-  	canvas.addEventListener('mousewheel',function(e) 
+  	canvas.addEventListener('mousewheel',function(event) 
   	{
-  		var speed=-e.wheelDelta;
-  		self.distance+=speed/self.zoomSpeed;
-     	self.dirty=true;
+  		var speed = -event.wheelDelta;
+  		self.distance += speed/self.zoomSpeed;
+     	self.dirty = true;
   	},false);
   	
-  	canvas.addEventListener('DOMMouseScroll',function(e) 
+  	canvas.addEventListener('DOMMouseScroll',function(event) 
   	{	
-  		var speed=e.detail*30;
-  		self.distance+=speed/self.zoomSpeed;
-     	self.dirty=true;
+  		var speed = event.detail*30;
+  		self.distance += speed/self.zoomSpeed;
+     	self.dirty = true;
   	},false);
 };
 CameraWebGLOrbit.prototype.getCenter = function() 
@@ -27457,8 +27862,8 @@ CameraWebGLOrbit.prototype.getCenter = function()
 
 CameraWebGLOrbit.prototype.setCenter = function(value) 
 {
- 	this.center=value;
-   	this.dirty=true;
+ 	this.center = value;
+   	this.dirty = true;
 };
 
 CameraWebGLOrbit.prototype.getDistance = function() 
@@ -27468,22 +27873,22 @@ CameraWebGLOrbit.prototype.getDistance = function()
 
 CameraWebGLOrbit.prototype.setDistance = function(value) 
 {
-   	this.distance=value;
-    this.dirty=true;
+   	this.distance = value;
+    this.dirty = true;
 };
 
 CameraWebGLOrbit.prototype.getViewMatrix = function() 
 {
 	if(this.dirty) 
 	{
-     	var mv=this.viewMatrix;
-        mat4.identity(mv);
-        mat4.translate(mv,[0, 0, -this.distance]);
-       	mat4.rotateX(mv,this.orbitX+(Math.PI/2));
-        mat4.translate(mv,this.center);
-        mat4.rotateX(mv,-Math.PI/2);
-        mat4.rotateY(mv,this.orbitY);
-        this.dirty=false;
+		
+     	var view = this.viewMatrix;
+     	mat4.identity(view);
+     	mat4.translate(view,[0, 0, -this.distance]);
+     	mat4.rotateX(view,this.orbitX);
+     	mat4.rotateY(view,this.orbitY);
+     	mat4.translate(view, this.center);
+        this.dirty = false;
   	}
 
    	return this.viewMatrix;
@@ -27491,20 +27896,32 @@ CameraWebGLOrbit.prototype.getViewMatrix = function()
 
 CameraWebGLOrbit.prototype.update = function() 
 {
-	if(this.distance<0) 
+	if(this.distance < 0) 
 	{
-		this.distance=0;
+		this.distance = 0;
 	}
-	if(this.distance>this.maxDistance) 
+	if(this.distance > this.maxDistance) 
 	{
-		this.distance=this.maxDistance;
+		this.distance = this.maxDistance;
 	}
 };
 
     
+
 /*
- * William Miller 2012
+ * Author(s): Daniel Perussina, William Miller, Rob Weaver
+ * 2012 - Reddit3d, bitch
  */
+
+var RedditMain;
+
+document.subreddit = 'frontpage';
+$(document).ready(function() {
+	RedditMain = new RedditGL();
+	RedditMain.init();
+
+});
+
 
 // Global GL context
 var gl;
@@ -27513,15 +27930,19 @@ var gl;
  */
 var RedditGL = function() 
 {	
-	this.ready=false; // Flag set to true when finished with init
-	this.loaded=false; // Flag set to true when all async loading complete
-	this.readyCount=0;
+	this.ready = false; // Flag set to true when finished with init
+	this.loaded = false; // Flag set to true when all async loading complete
+	this.readyCount = 0;
 };
 
 RedditGL.prototype.init = function() 
 {
 	RedditGL_LOG("Starting RedditGL...");
+	// Web service
 	this.serviceManager = new RedditClientService();
+	// UI
+	this.UIManager = new DynamicUI();
+	this.UIManager.init("infoDiv");
 	/*
 	 * Define some constants
 	 */
@@ -27530,28 +27951,28 @@ RedditGL.prototype.init = function()
 	/*
 	 * Init gl & texture manager
 	 */
-  	var canvas=document.getElementById("webglCanvas");
+  	var canvas = document.getElementById("webglCanvas");
   	// If we don't set this here, the rendering will be skewed
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
   	// Grab render
-	this.render=new RedditGL_Render();
+	this.render = new RedditGL_Render();
   	gl=initGL(canvas);
-  	gl.textureManager=new GLTextureManger();
+  	gl.textureManager = new GLTextureManger();
   	gl.textureManager.init(gl);
   	
-  	var fsColor="shaderColor-fs";
-  	var vsColor="shaderColor-vs";
-  	var fs="shader-fs";
-  	var vs="shader-vs";
-  	var attribs=["aVertexPosition", "aTextureCoord"];
-  	var uniforms=["uViewMatrix", "uMVMatrix", "uPMatrix", "uSampler"];
-  	var attribsC=["aVertexPosition", "aColor"];
-  	var uniformsC=["uViewMatrix", "uMVMatrix", "uPMatrix"];
-  	var shaders=
+  	var fsColor = "shaderColor-fs";
+  	var vsColor = "shaderColor-vs";
+  	var fs = "shader-fs";
+  	var vs = "shader-vs";
+  	var attribs = ["aVertexPosition", "aTextureCoord"];
+  	var uniforms = ["uViewMatrix", "uMVMatrix", "uPMatrix", "uSampler"];
+  	var attribsC = ["aVertexPosition", "aColor"];
+  	var uniformsC = ["uViewMatrix", "uMVMatrix", "uPMatrix"];
+  	var shaders =
   	{
-  		texture:initShader(gl,vs,fs,attribs,uniforms),
-  		color:initShader(gl,vsColor,fsColor,attribsC,uniformsC)
+  		texture: initShader(gl,vs,fs,attribs,uniforms),
+  		color: initShader(gl,vsColor,fsColor,attribsC,uniformsC)
   	};
   	
   	// Load data into scene
@@ -27563,10 +27984,10 @@ RedditGL.prototype.init = function()
   	gl.clearColor(0.0,0.0,0.0,1.0); // Black
   	gl.enable(gl.DEPTH_TEST); //Enable debth testing
   	// Set rdy flag
-   	this.ready=true;  	
+   	this.ready = true;  	
    	// Start her up!
    	RedditGL_LOG("Starting RedditGL renderloop");
-   	var self=this;
+   	var self = this;
    	var fpsCounter = document.getElementById("fps");
    	startRenderLoop(canvas,function(timing) 
    	{
@@ -27581,11 +28002,11 @@ RedditGL.prototype.setUpFullScreen = function(gl, canvas)
     // Wire up the Fullscreen button
     //
     var frame = document.getElementById("reddit-frame");
-    var fullscreenBtn=document.getElementById("fullscreen");
-    document.cancelFullScreen=document.webkitCancelFullScreen||document.mozCancelFullScreen;
+    var fullscreenBtn = document.getElementById("fullscreen");
+    document.cancelFullScreen = document.webkitCancelFullScreen||document.mozCancelFullScreen;
 
-    var canvasOriginalWidth=canvas.width;
-    var canvasOriginalHeight=canvas.height;
+    var canvasOriginalWidth = canvas.width;
+    var canvasOriginalHeight = canvas.height;
     fullscreenBtn.addEventListener("click",function() 
     {
         if(frame.webkitRequestFullScreen) 
@@ -27601,14 +28022,14 @@ RedditGL.prototype.setUpFullScreen = function(gl, canvas)
     {
         if(document.webkitIsFullScreen||document.mozFullScreen) 
         {
-            canvas.width=screen.width;
-            canvas.height=screen.height;
+            canvas.width = screen.width;
+            canvas.height = screen.height;
         } else 
         {
-            canvas.width=canvasOriginalWidth;
-            canvas.height=canvasOriginalHeight;
+            canvas.width = canvasOriginalWidth;
+            canvas.height = canvasOriginalHeight;
         }
-        self.render.resize(gl, self.scene, canvas);
+        self.render.resize(gl,self.scene,canvas);
     }
     frame.addEventListener("webkitfullscreenchange",fullscreenchange,false);
     frame.addEventListener("mozfullscreenchange",fullscreenchange,false);
@@ -27618,14 +28039,14 @@ RedditGL.prototype.setUpFullScreen = function(gl, canvas)
  */
 RedditGL.prototype.initScene = function(canvas, shaders) 
 {
-  	var camera=new CameraWebGLOrbit(1000);
+  	var camera = new CameraWebGLOrbit(1000);
   	camera.init(canvas);
   	camera.setDistance(20.0);
   	this.scene = 
   	{
-  		camera:camera,
-  		sceneObjects:new Array(),
-  		shaders:shaders
+  		camera: camera,
+  		sceneObjects: new Array(),
+  		shaders: shaders
   	};
 
   	/*
@@ -27650,7 +28071,7 @@ RedditGL.prototype.initScene = function(canvas, shaders)
 RedditGL.prototype.loadComplete = function() 
 { 	
    	RedditGL_LOG("Load completed");
-   	this.loaded=true;  	  	
+   	this.loaded = true;  	  	
    	this.serviceManager.connectToService();
    	this.serviceManager.addListener();
    	this.serviceManager.webSocket();
@@ -27664,7 +28085,7 @@ RedditGL.prototype.addObject = function(model)
 	this.scene.sceneObjects.push(model);
 	this.readyCount++;
 	
-	if(this.readyCount==this.maxObjectCount) 
+	if(this.readyCount == this.maxObjectCount) 
 	{
 		this.loadComplete();
 	}
@@ -27673,7 +28094,7 @@ RedditGL.prototype.addObject = function(model)
 RedditGL.prototype.runClient = function(timing) 
 {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-	if(this.ready==true) 
+	if(this.ready == true) 
 	{
 		this.render.update(this.scene,timing);
 		this.render.drawScene(gl,this.scene);
@@ -27701,31 +28122,31 @@ RedditGL_Render.prototype.resize = function(gl, scene, canvas)
 };
 RedditGL_Render.prototype.update = function(scene, timing) 
 {
-	var aCamera=scene.camera;
+	var aCamera = scene.camera;
 	aCamera.update();
 	frustum = mat6x4.frustum(aCamera.pMatrix,aCamera.getViewMatrix(), frustum);
 	
-	var sceneObjects=scene.sceneObjects;
+	var sceneObjects = scene.sceneObjects;
 	if(!sceneObjects) {return;}
-	var n=sceneObjects.length;
-	var k=n;
+	var n = sceneObjects.length;
+	var k = n;
 	do
 	{
-		var i=k-n;
-		var object=sceneObjects[i];	
+		var i = k-n;
+		var object = sceneObjects[i];	
 		if(!object){break;}
-		var instances=object.instances;
-		var nn=instances.length;
-		var kk=nn;
+		var instances = object.instances;
+		var nn = instances.length;
+		var kk = nn;
 		do
 		{
-			var ii=kk-nn;
-			var objectInstance=instances[ii]; 
+			var ii = kk-nn;
+			var objectInstance = instances[ii]; 
 			if(!objectInstance){break;}
 			var dt = timing.frameTime;
-			objectInstance.rotation[0]+=(90*dt)/1000.0;
-    		objectInstance.rotation[1]+=(90*dt)/1000.0;
-    		objectInstance.rotation[2]+=(90*dt)/1000.0;
+			objectInstance.rotation[0] += (90*dt)/1000.0;
+    		objectInstance.rotation[1] += (90*dt)/1000.0;
+    		objectInstance.rotation[2] += (90*dt)/1000.0;
 		}
 		while(--nn);
 	}
@@ -27733,16 +28154,16 @@ RedditGL_Render.prototype.update = function(scene, timing)
 };
 RedditGL_Render.prototype.drawScene = function(gl, scene) 
 {	
-	var aCamera=scene.camera;
-	var sceneObjects=scene.sceneObjects;
+	var aCamera = scene.camera;
+	var sceneObjects = scene.sceneObjects;
 	if(!sceneObjects) {return;}
 		
 	var n=sceneObjects.length;
 	var k=n;
 	do
 	{
-		var i=k-n;
-		var object=sceneObjects[i];	
+		var i = k-n;
+		var object = sceneObjects[i];	
 		if(!object){break;}
 		if(object.loaded) 
 		{
@@ -27753,12 +28174,12 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			{
 				case K_ShaderColor:
 					gl.useProgram(scene.shaders.color);
-					shader=scene.shaders.color;
+					shader = scene.shaders.color;
 				break;
 				
 				case K_ShaderTexture:
 					gl.useProgram(scene.shaders.texture);
-					shader=scene.shaders.texture;
+					shader = scene.shaders.texture;
 				break;
 				
 				default:
@@ -27770,26 +28191,9 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			
 			if(object.hasTexture) 
 			{	
-				var texture, objTexture;
 				if(!object.vertexTextureBuffer) {break;}
-				if(!object.texture) 
-				{
-					if(!gl.textureManager.textureArray[0]) {break;}
-					else {objTexture=gl.textureManager.textureArray[0]}
-					
-				}
-				else 
-				{
-					objTexture=object.texture;
-				}
-				
 				gl.bindBuffer(gl.ARRAY_BUFFER,object.vertexTextureBuffer);
 				gl.vertexAttribPointer(shader.attribute.aTextureCoord,object.vertexTextureBuffer.itemSize,gl.FLOAT,false,0,0);
-				
-				texture=gl.textureManager.getTexture(gl,objTexture);
-				gl.activeTexture(gl.TEXTURE0);
-				gl.bindTexture(gl.TEXTURE_2D,texture);
-				gl.uniform1i(shader.uniform.uSampler,0);	
 			}
 			else 
 			{	
@@ -27803,34 +28207,52 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 		    gl.uniformMatrix4fv(shader.uniform.uPMatrix,false,aCamera.pMatrix);
 		    gl.uniformMatrix4fv(shader.uniform.uViewMatrix,false,aCamera.getViewMatrix());
 		 	
-		 	var instances=object.instances;
+		 	var instances = object.instances;
 		 	if(!instances) {break;}
-			var nn=instances.length;
-			var kk=nn;
+			var nn = instances.length;
+			var kk = nn;
 			do
 			{
-				var ii=kk-nn;
-				var objectInstance=instances[ii]; 
+				var ii = kk-nn;
+				var objectInstance = instances[ii]; 
 				if(!objectInstance){break;}
 				if(!objectInstance.hidden) 
 				{	
 					
 					if(objectInstance.hasTexture) 
 					{	
-						if(!object.vertexTextureBuffer||!object.texture) {return;}
 						gl.bindBuffer(gl.ARRAY_BUFFER,object.vertexTextureBuffer);
 						gl.vertexAttribPointer(shader.attribute.aTextureCoord,object.vertexTextureBuffer.itemSize,gl.FLOAT,false,0,0);
 						
-						var texture=gl.textureManager.getTexture(gl,objectInstance.texture);
+						var texture = gl.textureManager.getTexture(gl,objectInstance.texture);
 						gl.activeTexture(gl.TEXTURE0);
 						gl.bindTexture(gl.TEXTURE_2D,texture);
 						gl.uniform1i(shader.uniform.uSampler,0);	
 					}
+					else if(object.hasTexture)
+					{
+						var texture, objTexture;
+						if(!object.texture) 
+						{
+							if(!gl.textureManager.textureArray[0]) {break;}
+							else {objTexture = gl.textureManager.textureArray[0]}
+							
+						}
+						else 
+						{
+							objTexture = object.texture;
+						}
+						
+						var texture = gl.textureManager.getTexture(gl,objTexture);
+						gl.activeTexture(gl.TEXTURE0);
+						gl.bindTexture(gl.TEXTURE_2D,texture);
+						gl.uniform1i(shader.uniform.uSampler,0);
+					}
 					
-					var mv=objectInstance.mvMatrix;
+					var mv = objectInstance.mvMatrix;
 					mat4.identity(mv);		
 					
-					var scale=[objectInstance.scale,objectInstance.scale,objectInstance.scale];
+					var scale = [objectInstance.scale,objectInstance.scale,objectInstance.scale];
 					mat4.scale(mv,scale);
 					
 					var isVisible = true;
@@ -27849,7 +28271,7 @@ RedditGL_Render.prototype.drawScene = function(gl, scene)
 			    		mat4.translate(mv,objectInstance.position);	
 						
 			    		// Rotate about object axis
-			    		if(object.name=='Sphere'||object.name=='Cube') 
+			    		if(object.name == 'Sphere' || object.name == 'Cube') 
 			    		{
 			    			//mat4.rotate(mv,degToRad(objectInstance.rotation[0]),[1,0,0]);	    	
 			    			mat4.rotate(mv,degToRad(-objectInstance.rotation[1]),[0,1,0]);	
@@ -27892,17 +28314,13 @@ var RedditClientService = function() {
 	RedditGL_LOG("Starting Reddit Service");
 	this.connectionStatus = K_ConnectionStatus_NONE;
 	this.host = {
-		hostIP : "",
-		hostNameSpace : "",
-		hostUserSpace : "",
-		hostPassword : ""
+		hostURL : 'http://svn.agentgrid.net:3000/r/',
+		hostSocket: 'http://svn.agentgrid.net:3101',
+		hostNameSpace : 'Dan',
+		hostUserSpace : 'someUniqueID',
+		hostPassword : ''
 	};
-	this.serviceData = {
-		// Fill Data
-	};
-	// TODO: Connect to service
-	//var callback = this.connectionEstablished;
-	//this.connectToService(callback);
+	this.serviceData = {};
 };
 
 RedditClientService.prototype.connectToService = function() {
@@ -27914,7 +28332,7 @@ RedditClientService.prototype.connectToService = function() {
 	var self = this;
 	var sub = 'frontpage';
 	$.ajax({
-		url : "http://svn.agentgrid.net:3000/r/" + sub,
+		url : self.host.hostURL + sub,
 		data : "",
 		success : self.connectionEstablished,
 		dataType : "json"
@@ -27922,20 +28340,42 @@ RedditClientService.prototype.connectToService = function() {
 };
 
 RedditClientService.prototype.connectionEstablished = function(request) {
-	console.log(request.something.length);
-	for (var i = 0; i < request.something.length; i++) {
-		var aString = request.something[i].data.title;
-		//var data = request;
-		// Finish loading
-		/*
-		 this.connectionStatus =;
-		 if(this.connectionStatus==K_ConnectionStatus_CONECTED)
-		 RedditGL_LOG("Reddit Service: Connection established!");
-		 else
-		 RedditGL_LOG("Reddit Service: Connection failed!");
-		 */
-		console.log(aString);
-		addWord(aString, "Cube", i);
+	
+	if(request)
+	{
+		RedditGL_LOG("Reddit Service: Connection established!");	
+		this.serviceData = request;
+		
+		// Clean current data
+		removeObjectInstances("Cube");
+		var n = AlphabetGL.length;
+		var k = n;
+		do
+		{
+			var i = k-n;
+			removeObjectInstances(AlphabetGL[i]);
+		}
+		while(--n);
+		// Add new data
+		n = this.serviceData.something.length;
+		k = n;
+		var object = getObject("Cube");
+		loadInstances(object,n);
+		//setObjectInstanceTexture(gl,object.instances[0],"http://b.thumbs.redditmedia.com/X7hR6bh26wvHz0qs.jpg");
+		do
+		{
+			var i = k-n;
+			var data = this.serviceData.something[i].data;
+			RedditGL_LOG("Data " + i, data);
+			if(data.thumbnail != "") {setObjectInstanceTexture(gl,object.instances[i],data.thumbnail);}
+			var aString = data.title;
+			addWord(aString,"Cube",i);
+		}
+		while(--n);
+	}
+	else 
+	{
+		RedditGL_LOG("Reddit Service: Connection failed!");
 	}
 };
 RedditClientService.prototype.addListener = function() {
@@ -27946,7 +28386,7 @@ RedditClientService.prototype.addListener = function() {
 		console.log(e + ' Event clicked!');
 		console.log($(users_choice).val() + ' input value');
 		$.ajax({
-			url : "http://svn.agentgrid.net:3000/r/" + sub,
+			url : self.host.hostURL + sub,
 			data : "",
 			success : self.connectionEstablished,
 			error : function(data) {
@@ -27959,9 +28399,9 @@ RedditClientService.prototype.addListener = function() {
 };
 RedditClientService.prototype.webSocket = function() {
 	var self = this;
-	var socket = io.connect('http://svn.agentgrid.net:3101');
+	var socket = io.connect(self.host.hostSocket);
 	socket.on('hello', function(data) {
-		console.log(data);
+		//RedditGL_LOG.log("Socket Data: ",data);
 		socket.emit('aloha', {
 			my : 'data'
 		});
