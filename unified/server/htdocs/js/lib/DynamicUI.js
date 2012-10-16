@@ -57,18 +57,8 @@ DynamicUI.prototype.init = function(divId, width, height, style) {
 	this.height = height;
 
 	this.UIDrag = Drag;
-	//TODO: This fails when compiled
-	//error: Uncaught TypeError: Cannot set property 'onmousedown' of null
-	//stack :
-	/*Drag.init super.min.js:653
-	DynamicUI.init super.min.js:652
-	RedditGL.init super.min.js:823
-	(anonymous function) super.min.js:822
-	m super.min.js:29
-	n.fireWith super.min.js:30
-	i.extend.ready super.min.js:20
-	oa*/
-	//removed for now
+
+
 	this.UIDrag.init(document.getElementById(divId));
 };
 

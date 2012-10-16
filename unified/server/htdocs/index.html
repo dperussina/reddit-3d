@@ -71,19 +71,9 @@
 			gl_FragColor=vColor;
 			}
 		</script>
-
-		<script type="text/javascript">
-			var RedditMain;
-
-			function init() {
-				RedditMain = new RedditGL();
-				RedditMain.init();
-			};
-
-		</script>
 	</head>
 
-	<body onload="init()">
+	<body>
 
 		<p style="text-align: center;">
 			<h1><b>Reddit-3D Render</b></h1>
@@ -98,6 +88,18 @@
 			</p>
 		</div>
 		<div id="reddit-frame">
+			
+			<div id="infoDiv" class="infoDiv" style="position: absolute;">
+		        <div>
+		            <h1>Reddit Title Goes Here!!</h1>
+		            <img src="root/textures/reddit-icon.png" alt="" title="Reddit-3d" />
+		            <ul>
+		                <li><a href="#">CLOSE</a></li>                      <!--CLOSE SYMBOL-->
+		                <li><a href="#">YES</a></li>  <!--EXTERNAL LINK-->
+		            </ul>
+		          
+		        </div>
+		    </div>
 			<div>
 				<canvas id="webglCanvas"></canvas>
 			</div>
@@ -106,10 +108,16 @@
 			</div>
 
 		</div>
-		<div id="fullScreenFrame">
+		<div id="">
+    
 			<button id="fullscreen">
 				Fullscreen
 			</button
+			
+			 <div id="test" style="position: relative;">
+		    	<ul>
+		        	<li><a id="example" href="#infoDiv">planet</a></li>
+		  		</ul>
 		</div>
 	</body>
 
